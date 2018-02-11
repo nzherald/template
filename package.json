@@ -15,27 +15,29 @@
   },
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "watch": "webpack --watch",
-    "start": "webpack-dev-server --open",
+    "start": "webpack-dev-server --config webpack.dev.js --open",
+    "build": "webpack --config webpack.prod.js",
+    "watch": "webpack --config webpack.prod.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
-    "webpack": "^3.10.0",
-    "webpack-dev-server": "^2.11.1",
-    "style-loader": "^0.20.1",
     "css-loader": "^0.28.9",
+    "csv-loader": "^2.1.1",
+    "html-loader": "^0.5.5",
     "less": "^2.7.3",
     "less-loader": "^4.0.5",
-    "html-loader": "^0.5.5",
-    "csv-loader": "^2.1.1"
+    "style-loader": "^0.20.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1",
+    "webpack-merge": "^4.1.1",
+    "webpack-s3-plugin": "^1.0.0-rc.0"
   },
   "dependencies": {
-    "jquery": "^3.3.1",
-    "lodash": "^4.17.5",
     "d3": "^4.13.0",
     "d3-jetpack": "^2.0.16",
     "d3-scale-chromatic": "^1.2.0",
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.5",
     "mapbox-gl": "^0.44.0"
   }
 }
