@@ -1,0 +1,41 @@
+{
+  "name": "template",
+  "author": "",
+  "license": "ISC",
+  "description": "Basic template for new story",
+  "keywords": [],
+  "version": "0.0.1",
+  "homepage": "https://github.com/nzherald/template#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nzherald/template.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nzherald/template/issues"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch",
+    "start": "webpack-dev-server --open",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "devDependencies": {
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.11.1",
+    "style-loader": "^0.20.1",
+    "css-loader": "^0.28.9",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
+    "html-loader": "^0.5.5",
+    "csv-loader": "^2.1.1"
+  },
+  "dependencies": {
+    "jquery": "^3.3.1",
+    "lodash": "^4.17.5",
+    "d3": "^4.13.0",
+    "d3-jetpack": "^2.0.16",
+    "d3-scale-chromatic": "^1.2.0",
+    "mapbox-gl": "^0.44.0"
+  }
+}
