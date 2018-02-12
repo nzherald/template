@@ -16,12 +16,12 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --open",
-    "build": "webpack --config webpack.prod.js",
-    "watch": "webpack --config webpack.prod.js --watch",
+    "deploy": "webpack --config webpack.prod.js",
     "bundletest": "webpack --config webpack.test.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
+    "aws-sdk": "^2.192.0",
     "css-loader": "^0.28.9",
     "csv-loader": "^2.1.1",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -34,7 +34,7 @@
     "webpack-bundle-analyzer": "^2.10.0",
     "webpack-dev-server": "^2.11.1",
     "webpack-merge": "^4.1.1",
-    "webpack-s3-plugin": "^1.0.0-rc.0"
+    "webpack-s3-uploader": "^1.1.6"
   },
   "dependencies": {
     "d3": "^4.13.0",

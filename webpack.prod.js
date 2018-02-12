@@ -1,23 +1,31 @@
-const merge  = require('webpack-merge')
-const common = require('./webpack.common.js')
+const webpack  = require('webpack')
+const merge    = require('webpack-merge')
+const common   = require('./webpack.common.js')
+const AWS      = require('aws-sdk')
+const S3Plugin = require('webpack-s3-uploader')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
+const AWS_CONFIG = {
+  profile : 'nzherald',
+  bucket  : 's3.newsapps.nz',
+  region  : 'ap-southeast-2'
+}
 
-const S3Plugin = require('webpack-s3-plugin')
-const appName  = /[^\/]*$/.exec(process.env.PWD)[0]
 
 module.exports = merge(common, {
   plugins: [
     new UglifyJsPlugin(),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV' : JSON.stringify('production')
+    }),
     new S3Plugin({
       include   : /.*\.(css|js)/,
-      basePath  : appName,
+      basePath  : /[^\/]*$/.exec(process.env.PWD)[0],
       s3Options : {
-        accessKeyId     : process.env.AWS_ACCESS_KEY_ID,
-        secretAccessKey : process.env.AWS_SECRET_ACCESS_KEY,
-        region          : 'us-west-2'
+        credentials : new AWS.SharedIniFileCredentials({ profile : AWS_CONFIG.profile }),
+        region      : AWS_CONFIG.region
       },
       s3UploadOptions : {
-        Bucket: 'nzherald.test'
+        Bucket  : AWS_CONFIG.bucket
       }
     })
   ]
