@@ -58,4 +58,5 @@ typings/
 .env
 
 # Webpack compiled data
-bundle.js
+*bundle.js
+*.map
