@@ -1,11 +1,13 @@
 const merge  = require('webpack-merge')
 const common = require('./webpack.common.js')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 const S3Plugin = require('webpack-s3-plugin')
 const appName  = /[^\/]*$/.exec(process.env.PWD)[0]
 
 module.exports = merge(common, {
   plugins: [
+    new UglifyJsPlugin(),
     new S3Plugin({
       include   : /.*\.(css|js)/,
       basePath  : appName,

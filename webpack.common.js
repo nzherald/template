@@ -27,23 +27,20 @@ module.exports = {
         })
       },
       {
-        test: /\.html$/,
-        use: [{
-          loader: 'html-loader',
-          options: { minimize: true }
-        }]
+        test   : /\.html$/,
+        loader : 'html-loader'
       },
       {
         test   : /\.(png|svg|jpg|gif)$/,
-        loader : "file-loader"
+        loader : 'file-loader'
       },
       {
         test   : /\.(woff|woff2|eot|ttf|otf)$/,
-        loader : "file-loader"
+        loader : 'file-loader'
       },
       {
         test   : /\.csv$/,
-        loader : "csv-loader",
+        loader : 'csv-loader',
         options: {
           // dynamicTyping: true,
           // header: true,
