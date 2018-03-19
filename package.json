@@ -41,6 +41,8 @@
     "d3-jetpack": "^2.0.16",
     "d3-scale-chromatic": "^1.2.0",
     "file-loader": "^1.1.11",
+    "font-awesome": "^4.7.0",
+    "font-awesome-webpack": "0.0.5-beta.2",
     "jquery": "^3.3.1",
     "lodash": "^4.17.5"
   }
