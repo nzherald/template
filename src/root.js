@@ -8,10 +8,10 @@ const HTML = require("./root.html")
 
 
 class Main {
-  constructor () {
-    $(HTML).appendTo("#root")
-    $("<div>", { html : "Javascript goes here." }).appendTo("#root")
-  }
+    constructor () {
+        $(HTML).appendTo("#root")
+        $("<div>", { html : "Javascript goes here." }).appendTo("#root")
+    }
 }
 
 new Main()

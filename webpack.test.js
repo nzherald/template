@@ -7,8 +7,8 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 
 module.exports = merge(common, {
-  plugins: [
-    new UglifyJsPlugin(),
-    new BundleAnalyzerPlugin()
-  ]
+    plugins: [
+        new UglifyJsPlugin(),
+        new BundleAnalyzerPlugin()
+    ]
 })
