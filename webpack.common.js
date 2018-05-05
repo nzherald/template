@@ -1,6 +1,6 @@
 const path = require('path')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
     entry  : {
@@ -13,22 +13,16 @@ module.exports = {
     module : {
         rules : [
             {
-                test   : /\.less$/,
-                use    : ExtractTextPlugin.extract({
-                    fallback : 'style-loader',
-                    use      : ['css-loader', 'less-loader']
-                })
-            },
-            {
-                test   : /\.css$/,
-                use    : ExtractTextPlugin.extract({
-                    fallback : 'style-loader',
-                    use      : 'css-loader'
-                })
-            },
-            {
                 test   : /\.html$/,
                 loader : 'html-loader'
+            },
+            {
+                test  : /\.(css|less)$/,
+                use   : [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader", // translates CSS into CommonJS
+                    "less-loader" // compiles Less to CSS
+                ]
             },
             {
                 test   : /\.(png|svg|jpg|gif)$/,
@@ -45,7 +39,10 @@ module.exports = {
         ]
     },
     plugins : [
-        new ExtractTextPlugin('style.css'),
-        //     new HtmlWebpackPlugin()
+//         new HtmlWebpackPlugin(),
+        new MiniCssExtractPlugin({
+            filename: "style.css",
+            chunkFilename: "[name].css"
+        })
     ]
 }
