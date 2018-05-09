@@ -60,3 +60,4 @@ typings/
 # Webpack compiled data
 *bundle.js
 *.map
+dist

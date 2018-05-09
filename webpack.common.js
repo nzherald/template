@@ -1,30 +1,28 @@
 const path = require('path')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+
+const mode = process.env.NODE_ENV || 'development';
+const prod = mode === 'production';
 
 module.exports = {
     entry  : {
         root : './src/root.js'
     },
     output : {
-        filename : '[name].bundle.js',
+        filename : '[name].bundle.[hash].js',
         path     : path.resolve(__dirname, 'dist')
     },
     module : {
         rules : [
             {
                 test   : /\.less$/,
-                use    : ExtractTextPlugin.extract({
-                    fallback : 'style-loader',
-                    use      : ['css-loader', 'less-loader']
-                })
+                use: [ prod ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'less-loader' ]
             },
             {
                 test   : /\.css$/,
-                use    : ExtractTextPlugin.extract({
-                    fallback : 'style-loader',
-                    use      : 'css-loader'
-                })
+                use: [ prod ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader' ]
             },
             {
                 test   : /\.html$/,
@@ -45,7 +43,18 @@ module.exports = {
         ]
     },
     plugins : [
-        new ExtractTextPlugin('style.css'),
-        //     new HtmlWebpackPlugin()
+        new MiniCssExtractPlugin({
+            filename: '[name].[chunkhash].css'
+        }),
+        new HtmlWebpackPlugin({
+            alwaysWriteToDisk: true,
+            filename: 'index.html',
+            template: 'template.html',
+            minify: {
+                removeComments: true,
+                collapseWhitespace: true
+            }
+        }),
+        new HtmlWebpackHarddiskPlugin()
     ]
 }

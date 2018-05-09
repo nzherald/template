@@ -13,12 +13,10 @@ const AWS_CONFIG = {
 
 module.exports = merge(common, {
     plugins: [
-        new UglifyJsPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV' : JSON.stringify('production')
         }),
         new S3Plugin({
-            include   : /.*\.(css|js)/,
             basePath  : /[^\/]*$/.exec(process.env.PWD)[0],
             s3Options : {
                 credentials : new AWS.SharedIniFileCredentials({ profile : AWS_CONFIG.profile }),
