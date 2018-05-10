@@ -60,6 +60,7 @@ typings/
 # Webpack compiled data
 *bundle.js
 *.map
+dist
 
 # Python compiled files
 *.pyc

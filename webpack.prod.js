@@ -14,20 +14,24 @@ const AWS_CONFIG = {
 module.exports = merge(common, {
     mode: "production",
     plugins: [
-        new UglifyJsPlugin(),
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify('production')
         }),
         new S3Plugin({
-            include  : /.*\.(css|js)/,
-            basePath : /[^\/]*$/.exec(process.env.PWD)[0],
-            s3Options: {
-                credentials: new AWS.SharedIniFileCredentials({ profile: AWS_CONFIG.profile }),
-                region     : AWS_CONFIG.region
+            basePath  : common.output.publicPath  !== "/" ? common.output.publicPath : /[^\/]*$/.exec(process.env.PWD)[0],
+            s3Options : {
+                credentials : new AWS.SharedIniFileCredentials({ profile : AWS_CONFIG.profile }),
+                region      : AWS_CONFIG.region
             },
-            s3UploadOptions: {
-                Bucket : AWS_CONFIG.bucket
-            }
+            s3UploadOptions : {
+                Bucket  : AWS_CONFIG.bucket,
+                CacheControl(fileName) {
+                    if (/.html/.test(fileName) || /embed.*/.test(fileName))
+                        return "max-age=60,public"
+                    else
+                        return "max-age=2592000,public"
+                }
+            },
         })
     ]
 })
