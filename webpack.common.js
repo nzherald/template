@@ -2,6 +2,7 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
+const package = require('./package.json');
 
 const mode = process.env.NODE_ENV || 'development';
 const prod = mode === 'production';
@@ -12,6 +13,7 @@ module.exports = {
     },
     output : {
         filename : '[name].bundle.[hash].js',
+        publicPath: prod ? (package.homepage ? (new URL(package.homepage).pathname) : "/") : "/",
         path     : path.resolve(__dirname, 'dist')
     },
     module : {
@@ -55,6 +57,38 @@ module.exports = {
                 collapseWhitespace: true
             }
         }),
-        new HtmlWebpackHarddiskPlugin()
+        new HtmlWebpackHarddiskPlugin(),
+        function() {
+            this.hooks.emit.tap("EmbedPlugin", function(compilation, callback) {
+                let js = [];
+                let css = [];
+                for (var filename in compilation.assets) {
+                    if (/.*\.css$/.test(filename)) {
+                        css.push(filename);
+                    } else if (/.*\.js$/.test(filename)) {
+                        js.push(filename);
+                    }
+                }
+                const base = prod ? package.homepage || "" : "";
+                const build = function(vals,line,out) {
+                    if (vals.length) {
+                        let valsStr = "";
+                        vals.forEach(function(f) {
+                            valsStr = valsStr.concat(line(f));
+                        });
+                        compilation.assets[out] = {
+                            source: function() {
+                                return valsStr;
+                            },
+                            size: function() {
+                                return valsStr.length;
+                            }
+                        }
+                    }
+                }
+                build(js,function(f) { return `$.getScript("${base}${f}");\n`}, 'embed.js');
+                build(css,function(f) { return `@import("${base}${f}")\n`}, 'embed.css');
+            });
+        }
     ]
 }
