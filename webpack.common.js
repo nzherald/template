@@ -1,33 +1,33 @@
-const path = require('path')
-const url = require('url')
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
-const EmbedPlugin = require('./util/embed');
-const package = require('./package.json');
+const path = require("path")
+const url = require("url")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin")
+const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin")
+const EmbedPlugin = require("./util/embed")
+const package = require("./package.json")
 
-const mode = process.env.NODE_ENV || 'development';
-const prod = mode === 'production';
+const mode = process.env.NODE_ENV || "development"
+const prod = mode === "production"
 
 module.exports = {
     entry: {
         loading: "./src/loading.js",
         root: "./src/root.js",
     },
-    output : {
-        filename : '[name].bundle.[hash].js',
-        publicPath: prod ? (package.homepage ? (url.parse(package.homepage).pathname) : "/") : "/",
-        path     : path.resolve(__dirname, 'dist')
+    output: {
+        filename: "[name].bundle.[hash].js",
+        publicPath: (prod && package.homepage) ? url.parse(package.homepage).pathname : "/",
+        path: path.resolve(__dirname, "dist")
     },
     module: {
         rules: [
             {
-                test   : /\.less$/,
-                use: [ prod ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'less-loader' ]
+                test: /\.less$/,
+                use: [(prod) ? MiniCssExtractPlugin.loader : "style-loader", "css-loader", "less-loader"]
             },
             {
-                test   : /\.css$/,
-                use: [ prod ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader' ]
+                test: /\.css$/,
+                use: [(prod) ? MiniCssExtractPlugin.loader : "style-loader", "css-loader"]
             },
             {
                 test: /\.html$/,
@@ -49,19 +49,20 @@ module.exports = {
     },
     plugins : [
         new MiniCssExtractPlugin({
-            filename: '[name].[chunkhash].css'
+            filename: "[name].[chunkhash].css"
         }),
         new HtmlWebpackPlugin({
             alwaysWriteToDisk: true,
-            filename: 'index.html',
-            template: 'util/template.html',
+            filename: "index.html",
+            template: "util/template.html",
             minify: {
                 removeComments: true,
                 collapseWhitespace: true
             }
         }),
         new HtmlWebpackHarddiskPlugin(),
-        new EmbedPlugin({url: package.homepage}),
-        
+        new EmbedPlugin({
+            url: package.homepage
+        })
     ]
 }
