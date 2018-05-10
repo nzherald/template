@@ -1,4 +1,5 @@
 const path = require('path')
+const url = require('url')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
@@ -14,7 +15,7 @@ module.exports = {
     },
     output : {
         filename : '[name].bundle.[hash].js',
-        publicPath: prod ? (package.homepage ? (new URL(package.homepage).pathname) : "/") : "/",
+        publicPath: prod ? (package.homepage ? (new url.URL(package.homepage).pathname) : "/") : "/",
         path     : path.resolve(__dirname, 'dist')
     },
     module: {
