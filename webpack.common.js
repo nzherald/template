@@ -4,7 +4,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 
 module.exports = {
     entry: {
-        loading: "./src/lib/loading.js",
+        loading: "./src/loading.js",
         root: "./src/root.js",
     },
     output: {
