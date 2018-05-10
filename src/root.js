@@ -11,6 +11,7 @@ class Main {
     constructor () {
         $(HTML).appendTo("#root")
         $("<div>", { html : "Javascript goes here." }).appendTo("#root")
+        $("#loading").fadeTo(600, 0.01, () => $("#loading").remove())
     }
 }
 

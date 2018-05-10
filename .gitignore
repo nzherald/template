@@ -61,3 +61,6 @@ typings/
 *bundle.js
 *.map
 dist
+
+# Python compiled files
+*.pyc
