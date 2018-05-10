@@ -15,7 +15,7 @@ module.exports = {
     },
     output : {
         filename : '[name].bundle.[hash].js',
-        publicPath: prod ? (package.homepage ? (new url.URL(package.homepage).pathname) : "/") : "/",
+        publicPath: prod ? (package.homepage ? (url.parse(package.homepage).pathname) : "/") : "/",
         path     : path.resolve(__dirname, 'dist')
     },
     module: {
