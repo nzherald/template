@@ -5,7 +5,7 @@
     "description": "Basic template for new story",
     "keywords": [],
     "version": "0.0.1",
-    "homepage": "http://s3.newsapps.nz/dev/template-demo/",
+    "homepage": "http://s3.newsapps.nz/dev/template/",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/nzherald/template.git"
