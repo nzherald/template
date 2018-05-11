@@ -9,6 +9,7 @@ const package = require("./package.json")
 const mode = process.env.NODE_ENV || "development"
 const prod = mode === "production"
 
+
 module.exports = {
     entry: {
         loading: "./src/loading.js",
