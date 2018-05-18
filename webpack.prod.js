@@ -2,6 +2,7 @@ const merge = require("webpack-merge")
 const base = require("./webpack.common.js")
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const autoprefixer = require("autoprefixer")
 
 // Post-processing and minification of bundle
 module.exports = merge(base, {
@@ -14,11 +15,30 @@ module.exports = merge(base, {
         rules: [
             {
                 test: /\.less$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "less-loader"]
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            plugins: [autoprefixer({browsers: "last 2 versions"})]
+                        }
+                    },
+                    "less-loader"
+                ]
             },
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    {
+                        loader: "postcss-loader",
+                        options: {
+                            plugins: [autoprefixer({browsers: "last 2 versions"})]
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(js|es6)$/,
