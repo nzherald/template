@@ -1,36 +1,23 @@
-const path = require("path")
-const url = require("url")
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const HtmlWebpackPlugin = require("html-webpack-plugin")
-const HtmlWebpackHarddiskPlugin = require("html-webpack-harddisk-plugin")
-const EmbedPlugin = require("./util/embed")
-const package = require("./package.json")
 
-const mode = process.env.NODE_ENV || "development"
-const prod = mode === "production"
-
-
+// Interprets and bundles all necessary resources to run, with an index.html
 module.exports = {
     entry: {
         loading: "./src/loading.js",
-        root: "./src/root.js",
+        root: "./src/root.js"
     },
     output: {
-        filename: "[name].bundle.[hash].js",
-        publicPath: (prod && package.homepage) ? url.parse(package.homepage).pathname : "/",
-        path: path.resolve(__dirname, "dist")
+        filename: "[name].dev-bundle.[hash].js"
     },
     module: {
         rules: [
             {
                 test: /\.less$/,
-                use: (prod ? [ MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader' ] : 
-                    ['style-loader','css-loader', 'less-loader'])
+                use: ["style-loader","css-loader", "less-loader"]
             },
             {
                 test: /\.css$/,
-                use: (prod ? [ MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader' ] : 
-                    ['style-loader','css-loader'])
+                use: ["style-loader","css-loader"]
             },
             {
                 test: /\.html$/,
@@ -47,37 +34,13 @@ module.exports = {
             {
                 test: /\.(c|d|t)sv$/,
                 loader: "dsv-loader"
-            }, 
-            {
-             loader: 'babel-loader',
-             include: [
-               path.resolve(__dirname, "src"),
-             ],
-             test: /\.(js|es6)$/,
-             exclude: /(node_modules|bower_components)/,
-             query: {
-               plugins: ['transform-runtime'],
-               presets: ['env'],
-             }
-           }
+            }
         ]
     },
     plugins : [
-        new MiniCssExtractPlugin({
-            filename: "[name].[chunkhash].css"
-        }),
         new HtmlWebpackPlugin({
-            alwaysWriteToDisk: true,
             filename: "index.html",
-            template: "util/template.html",
-            minify: {
-                removeComments: true,
-                collapseWhitespace: true
-            }
-        }),
-        new HtmlWebpackHarddiskPlugin(),
-        new EmbedPlugin({
-            url: package.homepage
+            template: "util/template.html"
         })
     ]
 }

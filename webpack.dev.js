@@ -1,8 +1,8 @@
 const merge = require("webpack-merge")
-const common = require("./webpack.common.js")
+const base = require("./webpack.common.js")
 
-
-module.exports = merge(common, {
+// Spins up dev server with bundles
+module.exports = merge(base, {
     mode: "development",
     devServer: {
         contentBase: "./dist",

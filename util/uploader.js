@@ -6,9 +6,10 @@ const AWS_CONFIG = {
     region : 'ap-southeast-2'
 }
 
-function uploader(config) {
+function uploader(options) {
+    console.log("Uploading to", AWS_CONFIG.bucket + options.basePath + "...")
     return new S3Plugin({
-        basePath  : config.output.publicPath  !== "/" ? config.output.publicPath : /[^\/]*$/.exec(process.env.PWD)[0],
+        basePath  : options.basePath,
         s3Options : {
             credentials : new AWS.SharedIniFileCredentials({ profile : AWS_CONFIG.profile }),
             region      : AWS_CONFIG.region

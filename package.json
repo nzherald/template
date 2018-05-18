@@ -5,7 +5,7 @@
     "description": "Basic template for new story",
     "keywords": [],
     "version": "0.0.1",
-    "homepage": "http://s3.newsapps.nz/dev/template/",
+    "homepage": "http://s3.newsapps.nz/2018/template/",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/nzherald/template.git"
@@ -16,9 +16,10 @@
     "main": "index.js",
     "scripts": {
         "start": "webpack-dev-server --config webpack.dev.js --open",
-        "build": "cross-env NODE_ENV=production webpack -p --config webpack.common.js",
-        "deploy": "rm -rf dist/* && cross-env NODE_ENV=production webpack -p --config webpack.prod.js",
-        "bundletest": "webpack --config webpack.test.js",
+        "build": "rm -rf dist/* && webpack -p --config webpack.prod.js",
+        "analyse": "rm -rf dist/* && webpack -p --config webpack.test.js",
+        "deploy": "rm -rf dist/* && webpack -p --config webpack.deploy.js",
+        "release": "rm -rf dist/* && webpack -p --config webpack.release.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "devDependencies": {
@@ -34,7 +35,6 @@
         "dsv-loader": "^2.0.0",
         "file-loader": "^1.1.11",
         "html-loader": "^0.5.5",
-        "html-webpack-harddisk-plugin": "^0.2.0",
         "html-webpack-plugin": "^3.2.0",
         "less": "^3.0.4",
         "less-loader": "^4.1.0",

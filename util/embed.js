@@ -1,7 +1,3 @@
-const package = {};
-const mode = process.env.NODE_ENV || 'development';
-const prod = mode === 'production';
-
 class EmbedPlugin {
     constructor (options) {
         this.options = options;
@@ -20,7 +16,7 @@ class EmbedPlugin {
                     js.push(filename);
                 }
             }
-            const base = prod ? self.options.url || "" : "";
+            const basePath = self.options.basePath;
             const build = function(vals,line,out) {
                 if (vals.length) {
                     let valsStr = "";
@@ -37,8 +33,8 @@ class EmbedPlugin {
                     }
                 }
             }
-            build(js,function(f) { return `$.getScript("${base}${f}");\n`}, 'embed.js');
-            build(css,function(f) { return `@import url("${base}${f}")\n`}, 'embed.css');
+            build(js,function(f) { return `$.getScript("${basePath}${f}");\n`}, 'embed.js');
+            build(css,function(f) { return `@import url("${basePath}${f}")\n`}, 'embed.css');
         });
     }
 }
