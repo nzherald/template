@@ -24,11 +24,13 @@ module.exports = {
         rules: [
             {
                 test: /\.less$/,
-                use: [(prod) ? MiniCssExtractPlugin.loader : "style-loader", "css-loader", "less-loader"]
+                use: (prod ? [ MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader', 'less-loader' ] : 
+                    ['style-loader','css-loader', 'less-loader'])
             },
             {
                 test: /\.css$/,
-                use: [(prod) ? MiniCssExtractPlugin.loader : "style-loader", "css-loader"]
+                use: (prod ? [ MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader' ] : 
+                    ['style-loader','css-loader'])
             },
             {
                 test: /\.html$/,
@@ -45,7 +47,19 @@ module.exports = {
             {
                 test: /\.(c|d|t)sv$/,
                 loader: "dsv-loader"
-            }
+            }, 
+            {
+             loader: 'babel-loader',
+             include: [
+               path.resolve(__dirname, "src"),
+             ],
+             test: /\.(js|es6)$/,
+             exclude: /(node_modules|bower_components)/,
+             query: {
+               plugins: ['transform-runtime'],
+               presets: ['env'],
+             }
+           }
         ]
     },
     plugins : [
