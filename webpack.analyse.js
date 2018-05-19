@@ -1,5 +1,5 @@
 const merge = require("webpack-merge")
-const base = require("./webpack.prod.js")
+const base = require("./webpack.build.js")
 const UglifyJsPlugin = require("uglifyjs-webpack-plugin")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 
