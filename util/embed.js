@@ -34,7 +34,7 @@ class EmbedPlugin {
                 }
             }
             build(js,function(f) { return `$.getScript("${basePath}${f}");\n`}, 'embed.js');
-            build(css,function(f) { return `@import url("${basePath}${f}")\n`}, 'embed.css');
+            build(css,function(f) { return `@import url("${basePath}${f}");\n`}, 'embed.css');
         });
     }
 }
