@@ -16,6 +16,7 @@
     "main": "index.js",
     "scripts": {
         "start": "webpack-dev-server --config webpack.dev.js --open",
+        "thick-dev": "webpack-dev-server --config webpack.thick-dev.js --open",
         "build": "rm -rf dist/* && webpack -p --config webpack.build.js",
         "analyse": "rm -rf dist/* && webpack -p --config webpack.analyse.js",
         "deploy": "rm -rf dist/* && webpack -p --config webpack.deploy.js",

@@ -1,0 +1,20 @@
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<h1>404 Not Found</h1>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>Key: apps/pinpoint-uploads/uploads/Money+and+faith-05.png</li>
+<li>RequestId: 46BEB26D119A7688</li>
+<li>HostId: a7vKec8WDDXby34dx3imi2mOzN9UwDUT8obHElna0MjoG1NkfJACd9CFBx6NeGsCtL628aHVKxg=</li>
+</ul>
+<h3>An Error Occurred While Attempting to Retrieve a Custom Error Document</h3>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>Key: error.html</li>
+</ul>
+<hr/>
+</body>
+</html>
