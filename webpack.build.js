@@ -8,7 +8,7 @@ const autoprefixer = require("autoprefixer")
 module.exports = merge(base, {
     mode: "production",
     output: {
-        filename: "[name].bundle.[hash].js",
+        filename: "[name].prod.[hash].js",
         path: path.resolve(__dirname, "dist")
     },
     module: {
@@ -54,7 +54,7 @@ module.exports = merge(base, {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: "[name].[chunkhash].css"
+            filename: "[name].prod.[chunkhash].css"
         })
     ]
 })
