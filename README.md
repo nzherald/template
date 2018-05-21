@@ -9,16 +9,17 @@ npm install
 npm start
 ```
 
-### Deploy
-Push JS/CSS files to S3 bucket. Folders are automatically assigned and created based on project name.
 
+### Run modes
 ```
-npm run deploy
+npm run [option]
 ```
-
-This gets you to having live resources (e.g. http://s3.newsapps.nz/[project name]/root.bundle.js), but **does NOT update Insights itself**.
-
-**IMPORTANT: These are HTTP, not HTTPS links.**
+**start**: Runs dev server with barebone template
+**thick-dev**: Runs dev server with nzherald.co.nz template
+**build**: Builds bundle files locally but does not deploy
+**analyse**: Builds and runs bundle-analysis tools
+**dev-deploy**: Builds and pushes bundle files to http://s3.newsapps.nz/dev/[project name]/
+**release-deploy**: Builds and pushes bundle files to homepage specified in package.json
 
 
 ### Insight component
@@ -54,5 +55,4 @@ insights publish dev
 
 
 ## Todo
-How does versioning/hash filenames work?
 Source mapping (https://webpack.js.org/guides/production/#source-mapping)
