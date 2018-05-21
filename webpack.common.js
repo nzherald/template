@@ -1,13 +1,8 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin")
-
 // Interprets and bundles all necessary resources to run, with an index.html
 module.exports = {
     entry: {
         loading: "./src/loading.js",
         root: "./src/root.js"
-    },
-    output: {
-        filename: "[name].dev-bundle.[hash].js"
     },
     module: {
         rules: [
@@ -36,11 +31,5 @@ module.exports = {
                 loader: "dsv-loader"
             }
         ]
-    },
-    plugins : [
-        new HtmlWebpackPlugin({
-            filename: "index.html",
-            template: "util/template.html"
-        })
-    ]
+    }
 }

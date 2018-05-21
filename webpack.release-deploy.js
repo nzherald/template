@@ -11,7 +11,7 @@ if (package.homepage.indexOf("s3.newsapps.nz") === -1) {
           "but this doesn't look like a s3.newsapps.nz address. DYING NOW."
 }
 // Generates embed.js and deploys to s3.newsapps.nz/[package.homepage pathname]
-const host = "http://s3.newsapps.nz",
+const host = "https://insights.nzherald.co.nz",
       path = url.parse(package.homepage).pathname
 module.exports = merge(base, {
     mode: "production",

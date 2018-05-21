@@ -15,7 +15,10 @@ class Main {
 		const T = new Template({
 			container: "#root"
 		})
-        $("#loading").fadeTo(600, 0.01, () => $("#loading").remove())
+        $("#loading").fadeTo(600, 0.01, () => {
+            $("#loading").remove()
+            console.log("Loader removed.")
+        })
     }
 }
 
