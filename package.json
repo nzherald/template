@@ -5,7 +5,7 @@
     "description": "Basic template for new story",
     "keywords": [],
     "version": "0.0.1",
-    "homepage": "http://s3.newsapps.nz/2018/template/",
+    "homepage": "https://insights.nzherald.co.nz/apps/2018/template/",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/nzherald/template.git"
@@ -19,8 +19,8 @@
         "thick-dev": "webpack-dev-server --config webpack.thick-dev.js --open",
         "build": "rm -rf dist/* && webpack -p --config webpack.build.js",
         "analyse": "rm -rf dist/* && webpack -p --config webpack.analyse.js",
-        "deploy": "rm -rf dist/* && webpack -p --config webpack.deploy.js",
-        "release": "rm -rf dist/* && webpack -p --config webpack.release.js",
+        "dev-deploy": "rm -rf dist/* && webpack -p --config webpack.dev-deploy.js",
+        "release-deploy": "rm -rf dist/* && webpack -p --config webpack.release-deploy.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "devDependencies": {
