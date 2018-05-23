@@ -15,11 +15,11 @@ npm start
 npm run [option]
 ```
 **start**: Runs dev server with barebone template
-**thick-dev**: Runs dev server with nzherald.co.nz template
+**dev-thick**: Runs dev server with nzherald.co.nz template
 **build**: Builds bundle files locally but does not deploy
 **analyse**: Builds and runs bundle-analysis tools
-**dev-deploy**: Builds and pushes bundle files to http://s3.newsapps.nz/dev/[project name]/
-**release-deploy**: Builds and pushes bundle files to homepage specified in package.json
+**deploy**: Builds and pushes bundle files to http://s3.newsapps.nz/dev/[project name]/
+**release**: Builds and pushes bundle files to homepage specified in package.json
 
 
 ### Insight component
