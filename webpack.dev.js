@@ -1,7 +1,7 @@
 const merge = require("webpack-merge")
 const base = require("./webpack.common.js")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const EmbedPlugin = require("./util/embed")
+const EmbedPlugin = require("./util/embed.js")
 
 // Spins up dev server with bundles using minimal template
 module.exports = merge(base, {
@@ -10,7 +10,7 @@ module.exports = merge(base, {
         filename: "[name].dev.[hash].js"
     },
     devServer: {
-        contentBase: "./static/thin-dev",
+        contentBase: "./static",
         port: 8080
     },
     module: {

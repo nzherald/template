@@ -16,11 +16,11 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --open",
-    "thick-dev": "webpack-dev-server --config webpack.thick-dev.js --open",
+    "dev-thick": "webpack-dev-server --config webpack.dev-thick.js --open",
     "build": "rm -rf dist/* && webpack -p --config webpack.build.js",
     "analyse": "rm -rf dist/* && webpack -p --config webpack.analyse.js",
-    "dev-deploy": "rm -rf dist/* && webpack -p --config webpack.dev-deploy.js",
-    "release-deploy": "rm -rf dist/* && webpack -p --config webpack.release-deploy.js",
+    "deploy": "rm -rf dist/* && webpack -p --config webpack.deploy.js",
+    "release": "rm -rf dist/* && webpack -p --config webpack.release.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {

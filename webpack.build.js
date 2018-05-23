@@ -1,10 +1,9 @@
 const merge = require("webpack-merge")
-const base = require("./webpack.build-common.js")
-const EmbedPlugin = require("./util/embed")
+const base = require("./webpack.prod.js")
+const EmbedPlugin = require("./util/embed.js")
 
 // Generates embed.js and but does not deploy
 module.exports = merge(base, {
-    mode: "production",
     plugins: [
         new EmbedPlugin({basePath: ""})
     ]

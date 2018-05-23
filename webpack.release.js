@@ -1,8 +1,8 @@
 const merge = require("webpack-merge")
-const base = require("./webpack.build-common.js")
+const base = require("./webpack.prod.js")
 const url = require("url")
-const EmbedPlugin = require("./util/embed")
-const uploader = require("./util/uploader")
+const EmbedPlugin = require("./util/embed.js")
+const uploader = require("./util/uploader.js")
 const package = require("./package.json")
 
 // Delete this if you know what you're doing
@@ -14,7 +14,6 @@ if (package.homepage.indexOf("https://insights.nzherald.co.nz/apps/") === -1) {
 const host = "https://insights.nzherald.co.nz",
       path = url.parse(package.homepage).pathname
 module.exports = merge(base, {
-    mode: "production",
     plugins: [
         new EmbedPlugin({basePath: host + path}),
         uploader({basePath: path})

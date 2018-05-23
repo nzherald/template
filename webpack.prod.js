@@ -54,7 +54,7 @@ module.exports = merge(base, {
         ]
     },
     plugins: [
-        new CopyWebpackPlugin(["static/thin-dev"]),
+        new CopyWebpackPlugin(["static"]),
         new MiniCssExtractPlugin({
             filename: "[name].prod.[chunkhash].css"
         })
