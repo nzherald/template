@@ -6,11 +6,11 @@ const uploader = require("./util/uploader")
 const package = require("./package.json")
 
 // Delete this if you know what you're doing
-if (package.homepage.indexOf("s3.newsapps.nz") === -1) {
+if (package.homepage.indexOf("https://insights.nzherald.co.nz/apps/") === -1) {
     throw "YO! I'm supposed to release using the homepage property in packages, " +
-          "but this doesn't look like a s3.newsapps.nz address. DYING NOW."
+          "but this doesn't look like a https://insights.nzherald.co.nz/apps address. DYING NOW."
 }
-// Generates embed.js and deploys to s3.newsapps.nz/[package.homepage pathname]
+// Generates embed.js and deploys to package.homepage
 const host = "https://insights.nzherald.co.nz",
       path = url.parse(package.homepage).pathname
 module.exports = merge(base, {
