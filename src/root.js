@@ -1,7 +1,7 @@
 import "./base.less"
 import "./root.less"
 import Template from "./lib/module-template.js"
-import HTML from "root.html"
+import HTML from "./root.html"
 
 
 class Main {
