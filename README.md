@@ -1,8 +1,34 @@
 # Template
 Basic template for setting up a new story
 
+## Setup a new project
 
-### Installation
+- Install `degit` once
+
+```
+npm install -g degit
+```
+
+There are several branches in this project that contain similar versions the
+template with for different frameworks
+
+### Minimal template
+
+`degit nzherald/template`
+
+### Batteries included template
+
+This template pulls in d3, d3-jetpack, jquery & lodash. It uses a class
+based template for components.
+
+`degit nzherald/template#batteries-included`
+
+### Svelte template
+
+`degit nzherald/template#svelte`
+
+
+## Installation
 Webpack dev server should be ready to go as soon as packages are installed.
 ```
 npm install
@@ -10,7 +36,7 @@ npm start
 ```
 
 
-### Run modes
+## Run modes
 ```
 npm run [option]
 ```
@@ -22,7 +48,7 @@ npm run [option]
 **release**: Builds and pushes bundle files to homepage specified in package.json
 
 
-### Insight component
+## Insight component
 1. Create a new branch
 ```
 git pull
