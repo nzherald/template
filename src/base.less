@@ -1,14 +1,4 @@
 /* Consistent styles which are reused across projects */
-
-.unselectable {
-    -webkit-touch-callout : none;
-    -webkit-user-select   : none;
-    -khtml-user-select    : none;
-    -moz-user-select      : none;
-    -ms-user-select       : none;
-    user-select           : none;
-}
-
 .full-stretch {
     position : fixed;
     top      : 0;
@@ -37,7 +27,7 @@
             fill : none;
         }
         .axis {
-            .unselectable;
+            user-select: none;
         }
     }
 }
