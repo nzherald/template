@@ -6,15 +6,6 @@
 @darkish   : #666;
 @dark      : #4F4F4F;
 
-.unselectable {
-  -webkit-touch-callout : none;
-  -webkit-user-select   : none;
-  -khtml-user-select    : none;
-  -moz-user-select      : none;
-  -ms-user-select       : none;
-  user-select           : none;
-}
-
 .stretch {
   position : absolute;
   left     : 0;
@@ -43,11 +34,11 @@
 }
 
 #loading {
-  .unselectable;
   .stretch;
   position : fixed;
   display  : flex;
   z-index  : 9999;
+  user-select: none;
   background-color : RGBA(0,0,0,0.6);
   font-family: 'Source Sans Pro', sans-serif;
 
