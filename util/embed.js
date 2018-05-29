@@ -1,3 +1,15 @@
+/* Will add embed.js and embed.css to webpack build containing
+ * code to add all the webpack produced css and js files.
+ *
+ * The purpose for this so that large files can be uploaded with
+ * a decent cache timeout, and the small embed files can be essentially
+ * uncached.
+ *
+ * The webpack entry points loading and root are special.
+ * In the javascript loader loading is loaded before anything else
+ * and then root is loaded.
+ */
+
 class EmbedPlugin {
     constructor (options) {
         this.options = options;

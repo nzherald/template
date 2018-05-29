@@ -64,14 +64,14 @@ insights new
 3. Link index.md to build files
 ```
 <div id='root'></div>
-<script src='//localhost:8080/bundle.js'></script>
+<script src='//localhost:8080/embed.js'></script>
 ```
 
 4. When ready, link index.md to live resources.
 ```
+<link rel='stylesheet' href='https://insights.nzherald.co.nz/apps/2018/[project name]/embed.css' />
 <div id='root'></div>
-<link rel='stylesheet' href='http://s3.newsapps.nz/[project name]/root.css' />
-<script src='http://s3.newsapps.nz/[project name]/root.bundle.js'></script>
+<script src='https://insights.nzherald.co.nz/apps/2018/[project name]/embed.js'></script>
 ```
 
 5. Publish

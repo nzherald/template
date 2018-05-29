@@ -2,7 +2,7 @@ const merge = require("webpack-merge")
 const base = require("./webpack.prod.js")
 const url = require("url")
 const EmbedPlugin = require("./util/embed.js")
-const uploader = require("./util/uploader.js")
+const {smallUploader, largeUploader} = require("./util/uploader")
 const package = require("./package.json")
 
 // Delete this if you know what you're doing
@@ -16,6 +16,7 @@ const host = "https://insights.nzherald.co.nz",
 module.exports = merge(base, {
     plugins: [
         new EmbedPlugin({basePath: host + path}),
-        uploader({basePath: path})
+        largeUploader({basePath: path}),
+        smallUploader({basePath: path})
     ]
 })
