@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin")
 module.exports = merge(base, {
     mode: "production",
     output: {
-        filename: "[name].prod.[hash].js",
+        filename: "[name].prod.[chunkhash].js",
         path: path.resolve(__dirname, "dist")
     },
     module: {
