@@ -1,11 +1,11 @@
 {
-  "name": "template",
+  "name": "template-batteries-included",
   "author": "",
   "license": "ISC",
   "description": "Basic template for new story",
   "keywords": [],
   "version": "0.0.1",
-  "homepage": "https://insights.nzherald.co.nz/apps/2018/template/",
+  "homepage": "https://insights.nzherald.co.nz/apps/2018/template-batteries-included/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nzherald/template.git"

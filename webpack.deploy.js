@@ -1,7 +1,7 @@
 const merge = require("webpack-merge")
 const base = require("./webpack.prod.js")
 const EmbedPlugin = require("./util/embed.js")
-const uploader = require("./util/uploader")
+const {smallUploader, largeUploader} = require("./util/uploader")
 const package = require("./package.json")
 
 // Generates embed.js and deploys to s3.newsapps.nz/dev/[package name]/
@@ -10,6 +10,7 @@ const host = "http://s3.newsapps.nz",
 module.exports = merge(base, {
     plugins: [
         new EmbedPlugin({basePath: host + path}),
-        uploader({basePath: path})
+        largeUploader({basePath: path}),
+        smallUploader({basePath: path})
     ]
 })
