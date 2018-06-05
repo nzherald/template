@@ -40,8 +40,7 @@ npm start
 ```
 npm run [option]
 ```
-**start**: Runs dev server with barebone template
-**dev-thick**: Runs dev server with nzherald.co.nz template
+**start**: Runs dev server with barebone template; thick templates are available on /thick.html and /iframe.html
 **build**: Builds bundle files locally but does not deploy
 **analyse**: Builds and runs bundle-analysis tools
 **deploy**: Builds and pushes bundle files to http://s3.newsapps.nz/dev/[project name]/

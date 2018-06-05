@@ -5,27 +5,26 @@
     <title>New Zealand Herald Insights</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
     <style>
-
         @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro');
-
         @font-face {
             font-family: 'Stag-Book';
             src: url("https://www.nzherald.co.nz/pb/resources/fonts/stag/Stag-Book.otf");
             font-weight: normal;
             font-style: normal; }
-
+        body {
+            margin: 0;
+        }
     </style>
-
-   <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
     <link href="./embed.css" rel="stylesheet">
 </head>
 
 <body>
     <div id='root'></div>
     <script>
-        var pymChild = new pym.Child();
-        // window.addEventListener('resize', pymChild.sendHeight());
+        var pymChild = new pym.Child()
+        window.addEventListener('resize', function () {pymChild.sendHeight()})
     </script>
     <script type="text/javascript" src="./embed.js"></script>
 </body>
