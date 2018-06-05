@@ -15,7 +15,6 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --open",
-    "dev-thick": "webpack-dev-server --config webpack.dev-thick.js --open",
     "build": "rm -rf dist/* && webpack -p --config webpack.build.js",
     "analyse": "rm -rf dist/* && webpack -p --config webpack.analyse.js",
     "deploy": "rm -rf dist/* && webpack -p --config webpack.deploy.js",
