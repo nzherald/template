@@ -190,7 +190,10 @@
                 </section>
                 <section class="top-content">
                     <!-- IMPORTANT CHUNK START -->
-                    <iframe src="./index.html" width="100%" ></iframe>
+                    <div id="iframetarg">
+                    <script>
+                        var pymParent = new pym.Parent("iframetarg", "./index.html", {})
+                    </script>
                     <!-- IMPORTANT CHUNK END -->
                 </section>
                 <sidebar class="article-sidebar"><div class="sidebar-wrapper affix-top">
