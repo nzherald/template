@@ -1,0 +1,44 @@
+@white: #FFFFFF;
+@whiteish: #F3F1F2;
+
+@lightdark: #C8CCCF;
+@darkish: #666;
+@dark: #4F4F4F;
+
+.playfish {
+    svg {
+        .lines {
+            .line {
+                path {
+                    stroke-width: 3px;
+                }
+                .label {
+                    font-size: 1em;
+                }
+                .point {
+                    visibility: visible;
+                }
+            }
+        }
+        .lines.highlighted {
+            .line {
+                .point {
+                    opacity: 0.4;
+                }
+            }
+            .line.highlighted {
+                path {
+                    stroke-width: 5px;
+                }
+                .point {
+                    opacity: 1;
+                }
+            }
+        }
+        .area {
+            path {
+                opacity: 0.1;
+            }
+        }
+    }
+}

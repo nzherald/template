@@ -1,0 +1,86 @@
+@white: #FFFFFF;
+@whiteish: #F3F1F2;
+
+@lightdark: #C8CCCF;
+@darkish: #666;
+@dark: #4F4F4F;
+
+.hairball {
+    svg {
+        .line {
+            opacity: 0.10;
+            path {
+                fill: none;
+                stroke: @dark;
+            }
+            .point {
+                visibility: hidden;
+                circle {
+                    stroke: @dark;
+                    fill : @whiteish;
+                }
+                text {
+                    font-size: 0.8em;
+                    text-anchor: middle;
+                }
+                line {
+                    stroke: @dark;
+                }
+            }
+
+            &.selected {
+                opacity: 0.8;
+                path {
+                    stroke-width: 1px;
+                }
+                .point {
+                    visibility: visible;
+                    circle {
+                        fill : @whiteish;
+                    }
+                }
+            }
+
+            &.highlighted {
+                opacity: 0.8;
+                path {
+                    stroke-width: 3px;
+                }
+                .point {
+                    visibility: visible;
+                    circle {
+                        fill : @white;
+                    }
+                }
+            }
+        }
+
+    // Allow every line to be highlighted
+    &.highlighted {
+      .line {
+        opacity: 0.15;
+      }
+      .line.highlighted {
+        stroke-dasharray: 0;
+        stroke-width: 5px;
+        opacity: 1;
+
+        circle.highlighted {
+          stroke-width: 8px;
+        }
+      }
+    }
+
+/*     // Only allow selected lines to be highlighted
+    &.highlighted {
+      .line.highlighted {
+        stroke-width: 5px;
+        opacity: 1;
+
+        circle.highlighted {
+          stroke-width: 8px;
+        }
+      }
+    } */
+    }
+}

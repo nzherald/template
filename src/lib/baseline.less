@@ -1,0 +1,93 @@
+@white: #FFFFFF;
+@whiteish: #F3F1F2;
+
+@lightdark: #C8CCCF;
+@darkish: #666;
+@dark: #4F4F4F;
+
+
+.linechart {
+    .title {
+        font-size: 1.8em;
+    }
+    svg {
+        width: 100%;
+        height: 100%;
+        box-sizing: border-box;
+        overflow: visible;
+        .axis {
+            .domain {
+                display: none;
+            }
+            .tick {
+                text {
+                    font-size: 1.2em;
+                    fill: @darkish;
+                }
+                line {
+                    display: none;
+                }
+            }
+        }
+
+        .line {
+            transition: opacity 0.4s;
+            opacity: 0.9;
+            & > path {
+                stroke: @darkish;
+                stroke-width: 2px;
+            }
+            .label {
+                transition: font-size 0.2s;
+                fill: @darkish;
+                font-size: 0.8em;
+                dominant-baseline: middle;
+            }
+            .point {
+                visibility: hidden;
+                circle {
+                    stroke: @dark;
+                    fill: @white;
+                }
+                text {
+                    font-size: 0.8em;
+                    text-anchor: middle;
+                    dominant-baseline: middle;
+                }
+                line {
+                    stroke: @darkish;
+                    stroke-width: 0.8px;
+                    shape-rendering: crispedges;
+                }
+            }
+        }
+
+        .lines.highlighted {
+            .line {
+                opacity: 0.25;
+            }
+            .line.selected {
+                opacity: 0.9;
+                .label {
+                    font-size: 1em;
+                }
+                .point {
+                    visibility: visible;
+                }
+            }
+            .line.highlighted {
+                opacity: 1;
+                path {
+                    stroke-width: 3px;
+                }
+                .label {
+                    font-weight: bold;
+                    font-size: 1em;
+                }
+                .point {
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}
