@@ -14,8 +14,8 @@ Expected HTML:
 
 Expected data:
 [{
-    "series":"Labour's Plan",
-    "data":[
+    "name":"Labour's Plan",
+    "points":[
         {"period":"2018/19", "val":82858000000},
         {"period":"2019/20", "val":87293000000},
         {"period":"2020/21", "val":91404000000},
@@ -23,8 +23,8 @@ Expected data:
     ]
 },
 {
-    "series":"Budget 2018",
-    "data":[
+    "name":"Budget 2018",
+    "points":[
         {"period":"2018/19", "val":81963000000},
         {"period":"2019/20", "val":86983000000},
         {"period":"2020/21", "val":91720000000},
@@ -32,8 +32,8 @@ Expected data:
     ]
 },
 {
-    "series":"Labour's Plan",
-    "data":[
+    "name":"Labour's Plan",
+    "points":[
         {"period":"2018/19", "val":114263000000},
         {"period":"2019/20", "val":119987000000},
         {"period":"2020/21", "val":124982000000},
@@ -64,36 +64,36 @@ class BaseLine {
         this.setEvents()
     }
 
-    setData (data) {
-        this.data = data
-        this.setScales(data)
+    setData (series) {
+        this.data = series
+        this.setScales(series)
         this.setAxes(this.svg)
-        this.makeLines(data)
+        this.makeLines(series)
         this.setLines()
         this.highlight()
     }
 
-    highlight (d, forced) {
+    highlight (s, forced) {
         const ct = this.d3.select(".lines"),
               ln = ct.selectAll("g.line")
-        this.highlighted = d
-        ct.classed("highlighted", !!d)
-        ln.classed("selected", d => d === this.selected)
-          .classed("highlighted", d => d === this.highlighted)
+        this.highlighted = s
+        ct.classed("highlighted", !!s)
+        ln.classed("selected", s => s === this.selected)
+          .classed("highlighted", s => s === this.highlighted)
         ln.filter(".selected").raise()
         ln.filter(".highlighted").raise()
     }
 
-    select (d) {
-        this.selected = (this.selected !== d) ? d : null
-        this.highlight(d)
+    select (s) {
+        this.selected = (this.selected !== s) ? s : null
+        this.highlight(s)
     }
 
     setEvents () {
         this.d3.on("mousemove", () => {
             const pos = d3.mouse(this.svg.d3.node()),
-                  d   = this.getClosestLine(pos)
-            this.highlight(d)
+                  s   = this.getClosestLine(pos)
+            this.highlight(s)
         })
     }
 
@@ -101,14 +101,14 @@ class BaseLine {
     //============//
     //   Values   //
     //============//
-    getSeries   (d) { return d.series }
-    getPeriod   (d) { return d.period }
-    getVal      (d) { return d.val }
-    getPrintVal (d) { return this.format.val(this.getVal(d))}
-    getX        (d) { return this.scale.x(this.getPeriod(d))}
-    getY        (d) { return this.scale.y(this.getVal(d))}
-    getC        (d) { return this.scale.c(this.getSeries(d))}
-    getXY       (d) { return [this.getX(d), this.getY(d)]}
+    getName     (s) { return s.name }
+    getPeriod   (p) { return p.period }
+    getVal      (p) { return p.val }
+    getPrintVal (p) { return this.format.val(this.getVal(p))}
+    getX        (p) { return this.scale.x(this.getPeriod(p))}
+    getY        (p) { return this.scale.y(this.getVal(p))}
+    getC        (p) { return this.scale.c(this.getName(p))}
+    getXY       (p) { return [this.getX(p), this.getY(p)]}
 
 
     //==========//
@@ -119,16 +119,16 @@ class BaseLine {
         this.axis = opt.axis
         _.each(this.axis, (axis, k) => axis.scale(this.scale[k]))
         this.axis.y.tickFormat(this.format.val)
-        this.lineGen = d3.line().x(d => this.getX(d))
-                                .y(d => this.getY(d))
+        this.lineGen = d3.line().x(p => this.getX(p))
+                                .y(p => this.getY(p))
     }
 
     setScales (data) {
-        const dc    = _(data).map("data").flatten(),
-              xVals = dc.map(d => this.getPeriod(d))
-                        .uniq().sort().value(),
-              yVals = dc.map(d => this.getVal(d))
-                        .sort().value()
+        const points = _(data).map("points").flatten(),
+              xVals  = points.map(p => this.getPeriod(p))
+                             .uniq().sort().value(),
+              yVals  = points.map(p => this.getVal(p))
+                             .sort().value()
         this.scale.x.domain(xVals)
         this.scale.y.domain(d3.extent(yVals)).nice()
         // this.scale.y.domain([0, _.max(yVals) * 1.2]).nice()
@@ -150,52 +150,51 @@ class BaseLine {
     makeLines (data) {
         const ln = this.d3.select(".lines").html("")
                           .appendMany("g.line", data)
-        ln.on("mousemove", d => {
+        ln.on("mousemove", s => {
             d3.event.stopPropagation()
-            this.highlight(d)
+            this.highlight(s)
         })
         ln.append("path")
-        this._addPoints(ln)
-        this._addLabel(ln)
+        this.addPoints(ln)
+        this.addLabel(ln)
     }
     setLines () {
         const ln = this.d3.selectAll(".lines g.line")
         ln.select("path")
-          .at("d", d => this.lineGen(d.data))
-          .st("stroke", d => this.getC(d))
-        this._setPoints(ln)
-        this._setLabel(ln)
+          .at("d", s => this.lineGen(s.points))
+          .st("stroke", s => this.getC(s))
+        this.setPoints(ln)
+        this.setLabel(ln)
     }
 
-    _addLabel (el) {
+    addLabel (el) {
         el.append("text.label").at("dx", "0.8em")
     }
-    _setLabel (el) {
+    setLabel (el) {
         el.select("text.label")
-          .translate(d => this.getXY(_.last(d.data)))
-          .text(d => this.getSeries(d))
+          .translate(s => this.getXY(_.last(s.points)))
+          .text(s => this.getName(s))
     }
 
-    _addPoints (el) {
-        const ct = el.appendMany("g.point", d => d.data)
+    addPoints (el) {
+        const ct = el.appendMany("g.point", s => s.points)
         ct.raise()
         ct.append("line").at("y2", "-1.15em")
         ct.append("circle").at("r", 5)
         ct.append("text.val").at("dy", "-2em")
     }
-    _setPoints (el) {
+    setPoints (el) {
         el.selectAll("g.point")
-          .translate(d => this.getXY(d))
+          .translate(p => this.getXY(p))
           .select("text.val")
-          .text(d => this.getPrintVal(d))
+          .text(p => this.getPrintVal(p))
     }
 
     getClosestLine (pos) {
         const ln      = this.d3.selectAll(".lines g.line"),
               closest = _.minBy(ln.nodes(), l => distToLine(l, pos)),
-              dist    = distToLine(closest, pos),
-              d       = d3.select(closest).datum()
-        return (dist <= 25) ? d : null
+              dist    = distToLine(closest, pos)
+        return (dist <= 25) ? d3.select(closest).datum() : null
     }
 }
 

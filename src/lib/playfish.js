@@ -16,8 +16,8 @@ Expected HTML:
 
 Expected data:
 [{
-    "series":"Budget 2018",
-    "data":[
+    "name":"Budget 2018",
+    "points":[
         {"period":"2018/19", "val":81963000000},
         {"period":"2019/20", "val":86983000000},
         {"period":"2020/21", "val":91720000000},
@@ -25,8 +25,8 @@ Expected data:
     ]
 },
 {
-    "series":"Labour's Plan",
-    "data":[
+    "name":"Labour's Plan",
+    "points":[
         {"period":"2018/19", "val":114263000000},
         {"period":"2019/20", "val":119987000000},
         {"period":"2020/21", "val":124982000000},
@@ -56,23 +56,23 @@ class PlayFish extends BaseLine {
                                 .y1(d => this.getY(d))
     }
 
-    setData (data) {
-        this.data = data
-        if (data.length != 2) throw "PlayFish can only handle two data series!"
-        data[0].mask = data[1] // Use its counterpart as the mask to get the difference
-        data[1].mask = data[0] // Use its counterpart as the mask to get the difference
-        this.setScales(data)
+    setData (series) {
+        this.data = series
+        if (series.length != 2) throw "PlayFish can only handle two data series!"
+        series[0].mask = series[1] // Use its counterpart as the mask to get the difference
+        series[1].mask = series[0] // Use its counterpart as the mask to get the difference
+        this.setScales(series)
         _.each(this.scale.x.domain(), period => {
-            var a = _.find(data[0].data, {period}),
-                b = _.find(data[1].data, {period})
-            a.gt = a.val >= b.val
+            var a = _.find(series[0].points, {period}),
+                b = _.find(series[1].points, {period})
+            a.gt = this.getVal(a) >= this.getVal(b)
             b.gt = !a.gt
         })
 
         this.setAxes(this.svg)
-        this.makeDiffArea(data)
+        this.makeDiffArea(series)
         this.setDiffArea()
-        this.makeLines(data)
+        this.makeLines(series)
         this.setLines()
         this.highlight()
     }
@@ -81,33 +81,33 @@ class PlayFish extends BaseLine {
     //==========//
     //   Area   //
     //==========//
-    makeDiffArea (data) {
-        function asID (d) {return d.series.replace(/[\ \']/g, "")}
+    makeDiffArea (series) {
+        function asID (name) {return name.replace(/[\ \']/g, "")}
 
         this.d3.select(".clipPaths").html("")
-               .appendMany("clipPath", data)
-               .at("id", d => asID(d))
+               .appendMany("clipPath", series)
+               .at("id", s => asID(s.name))
                .append("path")
         this.d3.select(".areas").html("")
-               .appendMany("g.area", data)
+               .appendMany("g.area", series)
                .append("path")
-               .at("clip-path", d => "url(#" + asID(d.mask) + ")")
-               .st("fill", (d, i) => this.getC(d))
+               .at("clip-path", s => "url(#" + asID(s.mask.name) + ")")
+               .st("fill", s => this.getC(s))
     }
 
     setDiffArea () {
         this.d3.selectAll("clipPath path")
-               .at("d", d => this.maskGen(d.data))
+               .at("d", s => this.maskGen(s.points))
         this.d3.selectAll("g.area path")
-               .at("d", d => this.areaGen(d.data))
+               .at("d", s => this.areaGen(s.points))
     }
 
     // Flip labels for the lower line
-    _addPoints (el) {
-        const ct = el.appendMany("g.point", d => d.data)
+    addPoints (el) {
+        const ct = el.appendMany("g.point", s => s.points)
         ct.raise()
-        ct.append("line").at("y2", d => (d.gt) ? "-0.85em" : "0.85em")
-        ct.append("text.val").at("dy", d => (d.gt) ? "-1.8em" : "1.8em")
+        ct.append("line").at("y2", p => (p.gt) ? "-0.85em" : "0.85em")
+        ct.append("text.val").at("dy", p => (p.gt) ? "-1.8em" : "1.8em")
         ct.append("circle").at("r", 4)
     }
 }

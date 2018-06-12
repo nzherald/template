@@ -17,7 +17,7 @@ class Main {
         console.log("Raw data:", rawData)
         let data = this.data = this.cleanData(rawData)
         data = this.filterData(this.data, {
-            series: ["Budget 2018", "Labour's Plan"],
+            name: ["Budget 2018", "Labour's Plan"],
             measure: "Health"
         })
         console.log("Cleaned data:", data)
@@ -49,12 +49,12 @@ class Main {
 
     cleanData (rawData) {
         const years = ["2018/19", "2019/20", "2020/21", "2021/22"]
-        return _.map(rawData, d => {
+        return _.map(rawData, row => {
             return {
-                measure: d.measure,
-                series: d.scenario,
-                data: _.map(years, y => {
-                    return {period: y, val: d[y] * 1000000}
+                name: row.scenario,
+                measure: row.measure,
+                points: _.map(years, y => {
+                    return {period: y, val: row[y] * 1000000}
                 })
             }
         })
