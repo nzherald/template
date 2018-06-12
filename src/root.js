@@ -73,7 +73,7 @@ class Main {
     }
 
     fadeOut (b) {
-        localStorage.setItem("loading", "done");
+        localStorage.setItem("loading", "done")
         $("#loading").fadeTo(600, 0.01, () => {
             $("#loading").remove()
             console.log("Loading screen removed.")
