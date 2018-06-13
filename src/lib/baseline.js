@@ -4,7 +4,7 @@ BaseLine: Basic line chart library for easy extension
 
 Expected HTML:
 <div id="containername">
-    <div class="title"></div>
+    <h3 class="title"></h3>
     <svg>
         <g class="xAxis axis"></g>
         <g class="yAxis axis"></g>
