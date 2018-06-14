@@ -119,8 +119,6 @@ class BaseLine {
         this.axis = opt.axis
         _.each(this.axis, (axis, k) => axis.scale(this.scale[k]))
         this.axis.y.tickFormat(this.format.val)
-        this.lineGen = d3.line().x(p => this.getX(p))
-                                .y(p => this.getY(p))
     }
 
     setScales (data) {
@@ -147,6 +145,20 @@ class BaseLine {
     //===========//
     //   Lines   //
     //===========//
+    // Default d3 line gen, will cry when bad values are given
+    lineGen (points) {
+        return d3.line().x(p => this.getX(p))
+                        .y(p => this.getY(p))(points)
+    }
+
+    // // Custom line gen, will pretend bad values didn't exist
+    // lineGen (points) {
+    //     return "M" + _(points).map(p => [this.getX(p), this.getY(p)])
+    //                           .reject(p => isNaN(p[0]) || isNaN(p[1]))
+    //                           .map(p => _.round(p[0]) + "," + _.round(p[1]))
+    //                           .value().join("L")
+    // }
+
     makeLines (data) {
         const ln = this.d3.select(".lines").html("")
                           .appendMany("g.line", data)
