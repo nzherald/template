@@ -130,8 +130,8 @@ class BaseLine {
               yVals  = points.map(p => this.getVal(p))
                              .sort().value()
         this.scale.x.domain(xVals)
-        this.scale.y.domain(d3.extent(yVals)).nice()
-        // this.scale.y.domain([0, _.max(yVals) * 1.2]).nice()
+        // this.scale.y.domain(d3.extent(yVals)).nice()
+        this.scale.y.domain([0, _.max(yVals) * 1.2]).nice()
     }
 
     setAxes (svg) {
