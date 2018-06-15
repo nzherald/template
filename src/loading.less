@@ -1,10 +1,14 @@
-
-@white: #FFFFFF;
 @whiteish: #F3F1F2;
-
 @lightdark: #C8CCCF;
 @darkish: #666;
-@dark: #4F4F4F;
+@dark: #4c585d;
+
+.titlefont {
+    font-family: 'Stag Book', Georgia, serif;
+}
+.basefont {
+    font-family: "Source Sans Pro Light", "Helvetica", sans-serif;
+}
 
 .stretch {
     position: absolute;
@@ -35,19 +39,18 @@
 
 #loading {
     .stretch;
+    .titlefont;
     position: fixed;
     display: flex;
     z-index: 9999;
     user-select: none;
     background-color: RGBA(0,0,0,0.6);
-    font-family: 'Source Sans Pro', sans-serif;
 
     .message {
         margin: auto;
         font-size: 1.8em;
         .text {
-            color: @white;
-            font-family: 'Source Sans Pro', sans-serif;
+            color: white;
             letter-spacing: 0.03em;
         }
         .spinner {
