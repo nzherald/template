@@ -59,6 +59,7 @@ class BaseLine {
             d3: this.d3.select("svg")
         }
         this.format = opt.format
+        this.format.val = this.format.val || d3.format("")
         this.d3.classed("linechart", true)
         this.makeAxes(opt)
         this.setEvents()
@@ -118,7 +119,7 @@ class BaseLine {
         this.scale = opt.scale
         this.axis = opt.axis
         _.each(this.axis, (axis, k) => axis.scale(this.scale[k]))
-        this.axis.y.tickFormat(this.format.val)
+        if (this.axis.y) this.axis.y.tickFormat(this.format.val)
     }
 
     setScales (data) {
@@ -137,8 +138,8 @@ class BaseLine {
               height = svg.$.height()
         this.scale.x.range([0, width])
         this.scale.y.range([height, 26])
-        this.d3.select(".xAxis").call(this.axis.x).translate([0, height])
-        this.d3.select(".yAxis").call(this.axis.y)
+        if (this.axis.x) this.d3.select(".xAxis").call(this.axis.x).translate([0, height])
+        if (this.axis.y) this.d3.select(".yAxis").call(this.axis.y)
     }
 
 
@@ -172,9 +173,10 @@ class BaseLine {
     }
     setLines () {
         const ln = this.d3.selectAll(".lines g.line")
-        ln.select("path")
-          .at("d", s => this.lineGen(s.points))
-          .st("stroke", s => this.getC(s))
+        ln.select("path").at("d", s => this.lineGen(s.points))
+        if (this.scale.c) {
+            ln.select("path").st("stroke", s => this.getC(s))
+        }
         this.setPoints(ln)
         this.setLabel(ln)
     }
