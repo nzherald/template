@@ -138,8 +138,10 @@ class BaseLine {
               height = svg.$.height()
         this.scale.x.range([0, width])
         this.scale.y.range([height, 26])
-        if (this.axis.x) this.d3.select(".xAxis").call(this.axis.x).translate([0, height])
-        if (this.axis.y) this.d3.select(".yAxis").call(this.axis.y)
+        if (this.axis.x) svg.d3.selectAppend("g.xAxis.axis")
+                               .call(this.axis.x).translate([0, height])
+        if (this.axis.y) svg.d3.selectAppend("g.yAxis.axis")
+                               .call(this.axis.y)
     }
 
 
