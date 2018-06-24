@@ -163,28 +163,29 @@ class BaseLine {
     // }
 
     makeLines (data) {
-        const ln = this.d3.select(".lines").html("")
-                          .appendMany("g.line", data)
-        ln.on("mousemove", s => {
-            d3.event.stopPropagation()
-            this.highlight(s)
-        })
-        ln.append("path")
-        this.addPoints(ln)
-        this.addLabel(ln)
+        const el = this.svg.d3.selectAppend(".lines")
+        el.html("")
+          .appendMany("g.line", data)
+          .on("mousemove", s => {
+              d3.event.stopPropagation()
+              this.highlight(s)
+          })
+          .append("path")
+        this.addPoints(el)
+        this.addLabel(el)
     }
     setLines () {
-        const ln = this.d3.selectAll(".lines g.line")
-        ln.select("path").at("d", s => this.lineGen(s.points))
+        const el = this.d3.selectAll(".lines g.line")
+        el.select("path").at("d", s => this.lineGen(s.points))
         if (this.scale.c) {
-            ln.select("path").st("stroke", s => this.getC(s))
+            el.select("path").st("stroke", s => this.getC(s))
         }
-        this.setPoints(ln)
-        this.setLabel(ln)
+        this.setPoints(el)
+        this.setLabel(el)
     }
 
     addLabel (el) {
-        el.append("text.label").at("dx", "0.8em")
+        el.selectAppend("text.label").at("dx", "0.8em")
     }
     setLabel (el) {
         el.select("text.label")
