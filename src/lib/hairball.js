@@ -53,16 +53,7 @@ import "./hairball.less"
 class Hairball extends BaseLine {
     constructor (opt, b) {
         super(opt)
-        this.$  = $(opt.container)
-        this.d3 = d3.select(opt.container)
-        this.svg = {
-            $: this.$.find("svg"),
-            d3: this.d3.select("svg")
-        }
-        this.format = opt.format
         this.d3.classed("hairball", true)
-        this.makeAxes(opt)
-        this.setEvents()
     }
 
     highlight (s) {
