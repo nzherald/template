@@ -60,6 +60,7 @@ class BaseLine {
         }
         this.format = opt.format
         this.format.val = this.format.val || d3.format("")
+        this.format.period = this.format.period || d3.format("")
         this.d3.classed("linechart", true)
         this.makeAxes(opt)
         this.setEvents()
@@ -102,14 +103,15 @@ class BaseLine {
     //============//
     //   Values   //
     //============//
-    getName     (s) { return s.name }
-    getPeriod   (p) { return p.period }
-    getVal      (p) { return p.val }
-    getPrintVal (p) { return this.format.val(this.getVal(p))}
-    getX        (p) { return this.scale.x(this.getPeriod(p))}
-    getY        (p) { return this.scale.y(this.getVal(p))}
-    getC        (p) { return this.scale.c(this.getName(p))}
-    getXY       (p) { return [this.getX(p), this.getY(p)]}
+    getName        (s) { return s.name }
+    getPeriod      (p) { return p.period }
+    getVal         (p) { return p.val }
+    getPrintPeriod (p) { return this.format.period(this.getPeriod(p))}
+    getPrintVal    (p) { return this.format.val(this.getVal(p))}
+    getX           (p) { return this.scale.x(this.getPeriod(p))}
+    getY           (p) { return this.scale.y(this.getVal(p))}
+    getC           (p) { return this.scale.c(this.getName(p))}
+    getXY          (p) { return [this.getX(p), this.getY(p)]}
 
 
     //==========//
