@@ -156,13 +156,37 @@ class BaseLine {
                         .y(p => this.getY(p))(points)
     }
 
-    // // Custom line gen, will pretend bad values didn't exist
-    // lineGen (points) {
-    //     return "M" + _(points).map(p => [this.getX(p), this.getY(p)])
-    //                           .reject(p => isNaN(p[0]) || isNaN(p[1]))
-    //                           .map(p => _.round(p[0]) + "," + _.round(p[1]))
-    //                           .value().join("L")
-    // }
+    // Alternative line gen, will pretend bad values didn't exist
+    lineGenIgnore (points) {
+        return "M" + _(points).map(p => [this.getX(p), this.getY(p)])
+                              .reject(p => isNaN(p[0]) || isNaN(p[1]))
+                              .map(p => _.round(p[0]) + "," + _.round(p[1]))
+                              .value().join("L")
+    }
+
+    // Alternative line gen, will skip over bad values
+    lineGenSkip (points) {
+        let prevValid = false
+        return _.reduce(points, (str, p) => {
+            const x = this.getX(p),
+                  y = this.getY(p)
+            // currVal is invalid, ignore
+            if (isNaN(x) || isNaN(y)) {
+                prevValid = false
+                return str
+            }
+            // currVal is valid and prevVal is also valid, continue
+            else if (prevValid) {
+                prevValid = true
+                return str + "L" + _.round(x) + "," + _.round(y)
+            }
+            // currValue is valid but prevVal is NOT valid, start new line
+            else {
+                prevValid = true
+                return str + "M" + _.round(x) + "," + _.round(y)
+            }
+        }, "")
+    }
 
     makeLines (data) {
         const el = this.svg.d3.selectAppend(".lines")
