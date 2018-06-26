@@ -54,6 +54,7 @@
     "font-awesome": "^4.7.0",
     "font-awesome-webpack": "^0.0.5-beta.2",
     "jquery": "^3.3.1",
-    "lodash": "^4.17.10"
+    "lodash": "^4.17.10",
+    "scrollama": "^1.4.1"
   }
 }
