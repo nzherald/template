@@ -47,7 +47,7 @@ module.exports = merge(base, {
                 include: path.resolve(__dirname, "src"),
                 exclude: /(node_modules|bower_components)/,
                 query: {
-                    plugins: ["transform-runtime"],
+                    plugins: ["transform-runtime", "transform-object-rest-spread"],
                     presets: ["env"],
                 }
             }
