@@ -1,6 +1,6 @@
 import "./loading.less"
 import HTML from "./loading.html"
-if (localStorage.getItem("loading") === "done") {
+if (sessionStorage.getItem("loading") === "done") {
     console.log("Loading screen is too late to be useful.")
 }
 else {

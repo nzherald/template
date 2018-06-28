@@ -5,18 +5,13 @@ import "./root.less"
 
 class Main {
     constructor () {
-        if (typeof($) !== "undefined") {
-        $(HTML).appendTo("#root")
-        } else {
-            var root = document.getElementById('root')
-            root.innerHTML = HTML
-
-        }
+        var root = document.getElementById('root')
+        root.innerHTML = HTML
         this.fadeOut()
     }
 
     fadeOut (b) {
-        localStorage.setItem("loading", "done");
+        sessionStorage.setItem("loading", "done");
         if (typeof($) !== "undefined") {
             $("#loading").fadeTo(600, 0.01, () => {
                 $("#loading").remove()
@@ -26,7 +21,7 @@ class Main {
         } else {
             var loadingRemove = document.getElementById("loading")
             if (loadingRemove) {
-                document.body.removeChild(loadingE)
+                document.body.removeChild(loadingRemove)
                 console.log("Loading screen removed.")
             }
             if (b) b()
