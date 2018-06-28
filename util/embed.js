@@ -70,7 +70,7 @@ class EmbedPlugin {
                 }
             }
             build(js,function(f,i) { return `var _js${i} = document.createElement('script'); 
-                loading.src = '${basePath}${f}'; 
+                _js${i}.src = '${basePath}${f}'; 
                 document.body.appendChild(_js${i});\n`}, jsTemplate, 'embed.js');
             build(css,function(f) { return `@import url("${basePath}${f}");\n`}, '<<INNER>>', 'embed.css');
         });
