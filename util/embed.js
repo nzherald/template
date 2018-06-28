@@ -19,6 +19,7 @@ class EmbedPlugin {
         const self = this;
 
         compiler.hooks.emit.tap("EmbedPlugin", function(compilation, callback) {
+            const basePath = self.options.basePath;
             let js = [];
             let css = [];
             let loading;
@@ -28,19 +29,19 @@ class EmbedPlugin {
                     css.push(filename);
                 } else if (/.*\.js$/.test(filename)) {
                     if (/^loading.*js$/.test(filename)) {
-                        loading = filename
+                        loading = basePath + filename
                     } else if (/^root.*js$/.test(filename)) {
-                        root = filename
+                        root = basePath + filename
                     }else {
                         js.push(filename);
                     }
                 }
             }
-            const basePath = self.options.basePath;
-            const loadingOnly = "$.getScript('<<LOADING>>', function() {<<INNER>>});"
-            const rootOnly = "$.getScript('<<ROOT>>', function() {<<INNER>>});"
-            const loadingRoot = "$.getScript('<<LOADING>>', function() {$.getScript('<<ROOT>>', function() {<<INNER>>})});"
-            let jsTemplate = '<<INNER>>'
+            const clear = 'sessionStorage.setItem("loading", "not-done");'
+            const loadingOnly = "var __XCloading = document.createElement('script'); __XCloading.src = '<<LOADING>>'; document.body.appendChild(__XCloading);"
+            const rootOnly = "var __XCroot = document.createElement('script'); __XCroot.src = '<<ROOT>>'; document.body.appendChild(__XCroot);"
+            const loadingRoot = clear + loadingOnly + rootOnly + '<<INNER>>'
+            let jsTemplate = clear + '<<INNER>>'
             if (loading && root) {
                 jsTemplate = loadingRoot
                     .replace('<<LOADING>>', loading)
@@ -53,7 +54,7 @@ class EmbedPlugin {
             const build = function(vals,line,template,out) {
                 let valsStr = "";
                 vals.forEach(function(f,i) {
-                    valsStr = valsStr.concat(line(f));
+                    valsStr = valsStr.concat(line(f,i));
                 });
                 const output = template.replace('<<INNER>>', valsStr);
 
@@ -68,7 +69,9 @@ class EmbedPlugin {
                     }
                 }
             }
-            build(js,function(f) { return `$.getScript("${basePath}${f}");\n`}, jsTemplate, 'embed.js');
+            build(js,function(f,i) { return `var _js${i} = document.createElement('script'); 
+                loading.src = '${basePath}${f}'; 
+                document.body.appendChild(_js${i});\n`}, jsTemplate, 'embed.js');
             build(css,function(f) { return `@import url("${basePath}${f}");\n`}, '<<INNER>>', 'embed.css');
         });
     }
