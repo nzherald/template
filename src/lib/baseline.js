@@ -125,8 +125,8 @@ class BaseLine {
         if (this.axis.y) this.axis.y.tickFormat(this.format.val)
     }
 
-    setScales (data) {
-        const points = _(data).map("points").flatten(),
+    setScales (series) {
+        const points = _(series).map("points").flatten(),
               xVals  = points.map(p => this.getPeriod(p))
                              .uniq().sort().value(),
               yVals  = points.map(p => this.getVal(p))
@@ -189,11 +189,10 @@ class BaseLine {
         }, "")
     }
 
-    makeLines (data) {
-        const el = this.svg.d3.selectAppend(".lines")
-        el.html("")
-          .appendMany("g.line", data)
-          .on("mousemove", s => {
+    makeLines (series) {
+        const el = this.svg.d3.selectAppend(".lines").html("")
+                              .appendMany("g.line", series)
+        el.on("mousemove", s => {
               d3.event.stopPropagation()
               this.highlight(s)
           })
