@@ -1,5 +1,6 @@
 {
   "name": "template-minimal",
+  "private": true,
   "author": "",
   "license": "ISC",
   "description": "Basic template for new story",
