@@ -1,0 +1,34 @@
+@white: #FFFFFF;
+@whiteish: #F3F1F2;
+
+@lightdark: #C8CCCF;
+@darkish: #666;
+@dark: #4F4F4F;
+
+
+.hairball {
+    svg {
+        .line {
+            transition: none;
+            opacity: 0.08;
+            &.highlighted,
+            &.selected {
+                opacity: 0.8;
+                .point {
+                    visibility: visible;
+                }
+            }
+            &.highlighted {
+                & > path {
+                    stroke-width: 3px;
+                }
+            }
+        }
+
+        .lines.highlighted {
+            .line {
+                opacity: 0.08;
+            }
+        }
+    }
+}
