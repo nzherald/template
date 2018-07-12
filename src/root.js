@@ -23,7 +23,7 @@ class Main {
         console.log("Cleaned data:", data)
 
         // Set up visualisation
-        $(HTML).appendTo("#root")
+        $("#root").addClass("nzherald").append(HTML)
         const V = new Vis({
             container: "#root .mainvis",
             scale: {
