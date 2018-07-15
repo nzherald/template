@@ -34,13 +34,26 @@
 }
 
 .nzherald {
-    display: flex;
-    flex-wrap: wrap;
-    flex-direction: column;
     box-sizing: border-box;
     width: 100%;
     max-width: 960px;
     margin: auto;
+    padding: 50px 0;
+    font-size: 20px;
+
+    // Container types
+    & > .text {
+        padding: 0 50px;
+    }
+
+    // Mobile
+    @media (max-width: 960px) {
+        padding: 20px 0;
+        font-size: 16px;
+        & > .text {
+            padding : 0 20px;
+        }
+    }
 
     .basefont;
     h1,h2,h3,h4,h5,label {
@@ -91,6 +104,7 @@
     }
 
     svg {
+        overflow: visible;
         text {
             .basefont;
         }
@@ -146,9 +160,8 @@
         flex-grow: 1;
         height: 300px;
         svg {
-            height: 100%;
             width: 100%;
-            overflow: visible;
+            height: 100%;
         }
     }
 }
