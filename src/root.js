@@ -3,6 +3,10 @@ import $ from "jquery"
 import * as d3 from "d3"
 import * as d3jetpack from "d3-jetpack"
 
+// Polyfill for fetch/promise - only required if using d3-csv on IE<11
+// import 'whatwg-fetch'
+// import 'promise-polyfill/src/polyfill'
+
 import HTML from "./root.html"
 import "./base.less"
 import "./root.less"

@@ -57,6 +57,8 @@
     "intersection-observer": "^0.5.0",
     "jquery": "^3.3.1",
     "lodash": "^4.17.10",
-    "scrollama": "^1.4.1"
+    "scrollama": "^1.4.1",
+    "promise-polyfill": "^8.0.0",
+    "whatwg-fetch": "^2.0.4"
   }
 }
