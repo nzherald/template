@@ -40,10 +40,20 @@
         }
     }
 
+    .mobile {
+        display: none;
+    }
+
     // Mobile
-    @media (max-width: 960px) {
+    @media (max-width: 800px) {
         padding: 20px;
         font-size: 16px;
+        .desktop {
+            display: none;
+        }
+        .mobile {
+            display: unset;
+        }
     }
 
     .basefont;
@@ -162,7 +172,7 @@
     }
 
     // Expand columns to full width (text & graphic will run in series)
-    @media (max-width: 960px) {
+    @media (max-width: 800px) {
         .scroll-text {
             order: 1; // Always run text after graphic
             transform: unset;
