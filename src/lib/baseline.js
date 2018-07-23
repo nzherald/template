@@ -103,7 +103,7 @@ class BaseLine {
     //============//
     //   Values   //
     //============//
-    isValid        (p) { return !isNaN(this.getX(p)) && !isNaN(this.getY(p)) }
+    isValid        (p) { return p && !isNaN(this.getX(p)) && !isNaN(this.getY(p)) }
     getName        (s) { return s.name }
     getPeriod      (p) { return p.period }
     getVal         (p) { return p.val }
