@@ -65,7 +65,7 @@ class BaseLine {
         this.axis   = opt.axis
         this.format = opt.format
 
-        this.makeAxes(opt)
+        this.makeAxes()
         this.setEvents()
     }
 
