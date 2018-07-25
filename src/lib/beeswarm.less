@@ -1,0 +1,38 @@
+@white    : #FFFFFF;
+@whiteish : #F3F1F2;
+
+@lightdark: #C8CCCF;
+@darkish  : #666;
+@dark     : #4F4F4F;
+
+.beeswarm {
+    svg {
+        .nodes circle {
+            stroke: RGBA(50,50,50,0.2);
+            &:hover {
+                fill: yellow !important;
+                stroke: RGBA(50,50,50,0.6);
+                stroke-width: 3px;
+            }
+        }
+        .axis .domain {
+            display: none;
+        }
+        .yAxis .tick {
+            line {
+                opacity: 0.1;
+            }
+            text {
+                text-anchor: start;
+                alignment-baseline: before-edge;
+                opacity: 0.8;
+                font-size: 1.5em;
+            }
+        }
+        .xAxis .tick {
+            line {
+                display: none;
+            }
+        }
+    }
+}
