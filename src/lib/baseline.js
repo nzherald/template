@@ -60,10 +60,10 @@ class BaseLine {
         }
         this.d3.classed("linechart", true)
 
-        this.scale  = opt.scale
-        this.domain = opt.domain
-        this.axis   = opt.axis
-        this.format = opt.format
+        this.scale  = opt.scale || {}
+        this.domain = opt.domain || {}
+        this.axis   = opt.axis || {}
+        this.format = opt.format || {}
 
         this.makeAxes()
         this.setEvents()
