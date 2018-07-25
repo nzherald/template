@@ -58,19 +58,27 @@ class BaseLine {
             d3: this.d3.selectAppend("svg"),
             $: this.$.find("svg")
         }
-        this.format = opt.format
-        this.format.val = this.format.val || d3.format("")
-        this.format.period = this.format.period || d3.format("")
         this.d3.classed("linechart", true)
+
+        this.scale  = opt.scale
+        this.domain = opt.domain
+        this.axis   = opt.axis
+        this.format = opt.format
+
         this.makeAxes(opt)
         this.setEvents()
     }
 
     setData (series) {
         this.data = series
-        this.setScales(series)
-        this.setAxes(this.svg)
+        this.setDomains(series)
         this.makeLines(series)
+        this.redraw()
+    }
+
+    redraw () {
+        this.setRanges()
+        this.setAxes()
         this.setLines()
         this.highlight()
     }
@@ -103,48 +111,81 @@ class BaseLine {
     //============//
     //   Values   //
     //============//
-    isValid        (p) { return p && !isNaN(this.getX(p)) && !isNaN(this.getY(p)) }
-    getName        (s) { return s.name }
-    getPeriod      (p) { return p.period }
-    getVal         (p) { return p.val }
-    getPrintPeriod (p) { return this.format.period(this.getPeriod(p)) }
-    getPrintVal    (p) { return this.format.val(this.getVal(p)) }
-    getX           (p) { return this.scale.x(this.getPeriod(p)) }
-    getY           (p) { return this.scale.y(this.getVal(p)) }
-    getC           (p) { return this.scale.c(this.getName(p)) }
-    getXY          (p) { return [this.getX(p), this.getY(p)] }
+    getVal (d, k) {
+        return (k === "x") ? this.getXVal(d) :
+               (k === "y") ? this.getYVal(d) :
+               (k === "c") ? this.getCVal(d) :
+                             null
+    }
+    getPrintVal (p, k) {
+        let format = this.format[k],
+            val = this.getVal(p, k)
+        return (format) ? format(val) : val
+    }
+    getX    (p) { return this.scale.x(this.getXVal(p)) }
+    getY    (p) { return this.scale.y(this.getYVal(p)) }
+    getC    (p) { return this.scale.c(this.getCVal(p)) }
+    getXY   (p) { return [this.getX(p), this.getY(p)] }
+
+    // Customise these
+    isValid (p) {
+        return p &&
+               !isNaN(this.getX(p)) &&
+               !isNaN(this.getY(p))
+    }
+    getXVal (p) { return p.period }
+    getYVal (p) { return p.val }
+    getCVal (p) { return p.name }
 
 
     //==========//
     //   Axes   //
     //==========//
-    makeAxes (opt) {
-        this.scale = opt.scale
-        this.axis = opt.axis
-        _.each(this.axis, (axis, k) => axis.scale(this.scale[k]))
-        if (this.axis.y) this.axis.y.tickFormat(this.format.val)
+    makeAxes () {
+        _.each(this.axis, (axis, k) => {
+            axis.scale(this.scale[k])
+            if (this.format[k]) axis.tickFormat(this.format[k])
+        })
     }
 
-    setScales (series) {
-        const points = _(series).map("points").flatten(),
-              xVals  = points.map(p => this.getPeriod(p))
-                             .uniq().sort().value(),
-              yVals  = points.map(p => this.getVal(p))
-                             .sort().value()
-        this.scale.x.domain(xVals)
-        // this.scale.y.domain(d3.extent(yVals)).nice()
-        this.scale.y.domain([0, _.max(yVals) * 1.2]).nice()
+    setDomains () {
+        _.each(this.domain, (domain, k) => {
+            let scale = this.scale[k],
+                vals = _(this.data).map("points").flatten()
+                                   .map(d => this.getVal(d, k)).value()
+            if (domain === "max") {
+                domain = [0, _.max(vals)]
+            }
+            else if (domain === "extent") {
+                domain = d3.extent(vals)
+            }
+            else if (domain === "vals") {
+                domain = _(vals).uniq().filter().sort().value()
+            }
+            else if (domain instanceof Function) {
+                domain = domain(this.data)
+            }
+            // An array must be provided or produced
+            if (domain instanceof Array) {
+                scale.domain(domain)
+                if (scale.nice) scale.nice()
+            }
+        })
     }
 
-    setAxes (svg) {
-        const width  = svg.$.width(),
-              height = svg.$.height()
+    setRanges () {
+        const width  = this.svg.$.width(),
+              height = this.svg.$.height()
         this.scale.x.range([0, width])
-        this.scale.y.range([height, 26])
-        if (this.axis.x) svg.d3.selectAppend("g.xAxis.axis")
-                               .call(this.axis.x).translate([0, height])
-        if (this.axis.y) svg.d3.selectAppend("g.yAxis.axis")
-                               .call(this.axis.y)
+        this.scale.y.range([height, 0])
+    }
+
+    setAxes () {
+        const height = this.svg.$.height()
+        if (this.axis.x) this.svg.d3.selectAppend("g.xAxis.axis")
+                                    .call(this.axis.x).translate([0, height])
+        if (this.axis.y) this.svg.d3.selectAppend("g.yAxis.axis")
+                                    .call(this.axis.y)
     }
 
 
@@ -216,7 +257,7 @@ class BaseLine {
     setLabel (el) {
         el.select("text.label")
           .translate(s => this.getXY(_.last(s.points)))
-          .text(s => this.getName(s))
+          .text(s => this.getCVal(s))
     }
 
     addPoints (el) {
@@ -230,7 +271,7 @@ class BaseLine {
         el.selectAll("g.point")
           .translate(p => this.getXY(p))
           .select("text.val")
-          .text(p => this.getPrintVal(p))
+          .text(p => this.getPrintVal(p, "y"))
     }
 
     getClosestLine (pos) {

@@ -65,7 +65,7 @@ class PlayFish extends BaseLine {
         _.each(this.scale.x.domain(), period => {
             var a = _.find(series[0].points, {period}),
                 b = _.find(series[1].points, {period})
-            a.gt = this.getVal(a) >= this.getVal(b)
+            a.gt = this.getYVal(a) >= this.getYVal(b)
             b.gt = !a.gt
         })
 

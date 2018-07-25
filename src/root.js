@@ -34,14 +34,18 @@ class Main {
                 x: d3.scalePoint(),
                 y: d3.scaleLinear(),
                 c: d3.scaleOrdinal(["#2F4285", "#B22A2E", "#7D1A6E"])
-                     .domain(["Pre-Election Forecast", "Labour's Plan", "Budget 2018"])
+            },
+            domain: {
+                x: "vals",
+                y: "max",
+                c: ["Pre-Election Forecast", "Labour's Plan", "Budget 2018"]
             },
             axis: {
                 x: d3.axisBottom().tickPadding(32).tickSize(0),
                 y: d3.axisLeft().ticks(3).tickPadding(16).tickSize(4)
             },
             format: {
-                val: (d) => d3.format("$.3s")(d).replace(/G/, "B")
+                y: (d) => d3.format("$.3s")(d).replace(/G/, "B")
             }
         })
         console.log("Visualisation:", V)
