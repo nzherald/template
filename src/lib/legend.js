@@ -42,7 +42,7 @@ class Legend {
         this.$  = $(opt.container)
         this.d3 = d3.select(opt.container)
         this.scale = opt.scale
-        this.format = d3.format(opt.format || "")
+        this.format = (opt.format) ? d3.format(opt.format) : d => d
         this.ticks = opt.ticks
         this.title = opt.title
         this.d3.classed("legend", true)
@@ -84,8 +84,7 @@ class Legend {
             return ticks.reverse()
         }
         else {
-            console.error("Ticks", this.ticks)
-            throw "I don't understand what you want ticks to be!"
+            return this.scale.domain()
         }
     }
 
