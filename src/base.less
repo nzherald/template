@@ -169,8 +169,11 @@
         transform: translateX(50px); // Shift to right edge
         .step {
             padding: 25px 50px;
-            margin-bottom: 60vh;
+            margin-bottom: 50vh;
             background-color: RGBA(250, 250, 250, 0.9);
+        }
+        .step:last-child {
+            margin-bottom: 0;
         }
     }
 
@@ -186,6 +189,11 @@
         }
         .scroll-graphic {
             height: 80vh;
+        }
+        .scroll-text {
+            .step {
+                margin-bottom: 80vh;
+            }
         }
     }
 }
