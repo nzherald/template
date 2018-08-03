@@ -112,9 +112,9 @@ class Beeswarm {
     //   Nodes   //
     //===========//
     makeNodes (data) {
-        this.nodes = this.d3.select(".nodes")
-                            .appendMany("g", data)
-                            .append("circle")
+        this.nodes = this.svg.d3.selectAppend("g.nodes")
+                                .appendMany("g", data)
+                                .append("circle")
     }
 
     setNodes () {
