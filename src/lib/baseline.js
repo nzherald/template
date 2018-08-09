@@ -133,8 +133,8 @@ class BaseLine {
                !isNaN(this.getX(p)) &&
                !isNaN(this.getY(p))
     }
-    getXVal (p) { return p.period }
-    getYVal (p) { return p.val }
+    getXVal (p) { return p.xVal || p.period }
+    getYVal (p) { return p.yVal || p.val }
     getCVal (p) { return p.name }
 
 
