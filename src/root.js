@@ -19,11 +19,10 @@ class Main {
     constructor () {
         // Clean data
         console.log("Raw data:", rawData)
-        let data = this.data = this.cleanData(rawData)
-        data = this.filterData(this.data, {
-            name: ["Budget 2018", "Labour's Plan"],
-            measure: "Health"
-        })
+        let data = rawData
+        data = _.filter(data, {measure: "Health"})
+        data = _.filter(data, d => d.scenario === "Budget 2018" || d.scenario === "Labour's Plan")
+        data = this.data = this.cleanData(data)
         console.log("Cleaned data:", data)
 
         // Set up visualisation
@@ -66,18 +65,6 @@ class Main {
                 })
             }
         })
-    }
-
-    filterData (data, filter) {
-        _.each(filter, (v, k) => {
-            if (v instanceof Array) {
-                data = _.filter(data, d => v.indexOf(d[k]) !== -1)
-            }
-            else {
-                data = _.filter(data, d => d[k] === v)
-            }
-        })
-        return data
     }
 
     fadeOut (b) {
