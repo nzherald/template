@@ -44,16 +44,18 @@ class Beeswarm {
     }
 
     redraw () {
-        this.onRedraw()
+        this.preRedraw()
         this.setRanges()
         this.setAxes()
         this.setNodes()
         this.drawNodes()
+        this.postRedraw()
         this.sim.alpha(1)
         this.sim.restart()
     }
 
-    onRedraw () {} // Placeholder for custom pre-redraw event
+    preRedraw () {} // Placeholder for custom pre-redraw event
+    postRedraw () {} // Placeholder for custom post-redraw event
 
 
     //============//

@@ -77,10 +77,12 @@ class BaseLine {
     }
 
     redraw () {
+        this.preRedraw()
         this.setRanges()
         this.setAxes()
         this.setLines()
         this.highlight()
+        this.postRedraw()
     }
 
     highlight (s, forced) {
@@ -106,6 +108,9 @@ class BaseLine {
             this.highlight(s)
         })
     }
+
+    preRedraw () {} // Placeholder for custom pre-redraw event
+    postRedraw () {} // Placeholder for custom post-redraw event
 
 
     //============//
