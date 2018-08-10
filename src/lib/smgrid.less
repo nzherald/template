@@ -1,0 +1,31 @@
+@whiteish: #F3F1F2;
+@lightdark: #C8CCCF;
+@darkish: #666;
+@dark: #4c585d;
+
+.smgrid {
+    .grid-container {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        box-sizing: border-box;
+        padding: 10px;
+        padding-left: 40px; // For y-axes
+        & > div {
+            width: 200px;
+            margin: 10px;
+            .title {
+                font-size: 1em;
+                text-align: center;
+            }
+            svg {
+                .domain {
+                    visibility: hidden;
+                }
+                .guide {
+                    visibility: visible;
+                }
+            }
+        }
+    }
+}
