@@ -72,7 +72,7 @@ class BaseLine {
     setData (series) {
         this.checkData(series)
         this.data = series
-        this.setDomains(series)
+        this.setDomains()
         this.makeLines(series)
         this.redraw()
     }
