@@ -70,6 +70,7 @@ class BaseLine {
     }
 
     setData (series) {
+        this.checkData(series)
         this.data = series
         this.setDomains(series)
         this.makeLines(series)
@@ -116,6 +117,15 @@ class BaseLine {
     //============//
     //   Values   //
     //============//
+    checkData (series) {
+        if (series instanceof Array === false) {
+            throw "Data must be in the form of an array"
+        }
+        if (!_.every(series, s => s.points)) {
+            throw "Each series must contain an array of points"
+        }
+    }
+
     getVal (d, k) {
         return (k === "x") ? this.getXVal(d) :
                (k === "y") ? this.getYVal(d) :
