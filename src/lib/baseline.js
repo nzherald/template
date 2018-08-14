@@ -246,13 +246,13 @@ class BaseLine {
     }
 
     makeLines (series) {
-        const el = this.svg.d3.selectAppend(".lines").html("")
+        const el = this.svg.d3.selectAppend("g.lines").html("")
                               .appendMany("g.line", series)
         el.on("mousemove", s => {
               d3.event.stopPropagation()
               this.highlight(s)
           })
-          .append("path")
+        el.append("path")
         this.addPoints(el)
         this.addLabel(el)
     }
