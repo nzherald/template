@@ -1,0 +1,120 @@
+document.writeln("        ");
+<!--Begin JSERVER Skip-->
+//Native Desktop & Mobile Web v1.4
+var ntvm_scr = document.querySelectorAll('script[data-nativeslot="1"]');
+
+for (var i = ntvm_scr.length - 1; i >= 0; i--) {
+
+    var ntvm_par = ntvm_scr[i].parentElement;
+    var ntvm_tar = ntvm_par.querySelector('.native-ad-flex-feature');
+    var ntvm_img = ntvm_tar.querySelector('img');
+    var ntvm_title = ntvm_tar.querySelector('.headline a');
+    var ntvm_copy = ntvm_tar.querySelector('.blurb');
+    var ntvm_imglink = ntvm_tar.querySelector('.photo-wrapper a');
+    
+    var ntvm_contentBox = ntvm_tar.querySelector('.sponsored');
+
+    if (ntvm_contentBox) {
+        ntvm_contentBox.style.border = 0;
+
+        var ntvm_bottomText = ntvm_tar.querySelector('.text-below');
+        if (ntvm_bottomText) {
+            ntvm_bottomText.style.padding = 0;
+        }
+    }
+
+    var ntvm_mods = 'undefined';
+    if(ntvm_mods){
+        ntvm_mods = ntvm_mods.toUpperCase();
+    }
+
+    var ntvm_pt = 'ARTICLE';
+    ntvm_pt = ntvm_pt.toUpperCase();
+    if (ntvm_pt == 'ARTICLE' && ntvm_mods != 'TRIPLEPORT') {
+        ntvm_par.style.marginTop = "-20px";
+    }
+
+    var ntvm_port = 'https://content.aimatch.com/apnnz/24731/Kordia_630x768.jpg';
+    var ntvm_land = 'https://content.aimatch.com/apnnz/24731/Kordia_540x304.jpg';
+
+    var ntvm_src = ntvm_port;
+
+    if (ntvm_mods == 'TRIPLELAND') {
+        ntvm_src = ntvm_land;
+    }
+
+    var img_par = ntvm_img.parentElement;
+    img_par.removeChild(ntvm_img);
+
+    var img = document.createElement("IMG");
+    img.setAttribute("src", ntvm_src);
+    img_par.appendChild(img);
+
+    ntvm_title.setAttribute('href', 'https://data.apn.co.nz/apnnz/adclick/FCID=255331/SITE=NZH/NW=NZMEP/SIZE=NATIVE/AREA=NATIONAL/SS=NATIONAL/PT=ARTICLE/OID=5VWI5FQKPRCHLJFWME2TXIZQSQ/POS=1/KEYWORD=read+between+rich+poor+university+high+school+dropout+working+cafe+youd+asked+back+then+there+ashley+insley+would+have+imagined+shed+become+doctor+hometown+kaha+tiny+village+impoverished+east+coast+dreams+like+that+usual+route+leave+school+help+support+your+family+were+likely+living+weektoweek/SV=1/MODS=undefined/');
+    ntvm_imglink.setAttribute('href', 'https://data.apn.co.nz/apnnz/adclick/FCID=255331/SITE=NZH/NW=NZMEP/SIZE=NATIVE/AREA=NATIONAL/SS=NATIONAL/PT=ARTICLE/OID=5VWI5FQKPRCHLJFWME2TXIZQSQ/POS=1/KEYWORD=read+between+rich+poor+university+high+school+dropout+working+cafe+youd+asked+back+then+there+ashley+insley+would+have+imagined+shed+become+doctor+hometown+kaha+tiny+village+impoverished+east+coast+dreams+like+that+usual+route+leave+school+help+support+your+family+were+likely+living+weektoweek/SV=1/MODS=undefined/');
+
+    if (ntvm_tar.querySelector('.sigline')) {
+        ntvm_tar.querySelector('.sigline').style.display = "none";
+        //.remove();
+    }
+    if (ntvm_tar.querySelector('.header-label')) {
+        ntvm_tar.querySelector('.header-label').style.display = "none";
+    }
+
+    var ntvm_type = 's'.toLowerCase();
+    if (ntvm_type == 'b') {
+        ntvm_tar.querySelector('.sponsored-text').innerHTML = 'BRAND FEATURE';
+    } else if (ntvm_type == 's') {
+        ntvm_tar.querySelector('.sponsored-text').innerHTML = 'SPONSORED';
+    } else if (ntvm_type == 'p') {
+        ntvm_tar.querySelector('.sponsored-text').innerHTML = 'PARTNERSHIP';
+    }
+
+    var ntvm_x_title = 'Huge network connects Kiwis';
+    ntvm_x_title.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
+
+    if (ntvm_x_title.length > 42) {
+
+        ntvm_x_title = ntvm_x_title.substr(0, 42);
+        ntvm_x_title = ntvm_x_title.substr(0, Math.min(42, ntvm_x_title.lastIndexOf(" ")));
+        ntvm_x_title += '...';
+    }
+    ntvm_title.textContent = ntvm_x_title;
+
+
+    var ntvm_x_copy = 'The future is rushing in with network technology bringing digital connections by the millions.';
+    ntvm_x_copy.replace(/'/g, "&apos;").replace(/"/g, "&quot;");
+
+    if (ntvm_x_copy.length > 70) {
+
+        ntvm_x_copy = ntvm_x_copy.substr(0, 70);
+        ntvm_x_copy = ntvm_x_copy.substr(0, Math.min(70, ntvm_x_copy.lastIndexOf(" ")));
+        ntvm_x_copy += '...';
+    }
+    ntvm_copy.textContent = ntvm_x_copy;
+
+
+}
+var ntvm_event = new Event('nzmeads_native');
+
+window.dispatchEvent(ntvm_event);
+
+<!--End JSERVER Skip-->
+document.writeln("<script type=\"text/javascript\">");
+document.writeln("function ccit(l, auds, k) { if (typeof(auds) != \"undefined\") for (var i = 0; i < auds.length; i++) l.push(auds[i][k]); }");
+document.writeln("function ccauds(auds) {");
+document.writeln("var l=[];");
+document.writeln("if (typeof(auds) != \"undefined\" && typeof(auds.Profile) != \"undefined\" && typeof(auds.Profile.Audiences) != \"undefined\")");
+document.writeln("ccit(l, auds.Profile.Audiences.Audience, \"abbr\");");
+document.writeln("var tags = l.join(\",\");");
+document.writeln("var url = \"https://data.apn.co.nz/apnnz/settag/name=lotame/tags=\" + tags;");
+document.writeln("var imgNode = document.createElement(\"img\");");
+document.writeln("imgNode.setAttribute(\"width\",\"1\");");
+document.writeln("imgNode.setAttribute(\"height\",\"1\");");
+document.writeln("imgNode.setAttribute(\"src\",url);");
+document.writeln("var selfNode = document.currentScript;");
+document.writeln("selfNode.parentNode.insertBefore(imgNode, selfNode);");
+document.writeln("}");
+document.writeln("</script>");
+document.writeln("<script type=\"text/javascript\" src=\"https://ad.crwdcntrl.net/5/c=5304/pe=y/callback=ccauds\">");
+document.writeln("</script>");
