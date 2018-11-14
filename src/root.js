@@ -4,8 +4,8 @@ import * as d3 from "d3"
 import * as d3jetpack from "d3-jetpack"
 
 // Polyfill for fetch/promise - only required if using d3-csv on IE<11
-// import 'whatwg-fetch'
-// import 'promise-polyfill/src/polyfill'
+// import "whatwg-fetch"
+// import "promise-polyfill/src/polyfill"
 
 import HTML from "./root.html"
 import "./base.less"
@@ -17,14 +17,6 @@ import rawData from "./data/dummy.csv"
 
 class Main {
     constructor () {
-        // Clean data
-        console.log("Raw data:", rawData)
-        let data = rawData
-        data = _.filter(data, {measure: "Health"})
-        data = _.filter(data, d => d.scenario === "Budget 2018" || d.scenario === "Labour's Plan")
-        data = this.data = this.cleanData(data)
-        console.log("Cleaned data:", data)
-
         // Set up visualisation
         $("#root").addClass("nzherald").append(HTML)
         const V = new Vis({
@@ -48,6 +40,14 @@ class Main {
             }
         })
         console.log("Visualisation:", V)
+
+        // Clean data
+        console.log("Raw data:", rawData)
+        let data = rawData
+        data = _.filter(data, {measure: "Health"})
+        data = _.filter(data, d => d.scenario === "Budget 2018" || d.scenario === "Labour's Plan")
+        data = this.data = this.cleanData(data)
+        console.log("Cleaned data:", data)
 
         // Populate visualisation
         V.setData(data)
