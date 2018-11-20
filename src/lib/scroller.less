@@ -1,0 +1,85 @@
+@white: #FFFFFF;
+@whiteish: #F3F1F2;
+
+@lightdark: #C8CCCF;
+@darkish: #666;
+@dark: #4F4F4F;
+
+
+.scroll-container {
+    display: flex;
+    flex-direction: row; // .scroll-graphic and .scroll-text should go side-by-side
+    flex-wrap: wrap; // ...but wrap if there's not enough space
+    & > * {
+        flex-grow: 1;
+        box-sizing: border-box;
+        margin-bottom: 1.25em; // Margin goes on the bottom of children, so they stay when wrapped
+    }
+
+    // To achieve overlap, expand the INNER element of the left column...
+    // ...the right column should not overflow, as it's left-aligned by default
+    // & > *:first-child > * {
+    //     width: 650px;
+    // }
+
+    .scroll-graphic {
+        position: sticky;
+        top: 8em; // In embedded deployment (which scrolls have to be), got to account for navbar
+        margin-bottom: 8em; // Bottom has to be offset by the same size
+        width: 480px;
+        height: 400px; // Height must be set for sticky to work
+    }
+
+    .scroll-text {
+        z-index: 100; // Text should be above graphic
+        width: 320px;
+        margin-right: -50px; // Shift to right edge
+        pointer-events: none; // The text container should never steal mouse events
+        .step {
+            min-height: 75vh;
+            &:last-child {
+                min-height: 90vh; // Last child has more height so it aligns to top
+            }
+            .inner {
+                padding: 1em;
+                background-color: RGBA(255, 255, 255, 0.9);
+                border: solid 1px #eaeaea;
+                ul {
+                    padding-left: 1.2em; // Not enough space for full padding
+                }
+            }
+            &.highlighted .inner {
+                background-color: RGBA(238, 245, 245, 0.9); // Selected
+            }
+        }
+    }
+
+    // Expand columns to full width (text & graphic will run in series)
+    @media (max-width: 800px) {
+        .scroll-graphic {
+            top: 6em;
+            height: 80vh;
+            svg { max-width: 100%; } // Don't overlap
+        }
+        .scroll-text {
+            order: 1; // Always run text after graphic
+            transform: unset;
+            margin: 0 -20px; // No side margins
+            .step {
+                min-height: unset; // Don't use height in mobile mode
+                padding-bottom: 60vh; // Use padding instead to maintain bottom-top distance
+                padding-top: 20vh; // Extra padding on top so it triggers step earlier
+                &:first-child {
+                    padding-top: 0; // No padding on first element
+                }
+                &:last-child {
+                    min-height: unset; // Don't use height in mobile mode
+                    padding-bottom: 0; // Last child has no padding so it aligns to bottom
+                }
+                .inner {
+                    padding: 0.5em 1em;
+                }
+            }
+        }
+    }
+}

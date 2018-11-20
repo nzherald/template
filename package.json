@@ -60,6 +60,7 @@
     "lodash": "^4.17.11",
     "promise-polyfill": "^8.1.0",
     "scrollama": "^1.4.4",
+    "stickyfilljs": "^2.1.0",
     "whatwg-fetch": "^3.0.0"
   }
 }
