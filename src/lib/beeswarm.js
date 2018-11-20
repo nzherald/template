@@ -24,7 +24,7 @@ class Beeswarm {
         this.makeForce(_.extend({
             chargeStr: -0.2,
             collideStr: 0.6,
-            clusterStr: 0.07
+            anchorStr: 0.07
         }, opt))
         $(window).on("resize", () => this.redraw())
     }
@@ -76,7 +76,9 @@ class Beeswarm {
     getX (d) { return this.scale.x(this.getXVal(d)) }
     getY (d) { return this.scale.y(this.getYVal(d)) }
     getR (d) { return this.scale.r(this.getRVal(d)) }
-    getC (d) { return this.scale.c(this.getCVal(d)) }
+    getC (d) {
+        return (this.scale.c) ? this.scale.c(this.getCVal(d)) : undefined
+    }
 
     // Customise these
     getXVal (d) { return d.xVal }
@@ -89,12 +91,11 @@ class Beeswarm {
     //   Force   //
     //===========//
     onTick () {
-        this.nodes.at("cx", d => d.x)
-                  .at("cy", d => d.y)
+        this.nodes.at("transform", d => "translate(" + d.x + "," + d.y + ")")
     }
 
-    toAnchor (alpha, clusterStr) {
-        const delta = alpha * clusterStr
+    toAnchor (alpha, anchorStr) {
+        const delta = alpha * anchorStr
         _.each(this.data, d => {
             d.vx += (d.tx - d.x) * delta
             d.vy += (d.ty - d.y) * delta
@@ -103,10 +104,16 @@ class Beeswarm {
 
     makeForce (opt) {
         this.sim = d3.forceSimulation().stop()
-        this.sim.force("charge", d3.forceManyBody().strength(opt.chargeStr))
-                .force("collide", d3.forceCollide().strength(opt.collideStr))
-                .force("anchor", alpha => this.toAnchor(alpha, opt.clusterStr))
-                .on("tick", () => this.onTick())
+        if (opt.chargeStr) {
+            this.sim.force("charge", d3.forceManyBody().strength(opt.chargeStr))
+        }
+        if (opt.collideStr) {
+            this.sim.force("collide", d3.forceCollide().strength(opt.collideStr))
+        }
+        if (opt.anchorStr) {
+            this.sim.force("anchor", alpha => this.toAnchor(alpha, opt.anchorStr))
+        }
+        this.sim.on("tick", () => this.onTick())
     }
 
 
@@ -116,7 +123,7 @@ class Beeswarm {
     makeNodes (data) {
         this.nodes = this.svg.d3.selectAppend("g.nodes")
                                 .appendMany("g", data)
-                                .append("circle")
+        this.nodes.append("circle")
     }
 
     setNodes () {
@@ -141,12 +148,15 @@ class Beeswarm {
                 d.ty = y
             }
         })
-        this.sim.force("collide").radius(d => d.r + 0.5)
+        if (this.sim.force("collide")) {
+            this.sim.force("collide").radius(d => d.r + 0.5)
+        }
     }
 
     drawNodes () {
-        this.nodes.at("r", d => d.r)
-        this.nodes.st("fill", d => this.getC(d))
+        this.nodes.select("circle")
+                  .at("r", d => d.r)
+                  .st("fill", d => this.getC(d))
     }
 
 
