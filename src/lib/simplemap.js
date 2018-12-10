@@ -1,73 +1,11 @@
-/*
-
-Simplemap: Base Mapbox module
-
-Handles all the loading/waiting and hover layer generation. Can be used independently for simple maps.
-
-CAREFUL! This uses a static CSS (https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css). You'll want to update this if you update mapboxgl.
-
-Expected HTML:
-<div id="containername"></div>
-
-Usage (see https://www.mapbox.com/mapbox-gl-js/api/):
-Simplemap.prototype.getC = function (d) {
-    return d.colour
-}
-
-new Simplemap({
-    token: [TOKEN],
-    map: {
-        container : "mapbox",
-        style     : "mapbox://styles/nzherald/cjcy52sw11rmg2tms1of6hy2z",
-        center    : [174.81, -41.318],
-        zoom      : 13
-    },
-    sources: [{
-        id: "mainsrc",
-        type: "geojson",
-        data: {
-            type: "FeatureCollection",
-            features: [FEATURES]
-        }
-    }],
-    layers: [{
-        matchBy: [KEY OF PROPERTY TO MATCH BY], // IMPORTANT: Defaults to _uid, which must be set on the data for highlight/select to work
-        id: "main",
-        type: "fill",
-        source: "mainsrc",
-        paint: {
-            "fill-color": "#088",
-            "fill-opacity": 0.4
-        },
-        hover : {
-            paint : {
-                "fill-opacity" : 1,
-                "fill-color": "#088",
-                "fill-outline-color" : "#999"
-            }
-        },
-        events : {
-            mouseleave : function (el) {},
-            mousemove  : function (el) {},
-            click  : function (el) {}
-        }
-    }],
-    popup: {
-        closeOnClick: false,
-        anchor: 'bottom-left'
-    }
-}, () => {
-    this.fadeOut()
-})
-
-*/
-
 import _ from "lodash"
 import $ from "jquery"
 import * as d3 from "d3"
 import * as d3jetpack from "d3-jetpack"
-import turf from "@turf/turf"
+import * as turf from "@turf/turf"
 
+// CAREFUL! This uses a static CSS (https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css)
+// You'll want to update this if you update mapboxgl
 import "./mapboxgl.css"
 import mapboxgl from "mapbox-gl"
 
@@ -77,7 +15,7 @@ class Simplemap {
         mapboxgl.accessToken = opt.token
         this.$  = $(opt.container)
         this.d3 = d3.select(opt.container)
-        this.d3.classed("mapbox", true)
+        this.d3.classed("simplemap", true)
         this.scale = opt.scale
 
         this.initMap(opt.map, () => {
@@ -92,47 +30,54 @@ class Simplemap {
     //===========//
     //  Actions  //
     //===========//
-    highlight (id, layer) {
-        const exp = ["any"]
-        this.highlighted = id
-        if (id) exp.push(["==", layer.matchBy, id])
-        if (this.selected) exp.push(["==", layer.matchBy, this.selected])
-        this.map.setFilter(layer.id + "-hover", exp)
-    }
-
-    select (id, layer) {
-        if (id === this.selected) {
-            this.selected = null
-            this.highlight(null, layer)
+    highlight (f) {
+        if (this.highlighted) {
+            this.map.setFeatureState(this.highlighted, {hover: false})
         }
-        else {
-            this.selected = id
-            this.highlight(id, layer)
+        if (f) {
+            this.map.setFeatureState(f, {hover: true})
         }
+        this.highlighted = f
     }
 
-    centreTo (id, layer, zoom) {
-        zoom = zoom || 14
-        const targ = this.getFeature(id, layer)
-        const centroid = turf.centroid(targ)
-        const center = centroid.geometry.coordinates
-        this.map.flyTo({center, zoom})
-        this.highlight(id, layer)
+    select (f) {
+        if (this.selected) {
+            this.map.setFeatureState(this.selected, {hover: false, selected: false})
+        }
+        if (f && this.selected && f.id === this.selected.id) {
+            f = null
+        }
+        if (f) {
+            this.map.setFeatureState(f, {hover: true, selected: true})
+        }
+        this.selected = f
     }
 
-    zoomTo (id, layer, padding) {
-        const targ = this.getFeature(id, layer)
-        const bounds = turf.bbox(targ)
+    showPopup (f, html) {
+        const center = turf.centroid(f).geometry.coordinates
+        this.popup.setLngLat(center)
+                  .setHTML(html)
+                  .addTo(this.map)
+    }
+
+    centreTo (f, zoom) {
+        const center = turf.centroid(f).geometry.coordinates
+        this.map.flyTo({center, zoom: zoom || 14})
+        this.highlight(f)
+    }
+
+    zoomTo (f, padding) {
+        const bounds = turf.bbox(f)
         this.map.fitBounds(bounds, {padding: padding || 50})
-        this.highlight(id, layer)
+        this.highlight(f)
     }
 
-
-    //==========//
-    //   Data   //
-    //==========//
-    /* CUSTOMISE THIS */
-    isValid (s) { return !!s }
+    zoomToLayer (layer, padding) {
+        const features = layer.data.features
+        const collection = turf.featureCollection(features)
+        const bounds = turf.bbox(collection)
+        this.map.fitBounds(bounds, {padding: padding || 50})
+    }
 
 
     //=========//
@@ -173,6 +118,17 @@ class Simplemap {
         _.each(sources, s => {
             console.log("Loading source", s.id + "...")
             this.map.addSource(s.id, _.omit(s, "id"))
+
+            _(s.data.features).find(f => {
+                if (f.id == null) {
+                    console.error("IDs missing on some/all features. Give integer IDs to features!")
+                    return true
+                }
+                if (typeof f.id === "string") {
+                    console.error("IDs must be integers not strings. Give integer IDs to features!")
+                    return true
+                }
+            })
         })
     }
 
@@ -194,20 +150,10 @@ class Simplemap {
         this.layers = layers
         _.each(layers, l => {
             console.log("Loading layer", l.id + "...")
-            l.matchBy = l.matchBy || "_uid"               // Match by _uid by default
-            this.map.addLayer(l, l.insertBefore)          // Add layer
-            if (l.hover) this.map.addLayer({              // Add hover layer
-                id            : l.id + "-hover",
-                source        : l.source,
-                "source-layer": l["source-layer"] || "",
-                type          : l.type,
-                paint         : l.hover.paint,
-                filter        : ["==", l.matchBy, ""]
-            }, l.insertBefore)
-
-            _.each(l.events, (v, k) => {                  // For each event
-                this.map.on(k, l.id, el => v.call(l, el)) // Add to map layer (id is specified)
-            })
+            const source = _.find(this.sources, {id: l.source})
+            l.data = source.data
+            this.map.addLayer(l, l.insertBefore)
+            _.each(l.events, (v, k) => this.map.on(k, l.id, v))
         })
     }
 
@@ -215,29 +161,14 @@ class Simplemap {
         return _.find(this.layers, {id})
     }
 
-    getFeature (id, layer) {
-        try {
-            const features = layer.data.features
-            return _.find(features, f => f.properties[layer.matchBy] == id)
-        }
-        catch (err) {
-            if (err instanceof TypeError) {
-                console.error("Features not found! You have to manually provide a GeoJSON collection for each layer.data.features!")
-            }
-        }
-    }
-
-    getProperties (el, path) {
-        return _.get(el.features[0].properties, path)
-    }
-
-    showPopup (el, html) {
-        const f   = el.features[0]
-        const centroid = turf.centroid(f)
-        const center = centroid.geometry.coordinates
-        this.popup.setLngLat(center)
-                  .setHTML(html)
-                  .addTo(this.map)
+    getFeature (query, layer) {
+        if (typeof layer === "string") layer = this.getLayer(layer)
+        const source = layer.source
+        const features = layer.data.features
+        return _.extend(
+            {source},
+            _.find(features, f => _.isMatch(f.properties, query))
+        )
     }
 }
 
