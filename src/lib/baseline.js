@@ -86,7 +86,7 @@ class BaseLine {
         this.postRedraw()
     }
 
-    highlight (s, forced) {
+    highlight (s, p) {
         const ct = this.d3.select(".lines"),
               ln = ct.selectAll("g.line")
         this.highlighted = s
@@ -95,6 +95,7 @@ class BaseLine {
           .classed("highlighted", s => s === this.highlighted)
         ln.filter(".selected").raise()
         ln.filter(".highlighted").raise()
+        this.onHighlight(s, p)
     }
 
     select (s) {
@@ -103,13 +104,15 @@ class BaseLine {
     }
 
     setEvents () {
-        this.d3.on("mousemove", () => {
-            const pos = d3.mouse(this.svg.d3.node()),
-                  s   = this.getClosestLine(pos)
-            this.highlight(s)
+        this.svg.d3.on("mousemove", () => {
+            const pos = d3.mouse(this.svg.d3.node())
+            const s = this.getClosestLine(pos)
+            const p = this.getClosestPoint(s, pos)
+            this.highlight(s, p)
         })
     }
 
+    onHighlight () {}
     preRedraw () {} // Placeholder for custom pre-redraw event
     postRedraw () {} // Placeholder for custom post-redraw event
 
@@ -248,10 +251,6 @@ class BaseLine {
     makeLines (series) {
         const el = this.svg.d3.selectAppend("g.lines").html("")
                               .appendMany("g.line", series)
-        el.on("mousemove", s => {
-              d3.event.stopPropagation()
-              this.highlight(s)
-          })
         el.append("path")
         this.addPoints(el)
         this.addLabel(el)
@@ -294,6 +293,15 @@ class BaseLine {
               closest = _.minBy(ln.nodes(), l => distToLine(l, pos)),
               dist    = distToLine(closest, pos)
         return (dist <= 25) ? d3.select(closest).datum() : null
+    }
+
+    getClosestPoint (s, pos) {
+        if (!s) return
+        return _.minBy(s.points, p => {
+            const dx = this.getX(p) - pos[0]
+            const dy = this.getY(p) - pos[1]
+            return dx * dx + dy * dy;
+        })
     }
 }
 
