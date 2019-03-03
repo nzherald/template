@@ -73,7 +73,7 @@ class BaseLine {
         this.checkData(series)
         this.data = series
         this.setDomains()
-        this.makeLines(series)
+        this.makeElements(series)
         this.redraw()
     }
 
@@ -81,7 +81,7 @@ class BaseLine {
         this.preRedraw()
         this.setRanges()
         this.setAxes()
-        this.setLines()
+        this.setElements()
         this.highlight()
         this.postRedraw()
     }
@@ -168,20 +168,22 @@ class BaseLine {
 
     setDomains () {
         _.each(this.domain, (domain, k) => {
-            let scale = this.scale[k],
-                vals = _(this.data).map("points").flatten()
-                                   .map(d => this.getVal(d, k)).value()
-            if (domain === "max") {
-                domain = [0, _.max(vals)]
-            }
-            else if (domain === "extent") {
-                domain = d3.extent(vals)
-            }
-            else if (domain === "vals") {
-                domain = _(vals).uniq().filter().sort().value()
-            }
-            else if (domain instanceof Function) {
+            let vals, scale = this.scale[k]
+            if (domain instanceof Function) {
                 domain = domain(this.data)
+            }
+            else {
+                vals = _(this.data).map("points").flatten()
+                                   .map(d => this.getVal(d, k))
+                if (domain === "max") {
+                    domain = [0, vals.max()]
+                }
+                else if (domain === "extent") {
+                    domain = d3.extent(vals.value())
+                }
+                else if (domain === "vals") {
+                    domain = vals.uniq().filter().sort().value()
+                }
             }
             // An array must be provided or produced
             if (domain instanceof Array) {
@@ -248,14 +250,14 @@ class BaseLine {
         }, "")
     }
 
-    makeLines (series) {
+    makeElements (series) {
         const el = this.svg.d3.selectAppend("g.lines").html("")
                               .appendMany("g.line", series)
         el.append("path")
         this.addPoints(el)
         this.addLabel(el)
     }
-    setLines () {
+    setElements () {
         const el = this.d3.selectAll(".lines g.line")
         el.select("path").at("d", s => this.lineGen(s.points))
         if (this.scale.c) {
@@ -266,10 +268,11 @@ class BaseLine {
     }
 
     addLabel (el) {
-        el.selectAppend("text.label").at("dx", "0.8em")
+        el.selectAppend("text.label")
     }
     setLabel (el) {
         el.select("text.label")
+          .at("dx", "0.8em")
           .translate(s => this.getXY(_.last(s.points)))
           .text(s => this.getCVal(s))
     }
