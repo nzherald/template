@@ -88,13 +88,15 @@ class BaseLine {
 
     highlight (s, p) {
         const ct = this.d3.select(".lines"),
-              ln = ct.selectAll("g.line")
+              ln = ct.selectAll("g.line"),
+              pt = ct.selectAll("g.point")
         this.highlighted = s
         ct.classed("highlighted", !!s)
         ln.classed("selected", s => s === this.selected)
           .classed("highlighted", s => s === this.highlighted)
         ln.filter(".selected").raise()
         ln.filter(".highlighted").raise()
+        pt.classed("highlighted", d => d === p)
         this.onHighlight(s, p)
     }
 
@@ -285,9 +287,15 @@ class BaseLine {
         ct.append("text.val").at("dy", "-2em")
     }
     setPoints (el) {
-        el.selectAll("g.point")
-          .translate(p => this.getXY(p))
-          .select("text.val")
+        el = el.selectAll("g.point")
+               .translate(p => this.getXY(p))
+               .select("text.val").html("")
+        el.append("tspan.period")
+          .at("dy", "-3.5em")
+          .text(p => this.getPrintVal(p, "x"))
+        el.append("tspan.val")
+          .at("x", 0)
+          .at("dy", "1.1em")
           .text(p => this.getPrintVal(p, "y"))
     }
 

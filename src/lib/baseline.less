@@ -43,14 +43,18 @@
             }
             .point {
                 visibility: hidden;
-                circle {
-                    stroke: @dark;
-                    fill: @white;
-                }
                 text {
                     font-size: 0.8em;
                     text-anchor: middle;
                     dominant-baseline: middle;
+                    .val {
+                        font-weight: bold;
+                        font-size: 1.2em;
+                    }
+                }
+                circle {
+                    stroke: @dark;
+                    fill: @white;
                 }
                 line {
                     stroke: @darkish;
@@ -82,7 +86,7 @@
                     font-weight: bold;
                     font-size: 1em;
                 }
-                .point {
+                .point.highlighted {
                     visibility: visible;
                 }
             }
