@@ -117,18 +117,15 @@ class Simplemap {
         this.sources = sources
         _.each(sources, s => {
             console.log("Loading source", s.id + "...")
-            this.map.addSource(s.id, _.omit(s, "id"))
-
             _(s.data.features).find(f => {
                 if (f.id == null) {
-                    console.error("IDs missing on some/all features. Give integer IDs to features!")
-                    return true
+                    throw "IDs missing on some/all features. Give integer IDs to features!"
                 }
                 if (typeof f.id === "string") {
-                    console.error("IDs must be integers not strings. Give integer IDs to features!")
-                    return true
+                    throw "IDs must be integers not strings. Give integer IDs to features!"
                 }
             })
+            this.map.addSource(s.id, _.omit(s, "id"))
         })
     }
 
