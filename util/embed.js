@@ -41,15 +41,21 @@ class EmbedPlugin {
             const loadingOnly = "var __XCloading = document.createElement('script'); __XCloading.src = '<<LOADING>>'; document.body.appendChild(__XCloading);"
             const rootOnly = "var __XCroot = document.createElement('script'); __XCroot.src = '<<ROOT>>'; document.body.appendChild(__XCroot);"
             const loadingRoot = clear + loadingOnly + rootOnly + '<<INNER>>'
-            let jsTemplate = clear + '<<INNER>>'
+            const base = " window.__insights_nzherald_co_nz__basePath = '<<BASE>>';"
+            let jsTemplate = clear + '<<INNER>>' + base
             if (loading && root) {
-                jsTemplate = loadingRoot
+                jsTemplate = (loadingRoot + base)
                     .replace('<<LOADING>>', loading)
                     .replace('<<ROOT>>', root)
+                    .replace('<<BASE>>', basePath)
             } else if (root) {
-                jsTemplate = rootOnly.replace('<<ROOT>>', root)
+                jsTemplate = (rootOnly + base)
+                    .replace('<<ROOT>>', root)
+                    .replace('<<BASE>>', basePath)
             } else if (loading) {
-                jsTemplate = loadingOnly.replace('<<LOADING>>', loading)
+                jsTemplate = (loadingOnly + base)
+                    .replace('<<LOADING>>', loading)
+                    .replace('<<BASE>>', basePath)
             }
             const build = function(vals,line,template,out) {
                 let valsStr = "";
@@ -69,8 +75,8 @@ class EmbedPlugin {
                     }
                 }
             }
-            build(js,function(f,i) { return `var _js${i} = document.createElement('script'); 
-                _js${i}.src = '${basePath}${f}'; 
+            build(js,function(f,i) { return `var _js${i} = document.createElement('script');
+                _js${i}.src = '${basePath}${f}';
                 document.body.appendChild(_js${i});\n`}, jsTemplate, 'embed.js');
             build(css,function(f) { return `@import url("${basePath}${f}");\n`}, '<<INNER>>', 'embed.css');
         });
