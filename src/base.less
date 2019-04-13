@@ -19,7 +19,7 @@
     margin: auto;
 }
 
-.nzherald {
+#nzh-datavis-root {
     box-sizing: border-box;
     width: 100%;
     max-width: 960px;
@@ -125,7 +125,7 @@
 
 /* Flex container holding svg container holding svg */
 /* Outer conainer uses flex to resize everything including svg-container */
-.nzherald .outer {
+#nzh-datavis-root .outer {
     display: flex;
     flex-direction: column;
     & > * {
@@ -150,8 +150,8 @@
 
 
 // Scrollama
-.nzherald .scroll-container {
-    .nzherald .two-column;
+#nzh-datavis-root .scroll-container {
+    #nzh-datavis-root .two-column;
     // To achieve overlap, expand the INNER element of the left column...
     // ...the right column should not overflow, as it's left-aligned by default
     // & > *:first-child > * {
@@ -208,7 +208,7 @@
 }
 
 // Container for managing canvas layers
-.nzherald .canvas-container {
+#nzh-datavis-root .canvas-container {
     position: relative;
     canvas {
         position: absolute;

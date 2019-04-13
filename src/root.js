@@ -5,7 +5,7 @@ import "./root.less"
 
 class Main {
     constructor () {
-        var root = document.getElementById('root')
+        var root = document.getElementById('nzh-datavis-root')
         root.innerHTML = HTML
         this.fadeOut()
     }
