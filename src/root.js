@@ -18,9 +18,9 @@ import rawData from "./data/dummy.csv"
 class Main {
     constructor () {
         // Set up visualisation
-        $("#root").addClass("nzherald").append(HTML)
+        $("#nzh-datavis-root").append(HTML)
         const V = new Vis({
-            container: "#root .mainvis",
+            container: "#nzh-datavis-root .mainvis",
             scale: {
                 x: d3.scalePoint(),
                 y: d3.scaleLinear(),
