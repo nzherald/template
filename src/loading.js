@@ -5,7 +5,13 @@ if (sessionStorage.getItem("loading") === "done") {
 }
 else {
     console.log("Loading screen created.")
-    var div = document.createElement('div')
-    div.innerHTML = HTML
-    document.getElementById("nzh-datavis-root").appendChild(div.firstChild)
+    var root = document.getElementById("nzh-datavis-root")
+    var loading = document.createElement("div")
+    if (root) {
+        loading.innerHTML = HTML
+        root.appendChild(loading.firstChild)
+    }
+    else {
+        console.error("Cannot find #nzh-datavis-root! Nothing will work!")
+    }
 }
