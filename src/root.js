@@ -2,15 +2,26 @@ import HTML from "./root.html"
 import "./base.less"
 import "./root.less"
 
+import {Runtime, Inspector} from "@observablehq/runtime"
+import notebook from "2019-h-1b-employers"
+
 
 class Main {
     constructor () {
         var root = document.getElementById('nzh-datavis-root')
-        root.innerHTML = HTML
-        this.fadeOut()
+        Runtime.load(notebook, (cell) => {
+            if (cell.name === "chart") {
+                return {
+                    fulfilled: (value) => {
+                        root.appendChild(value);
+                    }
+                };
+            }
+        });
+        this.fadeOut(root)
     }
 
-    fadeOut (b) {
+    fadeOut (root, b) {
         sessionStorage.setItem("loading", "done");
         if (typeof($) !== "undefined") {
             $("#loading").fadeTo(600, 0.01, () => {
@@ -21,7 +32,7 @@ class Main {
         } else {
             var loadingRemove = document.getElementById("loading")
             if (loadingRemove) {
-                document.body.removeChild(loadingRemove)
+                root.removeChild(loadingRemove)
                 console.log("Loading screen removed.")
             }
             if (b) b()
