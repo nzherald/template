@@ -23,9 +23,9 @@ based template for components.
 
 `degit nzherald/template#batteries-included`
 
-### Svelte template
+### ObservableHQ template
 
-`degit nzherald/template#svelte`
+`degit nzherald/template#observable`
 
 
 ## Installation
