@@ -88,7 +88,7 @@ class Legend {
         }
     }
 
-    makeColour  (ct) {
+    makeColour (ct) {
         const rows = ct.selectAppend("div.items").html("")
                        .appendMany("div.item", this.getTicks())
         rows.append("div.value")
@@ -117,7 +117,7 @@ class Legend {
           })
     }
 
-    makeRadius  (ct) {
+    makeRadius (ct) {
         const rows = ct.selectAppend("div.items").html("")
                        .appendMany("div.item", this.getTicks())
         rows.append("div.value")
