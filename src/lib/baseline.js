@@ -255,6 +255,8 @@ class BaseLine {
     makeElements (series) {
         const el = this.svg.d3.selectAppend("g.lines").html("")
                               .appendMany("g.line", series)
+        el.at("class", s => this.getCVal(s).toLowerCase().replace(/ /g, "_"))
+        el.classed("line", true)
         el.append("path")
         this.addPoints(el)
         this.addLabel(el)
@@ -275,12 +277,13 @@ class BaseLine {
     setLabel (el) {
         el.select("text.label")
           .at("dx", "0.8em")
-          .translate(s => this.getXY(_.last(s.points)))
+          .translate(s => (s.points.length) ? this.getXY(_.last(s.points)) : [0,0])
           .text(s => this.getCVal(s))
     }
 
     addPoints (el) {
-        const ct = el.appendMany("g.point", s => s.points)
+        const ct = el.append("g.points")
+                     .appendMany("g.point", s => s.points)
         ct.raise()
         ct.append("line").at("y2", "-1.15em")
         ct.append("circle").at("r", 5)
