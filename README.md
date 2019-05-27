@@ -45,6 +45,7 @@ npm run [option]
 **analyse**: Builds and runs bundle-analysis tools
 **deploy**: Builds and pushes bundle files to http://s3.newsapps.nz/dev/[project name]/
 **release**: Builds and pushes bundle files to homepage specified in package.json
+**livetest**: Builds and pushes bundle files to https://insights.nzherald.co.nz/app/livetest, which can be viewed at https://www.nzherald.co.nz/business/news/article.cfm?c_id=3&objectid=12234834
 
 
 ## Insight component

@@ -20,6 +20,7 @@
     "analyse": "rm -rf dist/* && webpack -p --config webpack.analyse.js",
     "deploy": "rm -rf dist/* && webpack -p --config webpack.deploy.js",
     "release": "rm -rf dist/* && webpack -p --config webpack.release.js",
+    "livetest": "rm -rf dist/* && webpack -p --config webpack.livetest.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "devDependencies": {
