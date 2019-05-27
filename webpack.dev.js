@@ -10,8 +10,7 @@ module.exports = merge(base, {
         filename: "[name].dev.[hash].js"
     },
     devServer: {
-        contentBase: ["./static", "./static-dev"],
-        port: 8080
+        contentBase: ["./static", "./static-dev"]
     },
     module: {
         rules: [
