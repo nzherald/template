@@ -304,8 +304,8 @@ class BaseLine {
 
     getClosestLine (pos) {
         const ln      = this.d3.selectAll(".lines g.line"),
-              closest = _.minBy(ln.nodes(), l => distToLine(l, pos)),
-              dist    = distToLine(closest, pos)
+              closest = _.minBy(ln.nodes(), l => this.distToLine(l, pos)),
+              dist    = this.distToLine(closest, pos)
         return (dist <= 25) ? d3.select(closest).datum() : null
     }
 
@@ -316,6 +316,11 @@ class BaseLine {
             const dy = this.getY(p) - pos[1]
             return dx * dx + dy * dy;
         })
+    }
+
+    distToLine (line, point) {
+        const p = d3.select(line).select("path").node()
+        return closestPoint(p, point).distance
     }
 }
 
@@ -360,8 +365,4 @@ function closestPoint(pathNode, point) {
             dy = p.y - point[1];
         return dx * dx + dy * dy;
     }
-}
-function distToLine (line, point) {
-    const p = d3.select(line).select("path").node()
-    return closestPoint(p, point).distance
 }
