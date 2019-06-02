@@ -1,5 +1,5 @@
 import _ from "lodash"
-import rates from "../data/adjusters.csv"
+import rates from "../data/adjusters-2019.csv"
 
 
 class Adjuster {
