@@ -5,13 +5,16 @@ if (sessionStorage.getItem("loading") === "done") {
 }
 else {
     console.log("Loading screen created.")
-    var root = document.getElementById("nzh-datavis-root")
-    var loading = document.createElement("div")
-    if (root) {
-        loading.innerHTML = HTML
-        root.appendChild(loading.firstChild)
+    const root = document.currentScript.getAttribute("data-targ") || "#nzh-datavis-root"
+    const ct = (root[0] === "#") ? document.getElementById(root.substr(1)) :
+               (root[0] === ".") ? document.getElementsByClassName(root.substr(1)) :
+               null
+    if (ct) {
+        const el = document.createElement("div")
+        el.innerHTML = HTML
+        ct.appendChild(el.firstChild)
     }
     else {
-        console.error("Cannot find #nzh-datavis-root! Nothing will work!")
+        console.error("Cannot find root div " + root + "! Nothing will work!")
     }
 }

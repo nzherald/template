@@ -7,18 +7,17 @@ import * as d3jetpack from "d3-jetpack"
 // import "whatwg-fetch"
 // import "promise-polyfill/src/polyfill"
 
+import Base from "./lib/base.js"
 import HTML from "./root.html"
-import "./base.less"
 import "./root.less"
 
 import Vis from "./lib/baseline.js"
 import rawData from "./data/dummy.csv"
 
 
-class Main {
+class Main extends Base {
     constructor () {
-        // Set up visualisation
-        $("#nzh-datavis-root").append(HTML)
+        super(HTML)
         const V = new Vis({
             container: "#nzh-datavis-root .mainvis",
             scale: {
@@ -50,8 +49,11 @@ class Main {
         console.log("Cleaned data:", data)
 
         // Populate visualisation
-        V.setData(data)
-        this.fadeOut()
+        this.premiumWait(() => {
+            V.setData(data)
+            console.log("Done.")
+            this.fadeOut()
+        })
     }
 
     cleanData (rawData) {
@@ -64,15 +66,6 @@ class Main {
                     return {period: y, val: row[y] * 1000000}
                 })
             }
-        })
-    }
-
-    fadeOut (b) {
-        sessionStorage.setItem("loading", "done");
-        $("#loading").fadeTo(600, 0.01, () => {
-            $("#loading").remove()
-            console.log("Loading screen removed.")
-            if (b) b()
         })
     }
 }
