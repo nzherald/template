@@ -19,7 +19,7 @@
     margin: auto;
 }
 
-#nzh-datavis-root {
+.nzh-datavis {
     position: relative;
     box-sizing: border-box;
     width: 100%;
@@ -132,7 +132,7 @@
 
 /* Flex container holding svg container holding svg */
 /* Outer conainer uses flex to resize everything including svg-container */
-#nzh-datavis-root .outer {
+.nzh-datavis .outer {
     display: flex;
     flex-direction: column;
     & > * {
@@ -157,8 +157,8 @@
 
 
 // Scrollama
-#nzh-datavis-root .scroll-container {
-    #nzh-datavis-root .two-column;
+.nzh-datavis .scroll-container {
+    .nzh-datavis .two-column;
     // To achieve overlap, expand the INNER element of the left column...
     // ...the right column should not overflow, as it's left-aligned by default
     // & > *:first-child > * {
@@ -215,7 +215,7 @@
 }
 
 // Container for managing canvas layers
-#nzh-datavis-root .canvas-container {
+.nzh-datavis .canvas-container {
     position: relative;
     canvas {
         position: absolute;
