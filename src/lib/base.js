@@ -37,7 +37,7 @@ class Base {
 
     fadeOut (b) {
         sessionStorage.setItem("loading", "done")
-        const el = this.root.$.find("#loading")
+        const el = this.root.$.find(".loading")
         el.fadeTo(600, 0.01, () => {
             el.remove()
             console.log("Loading screen removed.")
