@@ -19,7 +19,7 @@ class Main extends Base {
     constructor () {
         super(HTML)
         const V = new Vis({
-            container: "#nzh-datavis-root .mainvis",
+            container: "#nzh-datavis-root",
             scale: {
                 x: d3.scalePoint(),
                 y: d3.scaleLinear(),
