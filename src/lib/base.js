@@ -4,13 +4,13 @@ import "./base.less"
 
 class Base {
     constructor (html) {
-        const root = document.currentScript.getAttribute("data-targ") || "#nzh-datavis-root"
+        const root = document.currentScript.getAttribute("data-targ")
         this.root = {
             selector: root,
             $: $(root)
         }
         this.root.$.append(html)
-        this.basePath = window.__insights_nzherald_co_nz__basePath
+        this.basePath = document.currentScript.getAttribute("data-path")
     }
 
     premiumWait (render) {
