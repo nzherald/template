@@ -5,7 +5,11 @@ if (sessionStorage.getItem("loading") === "done") {
 }
 else {
     console.log("Loading screen created.")
-    const root = document.currentScript.getAttribute("data-targ") || "#nzh-datavis-root"
+    const root = document.currentScript.getAttribute("data-targ")
+    if (!root) {
+        console.error("Root div not defined! Make sure data-targ has been set on the script tag.")
+    }
+
     const ct = (root[0] === "#") ? document.getElementById(root.substr(1)) :
                (root[0] === ".") ? document.getElementsByClassName(root.substr(1)) :
                null

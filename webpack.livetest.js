@@ -1,6 +1,6 @@
 const merge = require("webpack-merge")
 const base = require("./webpack.prod.js")
-const EmbedPlugin = require("./util/embed.js")
+const EmbedPlugin = require("./util/embedgen.js")
 const {smallUploader, largeUploader} = require("./util/uploader")
 const package = require("./package.json")
 
