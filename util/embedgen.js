@@ -25,6 +25,9 @@ function dump (content, fn) {
     }
 }
 
+const BAD_BROWSER = '<b>Sorry! Your browser does not support this content.</b>' +
+                    '<p>Please try <a href="https://www.microsoft.com/en-nz/windows/microsoft-edge" target="_blank">Microsoft Edge</a>, <a href="https://www.google.com/chrome/" _target="_blank">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/" _target="_blank">Mozilla Firefox</a>.</p>'
+
 class EmbedPlugin {
     constructor (options) {
         this.options = options
@@ -49,16 +52,21 @@ class EmbedPlugin {
             // Create embed.js
             let jsContent = ""
             jsContent += "console.log('embed.js running.');"
-            jsContent += "var s=document.currentScript;"
-            jsContent += "sessionStorage.setItem('loading','not-done');\n"
+            jsContent += "var s=document.currentScript;var targ=s.getAttribute('data-targ');var params=s.getAttribute('data-params');\n"
+
+            // Browser check and fail
+            jsContent += "const isIE=navigator.appName=='Microsoft Internet Explorer'||!!(navigator.userAgent.match(/Trident/)||navigator.userAgent.match(/rv:11/));"
+            jsContent += `if (isIE) {document.querySelector(targ).innerHTML='${BAD_BROWSER}'; throw "Unsupported browser!";}\n`
+
             if (loading) {
+                jsContent += "sessionStorage.setItem('loading','not-done');\n"
                 jsContent += makeJS(loading, "l")
-                jsContent += "l.setAttribute('data-targ', s.getAttribute('data-targ'));\n"
+                jsContent += "l.setAttribute('data-targ', targ);\n"
             }
             if (root) {
                 jsContent += makeJS(root, "r")
-                jsContent += "r.setAttribute('data-targ', s.getAttribute('data-targ'));"
-                jsContent += "r.setAttribute('data-params', s.getAttribute('data-params'));"
+                jsContent += "r.setAttribute('data-targ', targ);"
+                jsContent += "r.setAttribute('data-params', params);"
                 jsContent += `r.setAttribute('data-path', '${basePath}');\n`
             }
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
