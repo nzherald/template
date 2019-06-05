@@ -48,6 +48,7 @@ class EmbedPlugin {
 
             // Create embed.js
             let jsContent = ""
+            jsContent += "console.log('embed.js running.');"
             jsContent += "var s=document.currentScript;"
             jsContent += "sessionStorage.setItem('loading','not-done');\n"
             if (loading) {
