@@ -9,7 +9,7 @@ class Base {
             selector: root,
             $: $(root)
         }
-        this.root.$.append(html)
+        this.root.$.html("").append(html)
         this.basePath = document.currentScript.getAttribute("data-path")
     }
 
