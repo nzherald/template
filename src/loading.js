@@ -6,19 +6,12 @@ if (sessionStorage.getItem("loading") === "done") {
 else {
     console.log("Loading screen created.")
     const root = document.currentScript.getAttribute("data-targ")
-    if (!root) {
-        console.error("Root div not defined! Make sure data-targ has been set on the script tag.")
-    }
+    if (!root) console.error("Root div not defined! Make sure data-targ has been set on the script tag.")
 
-    const ct = (root[0] === "#") ? document.getElementById(root.substr(1)) :
-               (root[0] === ".") ? document.getElementsByClassName(root.substr(1)) :
-               null
-    if (ct) {
-        const el = document.createElement("div")
-        el.innerHTML = HTML
-        ct.appendChild(el.firstChild)
-    }
-    else {
-        console.error("Cannot find root div " + root + "! Nothing will work!")
-    }
+    const ct = document.querySelector(root)
+    if (!ct) console.error("Cannot find root div " + root + "! Nothing will work!")
+
+    const el = document.createElement("div")
+    el.innerHTML = HTML
+    ct.appendChild(el.firstChild)
 }
