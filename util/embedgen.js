@@ -55,7 +55,7 @@ class EmbedPlugin {
             jsContent += "var s=document.currentScript;var targ=s.getAttribute('data-targ');var params=s.getAttribute('data-params');\n"
 
             // Browser check and fail
-            jsContent += "const isIE=navigator.appName=='Microsoft Internet Explorer'||!!(navigator.userAgent.match(/Trident/)||navigator.userAgent.match(/rv:11/));"
+            jsContent += "var isIE=navigator.appName=='Microsoft Internet Explorer'||!!(navigator.userAgent.match(/Trident/)||navigator.userAgent.match(/rv:11/));"
             jsContent += `if (isIE) {document.querySelector(targ).innerHTML='${BAD_BROWSER}'; throw "Unsupported browser!";}\n`
 
             if (loading) {
