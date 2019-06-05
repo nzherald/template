@@ -61,12 +61,12 @@ class EmbedPlugin {
             if (loading) {
                 jsContent += "sessionStorage.setItem('loading','not-done');\n"
                 jsContent += makeJS(loading, "l")
-                jsContent += "l.setAttribute('data-targ', targ);\n"
+                jsContent += "l.setAttribute('data-targ', targ || '');\n"
             }
             if (root) {
                 jsContent += makeJS(root, "r")
-                jsContent += "r.setAttribute('data-targ', targ);"
-                jsContent += "r.setAttribute('data-params', params);"
+                jsContent += "r.setAttribute('data-targ', targ || '');"
+                jsContent += "r.setAttribute('data-params', params || '');"
                 jsContent += `r.setAttribute('data-path', '${basePath}');\n`
             }
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
