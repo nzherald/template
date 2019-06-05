@@ -17,6 +17,7 @@ class Base {
         // Inside premium container - wait for premium container to come down
         const el = $("#article-content")
         if (el.hasClass("premium-content")) {
+            console.log("Waiting for paywall to come down.")
             const observer = new MutationObserver(mutations => {
                 if (el.hasClass("full-content")) {
                     render()
@@ -28,6 +29,7 @@ class Base {
         }
         // Normal deployment - go when ready
         else {
+            console.log("No paywall detected.")
             this.root.$.ready(() => {
                 render()
                 console.log("Rendering done.")
