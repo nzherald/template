@@ -16,12 +16,9 @@
   },
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --open",
-    "build": "rm -rf dist/* && webpack -p --config webpack.build.js",
-    "analyse": "rm -rf dist/* && webpack -p --config webpack.analyse.js",
-    "deploy": "rm -rf dist/* && webpack -p --config webpack.deploy.js",
-    "release": "rm -rf dist/* && webpack -p --config webpack.release.js",
     "livetest": "rm -rf dist/* && webpack -p --config webpack.livetest.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "analyse": "rm -rf dist/* && webpack -p --config webpack.analyse.js",
+    "release": "rm -rf dist/* && webpack -p --config webpack.release.js"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
