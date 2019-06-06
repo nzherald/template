@@ -50,7 +50,7 @@ class EmbedPlugin {
             }
 
             // Create embed.js
-            let jsContent = ""
+            let jsContent = "(function () {"
             jsContent += "console.log('embed.js running.');"
             jsContent += "var s=document.currentScript;var targ=s.getAttribute('data-targ');var params=s.getAttribute('data-params');\n"
 
@@ -70,6 +70,7 @@ class EmbedPlugin {
                 jsContent += `r.setAttribute('data-path', '${basePath}');\n`
             }
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
+            jsContent += "})()"
             compilation.assets["embed.js"] = dump(jsContent)
 
             // Create embed.css
