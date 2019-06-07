@@ -10,9 +10,11 @@ if (package.homepage.indexOf("https://insights.nzherald.co.nz/apps/") === -1) {
     throw "YO! I'm supposed to release using the homepage property in packages, " +
           "but this doesn't look like a https://insights.nzherald.co.nz/apps address. DYING NOW."
 }
+
 // Generates embed.js and deploys to package.homepage
-const host = "https://insights.nzherald.co.nz",
-      path = url.parse(package.homepage).pathname
+const host = "https://insights.nzherald.co.nz"
+const path = url.parse(package.homepage).pathname
+
 module.exports = merge(base, {
     plugins: [
         new EmbedPlugin({basePath: host + path}),
