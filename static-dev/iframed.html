@@ -8,17 +8,10 @@
     <link href="https://www.nzherald.co.nz/pb/gr/c/default/rsiZk523IG5usr/css/133eed50fe.css?v=40" rel="stylesheet">
     <link href="https://www.nzherald.co.nz//pb/gr/p/default/rsiZk523IG5usr/style.css?v=40" rel="stylesheet">
     <link href="https://www.nzherald.co.nz//pb/gr/c/default/rsiZk523IG5usr/svg_css/8bc35eec0e.css?v=40" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/pym.js@1.3.2/dist/pym.v1.min.js" integrity="sha256-t/c2FEpMPIah5iD5TZGzwO7crawziIID5VTcLnw8+mY=" crossorigin="anonymous"></script>
 </head>
 
 <body>
-    <div id="nzh-datavis-root" class="nzh-datavis">
-        <iframe src="./index.html" width="100%" height="480"></iframe>
-    </div>
-    <script>
-        var pymChild = new pym.Child()
-        window.addEventListener("resize", function () {pymChild.sendHeight()})
-        window.addEventListener("load",   function () {pymChild.sendHeight()})
-    </script>
+    <div class="nzh-datavis" data-pym-src="./index.html">Loading...</div>
+    <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
 </body>
 </html>

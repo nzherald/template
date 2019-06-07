@@ -16,5 +16,15 @@
         <a href='https://www.nzherald.co.nz/premium/news/article.cfm?c_id=7&objectid=[!!! INSERT ZEN ID HERE !!!]' target='_blank'>Click here to see full interactive.</a>
     </div>
     <script src="./embed.js" data-targ="#nzh-datavis-root" data-params=""></script>
+
+    <!-- Allows this to be used inside a pym iframe -->
+    <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
+    <script>
+        (function () {
+            var pymChild = new pym.Child()
+            window.addEventListener("resize", function () {pymChild.sendHeight()})
+            window.addEventListener("load",   function () {pymChild.sendHeight()})
+        })()
+    </script>
 </body>
 </html>
