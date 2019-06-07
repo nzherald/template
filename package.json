@@ -20,6 +20,11 @@
     "analyse": "rm -rf dist/* && webpack -p --config webpack.analyse.js",
     "release": "rm -rf dist/* && webpack -p --config webpack.release.js"
   },
+  "browserslist": [
+    "last 5 version",
+    ">1%",
+    "not dead"
+  ],
   "devDependencies": {
     "@babel/core": "^7.4.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",

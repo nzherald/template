@@ -21,9 +21,7 @@ module.exports = merge(base, {
                     "css-loader",
                     {
                         loader: "postcss-loader",
-                        options: {
-                            plugins: [autoprefixer({browsers: "last 2 versions"})]
-                        }
+                        options: {plugins: [autoprefixer()]}
                     },
                     "less-loader"
                 ]
@@ -35,9 +33,7 @@ module.exports = merge(base, {
                     "css-loader",
                     {
                         loader: "postcss-loader",
-                        options: {
-                            plugins: [autoprefixer({browsers: "last 2 versions"})]
-                        }
+                        options: {plugins: [autoprefixer()]}
                     }
                 ]
             },
