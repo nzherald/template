@@ -1,77 +1,13 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, useEffect } from 'react';
+import axios from 'axios';
+
+
+axios.defaults.headers.get['Content-Type'] ='application/json;charset=utf-8';
+axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+
+
 const XYFrame = React.lazy(() => import('semiotic/lib/XYFrame'));
-const frameProps = {   lines: [{ title: "Curve A", forecast: undefined, data: [{ month: 1, pct: 100 },
-  { month: 2, pct: 30 },
-  { month: 3, pct: 25 },
-  { month: 4, pct: 23 },
-  { month: 5, pct: 22 },
-  { month: 6, pct: 20 },
-  { month: 7, pct: 24 },
-  { month: 8, pct: 23 },
-  { month: 9, pct: 24 },
-  { month: 10, pct: 25 },
-  { month: 11, pct: 20 },
-  { month: 12, pct: 22 },
-  { month: 13, pct: 21 },
-  { month: 14, pct: 23 },
-  { month: 15, pct: 21 },
-  { month: 16 },
-  { month: 17 },
-  { month: 18 }] },
-  { title: "Curve A", forecast: "lower", data: [{ month: 1 },
-    { month: 2 },
-    { month: 3 },
-    { month: 4 },
-    { month: 5 },
-    { month: 6 },
-    { month: 7 },
-    { month: 8 },
-    { month: 9 },
-    { month: 10 },
-    { month: 11 },
-    { month: 12 },
-    { month: 13 },
-    { month: 14 },
-    { month: 15, pct: 21 },
-    { month: 16, pct: 18 },
-    { month: 17, pct: 15 },
-    { month: 18, pct: 10 }] },
-  { title: "Curve A", forecast: "mean", data: [{ month: 1 },
-    { month: 2 },
-    { month: 3 },
-    { month: 4 },
-    { month: 5 },
-    { month: 6 },
-    { month: 7 },
-    { month: 8 },
-    { month: 9 },
-    { month: 10 },
-    { month: 11 },
-    { month: 12 },
-    { month: 13 },
-    { month: 14 },
-    { month: 15, pct: 21 },
-    { month: 16, pct: 22 },
-    { month: 17, pct: 23 },
-    { month: 18, pct: 25 }] },
-  { title: "Curve A", forecast: "upper", data: [{ month: 1 },
-    { month: 2 },
-    { month: 3 },
-    { month: 4 },
-    { month: 5 },
-    { month: 6 },
-    { month: 7 },
-    { month: 8 },
-    { month: 9 },
-    { month: 10 },
-    { month: 11 },
-    { month: 12 },
-    { month: 13 },
-    { month: 14 },
-    { month: 15, pct: 21 },
-    { month: 16, pct: 25 },
-    { month: 17, pct: 30 },
-    { month: 18, pct: 38 }] }],
+const frameProps = {
   size: [700,400],
   margin: { left: 80, bottom: 50, right: 10, top: 40 },
   defined: function(e){return void 0!==e.pct},
@@ -134,11 +70,23 @@ const frameProps = {   lines: [{ title: "Curve A", forecast: undefined, data: [{
   }
 }
 
-function App() {
+const App = ({basePath}) => {
+  const [data, setData] = useState({lines:[], ...frameProps});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const lines = await axios(basePath + "lines-v1.json")
+
+      setData({lines:lines.data, ...frameProps})
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="App">
       <Suspense fallback={<div>Loading...</div>}>
-        <XYFrame {...frameProps} />
+        <XYFrame {...data} />
       </Suspense>
     </div>
   );
