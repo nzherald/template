@@ -2,8 +2,8 @@ import React, { Suspense, useState, useEffect } from 'react';
 import axios from 'axios';
 
 
-axios.defaults.headers.get['Content-Type'] ='application/json;charset=utf-8';
-axios.defaults.headers.get['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common['Content-Type'] ='application/json;charset=utf-8';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
 
 
 const XYFrame = React.lazy(() => import('semiotic/lib/XYFrame'));
