@@ -6,7 +6,23 @@
 /* Project-specific styles go here */
 .nzh-datavis {
     svg {
-        height: 300px;
+        .uncertainty_cone {
+            transform: none;
+            fill: #de4b8b;
+            fill-opacity: 0.20;
+        }
+        .tick, .axis-tick path {
+            stroke: #ddd;
+        }
+        .frame-title {
+            text {
+                font-family: "Stag Sans";
+                font-size: 16px;
+            }
+        }
+        text {
+            font-size: 14px;
+        }
     }
 }
 

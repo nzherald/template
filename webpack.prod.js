@@ -44,7 +44,7 @@ module.exports = merge(base, {
                 exclude: /(node_modules|bower_components)/,
                 query: {
                     plugins: ["@babel/transform-runtime", "@babel/proposal-object-rest-spread"],
-                    presets: ["@babel/env"],
+                    presets: ["@babel/env", "@babel/preset-react"],
                 }
             }
         ]

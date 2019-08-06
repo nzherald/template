@@ -1,17 +1,18 @@
 import Base from "./lib/base.js"
-import HTML from "./root.html"
+import React from 'react';
+import ReactDOM from 'react-dom';
+import App from './App';
 import "./root.less"
 
 
 class Main extends Base {
     constructor () {
         console.log("Setting up visualisation...")
-        super(HTML)
-        console.log("Loading data...")
-        null
+        super()
+        const app = document.getElementById("nzh-datavis-root")
         this.premiumWait(() => {
             console.log("Rendering...")
-            null
+            ReactDOM.render(<App />, app)
             console.log("Done.")
             this.fadeOut()
         })
