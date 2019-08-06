@@ -3,7 +3,9 @@ import axios from 'axios';
 
 
 axios.defaults.headers.common['Content-Type'] ='application/json;charset=utf-8';
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common['crossdomain'] = true;
+axios.defaults.headers.common['crossorigin'] = 'anonymous';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*"
 
 
 const XYFrame = React.lazy(() => import('semiotic/lib/XYFrame'));
@@ -75,7 +77,7 @@ const App = ({basePath}) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const lines = await axios(basePath + "lines-v1.json")
+      const lines = await axios(basePath + "lines-v10.json")
 
       setData({lines:lines.data, ...frameProps})
     };

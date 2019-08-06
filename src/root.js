@@ -11,7 +11,7 @@ class Main extends Base {
         super()
         const app = document.getElementById("nzh-datavis-root")
         this.premiumWait(() => {
-            console.log("Rendering...",this,this.basePath)
+            console.log("Rendering...")
             
             ReactDOM.render(<App basePath={this.basePath}/>, app)
             console.log("Done.")
