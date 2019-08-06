@@ -6,6 +6,11 @@ const EmbedPlugin = require("./util/embedgen.js")
 
 // Spins up dev server with bundles using minimal template
 module.exports = merge(base, {
+    resolve: {
+        alias: {
+            Environment$: path.resolve(__dirname, "src/environments/development.js")
+        }
+    },
     mode: "development",
     output: {
         filename: "[name].dev.[hash].js"
