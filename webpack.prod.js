@@ -51,6 +51,12 @@ module.exports = merge(base, {
             }
         ]
     },
+    optimization: {
+        splitChunks: {
+            chunks: 'all',
+            maxSize: 200000
+        }
+    },
     plugins: [
         new CopyWebpackPlugin(["static"]),
         new MiniCssExtractPlugin({
