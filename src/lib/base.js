@@ -11,7 +11,7 @@ class Base {
             $: $(root)
         }
         this.root.$.html("").append(html)
-        this.basePath = ENV.basePath
+        this.basePath = ENV.basePath.includes(location.host) ? ENV.basePath.replace("apps", "apps-mirror") : ENV.basePath
     }
 
     premiumWait (render) {
