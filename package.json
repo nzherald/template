@@ -40,7 +40,7 @@
     "cross-env": "^5.2.0",
     "css-loader": "^3.2.0",
     "dsv-loader": "^2.0.0",
-    "file-loader": "^4.1.0",
+    "file-loader": "^4.2.0",
     "html-loader": "^0.5.5",
     "less": "^3.9.0",
     "less-loader": "^5.0.0",
