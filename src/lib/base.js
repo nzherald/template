@@ -1,5 +1,5 @@
-import $ from "jquery"
 import "./base.less"
+import ENV from 'Environment';
 
 
 class Base {
@@ -10,7 +10,7 @@ class Base {
             $: $(root)
         }
         this.root.$.html("").append(html)
-        this.basePath = document.currentScript.getAttribute("data-path")
+        this.basePath = (ENV.production && ENV.separateCrossOriginRequests && ENV.basePath.includes(location.host)) ? ENV.localPath : ENV.basePath
     }
 
     premiumWait (render) {

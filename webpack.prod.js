@@ -7,6 +7,11 @@ const CopyWebpackPlugin = require("copy-webpack-plugin")
 
 // Post-processing and minification of bundle
 module.exports = merge(base, {
+    resolve: {
+        alias: {
+            Environment$: path.resolve(__dirname, "src/environments/production.js")
+        }
+    },
     mode: "production",
     output: {
         filename: "[name].prod.[chunkhash].js",
