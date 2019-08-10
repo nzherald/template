@@ -9,7 +9,7 @@ class Base {
             selector: root,
             $: $(root)
         }
-        this.root.$.html("").append(html)
+        this.root.$.append(html)
         this.basePath = (ENV.isProduction && ENV.separateCrossOriginRequests && ENV.basePath.includes(location.host)) ? ENV.localPath : ENV.basePath
     }
 
