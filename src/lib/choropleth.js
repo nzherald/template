@@ -85,14 +85,15 @@ class Choropleth extends Simplemap {
     }
 
     // CUSTOMISE THIS - when layer is updated, colour is recalculated
-    getC (s) { return this.scale.c(s.val) }
+    getC (d) { return this.scale.c(d.val) }
+    isValid (d) { return !!s }
 
     // Generate a Mapbox expression for all the visible features in a layer using getC
     updateLayer (layer) {
         const exp      = ["match", ["get", layer.matchBy]]
         const features = this.map.queryRenderedFeatures({layers: [layer.id]}) // Find all the rendered features in this layer
         layer.live = []                                                       // Reset dictionary for storing data of rendered features
-        if (!features.length) return;                                         // No features selected, quit
+        if (!features.length) return                                          // No features selected, quit
 
         _(features).uniqBy(f => f.properties[layer.matchBy]).each(f => {      // Iterate through each unique feature
             const id = f.properties[layer.matchBy]                            // Extract ID from feature
@@ -100,7 +101,7 @@ class Choropleth extends Simplemap {
             if (!this.isValid(d)) return                                      // No data for this feature, quit
             exp.push(id, this.getC(d))                                        // Calculate colour and push to expression
             layer.live.push(d)                                                // Save data to dictionary of rendered features
-            _.assign(d, f.properties)
+            _.assign(d, f.properties)                                         // Push feature properties back into data (for pop-ups)
         })
         _.each([this.selected, this.highlighted], f => {
             if (!f) return
