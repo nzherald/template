@@ -70,7 +70,6 @@ class BaseLine {
     }
 
     setData (series) {
-        this.checkData(series)
         this.data = series
         this.setDomains()
         this.makeElements(series)
@@ -129,6 +128,14 @@ class BaseLine {
         if (!_.every(series, s => s.points)) {
             throw "Each series must contain an array of points"
         }
+        _.each(series, s => {
+            if (_.every(s.points, p => isNaN(this.getX(p)))) {
+                console.error("Series", s.name, "does not contain valid x values.")
+            }
+            if (_.every(s.points, p => isNaN(this.getY(p)))) {
+                console.error("Series", s.name, "does not contain valid y values.")
+            }
+        })
     }
 
     getVal (d, k) {
