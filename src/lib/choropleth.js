@@ -102,9 +102,10 @@ class Choropleth extends Simplemap {
             layer.live.push(d)                                                // Save data to dictionary of rendered features
             _.assign(d, f.properties)
         })
-        _.each([this.selected, this.highlighted], id => {
-            if (!id) return;
-            const d = _.find(layer.data, {id})
+        _.each([this.selected, this.highlighted], f => {
+            if (!f) return
+            const id = f.properties[layer.matchBy]
+            const d  = _.find(layer.data, {id})
             layer.live.push(d)
         })
 
