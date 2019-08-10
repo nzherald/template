@@ -34,14 +34,11 @@ new Choropleth({
         source: "mainsrc",
         paint: {
             "fill-color": "#088",
-            "fill-opacity": 0.4
-        },
-        hover : {
-            paint : {
-                "fill-opacity" : 1,
-                "fill-color": "#088",
-                "fill-outline-color" : "#999"
-            }
+            "fill-opacity": ["case",
+                ["boolean", ["feature-state", "hover"], false],
+                1,
+                0.4
+            ]
         },
         events : {
             mouseleave : function (el) {},
@@ -114,7 +111,6 @@ class Choropleth extends Simplemap {
         if (exp.length <= 2) exp.push(0, "rgba(0,0,0,0)")                     // No data - add placeholder
         exp.push("rgba(0,0,0,0)")                                             // Must add default colour to end of expression
         this.map.setPaintProperty(layer.id, "fill-color", exp)                // Paint base layer using expression
-        this.map.setPaintProperty(layer.hover.id, "fill-color", exp)          // Paint hover layer using expression
     }
 }
 
