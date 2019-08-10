@@ -1,5 +1,5 @@
 import "./base.less"
-import ENV from 'Environment';
+import ENV from 'Environment'
 
 
 class Base {
