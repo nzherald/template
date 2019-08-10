@@ -67,7 +67,6 @@ class EmbedPlugin {
                 jsContent += makeJS(root, "r")
                 jsContent += "r.setAttribute('data-targ', targ || '');"
                 jsContent += "r.setAttribute('data-params', params || '');"
-                jsContent += `r.setAttribute('data-path', '${basePath}');\n`
             }
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
             jsContent += "})()"
