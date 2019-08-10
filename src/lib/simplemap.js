@@ -117,7 +117,7 @@ class Simplemap {
         this.sources = sources
         _.each(sources, s => {
             console.log("Loading source", s.id + "...")
-            _(s.data.features).find(f => {
+            if (s.data) _(s.data.features).find(f => {
                 if (f.id == null) {
                     throw "IDs missing on some/all features. Give integer IDs to features!"
                 }
