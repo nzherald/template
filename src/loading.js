@@ -13,5 +13,6 @@ else {
 
     const el = document.createElement("div")
     el.innerHTML = HTML
+    ct.innerHTML = ""
     ct.appendChild(el.firstChild)
 }
