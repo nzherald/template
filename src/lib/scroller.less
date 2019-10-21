@@ -42,7 +42,7 @@
     .scroll-text {
         z-index: 100; // Text should be above graphic
         width: 320px;
-        margin-right: -50px; // Shift to right edge
+        margin: auto;
         pointer-events: none; // The text container should never steal mouse events
         .step {
             min-height: 75vh;
@@ -60,6 +60,15 @@
             &.highlighted .inner {
                 background-color: RGBA(238, 245, 245, 0.9); // Selected
             }
+        }
+
+        &, &.right-aligned {
+            align-items: flex-end;
+            margin-right: -50px; // Overhang on right edge
+        }
+        &.left-aligned {
+            align-items: flex-start;
+            margin-left: -50px; // Overhang on left edge
         }
     }
 
