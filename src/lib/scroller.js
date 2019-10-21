@@ -70,6 +70,9 @@ class Scroller extends Scrollama {
                         .siblings().toggleClass("highlighted", false)
             if (action) action(e, hist)
         })
+        this.onStepExit((e, hist) => {
+            if (action) action(e, hist)
+        })
 
         // Always resize on resize
         $(window).on("resize", () => this.resize())

@@ -45,10 +45,8 @@
         margin: auto;
         pointer-events: none; // The text container should never steal mouse events
         .step {
-            min-height: 75vh;
-            &:last-child {
-                min-height: 90vh; // Last child has more height so it aligns to top
-            }
+            margin-top: 44vh; // Margin area won't trigger scroll events
+            margin-bottom: 22vh; // Margin area won't trigger scroll events
             .inner {
                 padding: 1em;
                 background-color: RGBA(255, 255, 255, 0.9);
