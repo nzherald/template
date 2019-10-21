@@ -53,8 +53,10 @@ class Scroller extends Scrollama {
         this.$ = $(opt.container)
         this.text = this.$.find(".scroll-text")
         this.graphic = this.$.find(".scroll-graphic")
-        if (!this.text.length) console.error("Scroller: Cannot find .scroll-text element!")
-        if (!this.graphic.length) console.error("Scroller: Cannot find .scroll-graphic element!")
+        if (!this.text.length) throw "Scroller: Cannot find .scroll-text element!"
+        if (!this.graphic.length) throw "Scroller: Cannot find .scroll-graphic element!"
+        if (!this.graphic.height()) throw "Scroller: .scroll-graphic has no height (has the element been rendered?)!"
+        this.$.addClass("scroll-container")
 
         this.text.children().addClass("inner").wrap("<div class='step'/>") // Wrap text in .step/.inner
         Stickyfill.add(this.graphic) // Polyfill sticky
@@ -63,6 +65,9 @@ class Scroller extends Scrollama {
             step: ".scroll-text .step",
             offset: 0.65
         }, opt))
+
+        // Align text with container
+        this.text.css("margin-top", -this.text.position().top)
 
         // Set script
         this.onStepEnter((e, hist) => {

@@ -16,34 +16,28 @@
 
 
 .scroll-container {
-    display: flex;
-    flex-direction: row; // .scroll-graphic and .scroll-text should go side-by-side
-    flex-wrap: wrap; // ...but wrap if there's not enough space
     & > * {
-        flex-grow: 1;
         box-sizing: border-box;
-        margin-bottom: 1.25em; // Margin goes on the bottom of children, so they stay when wrapped
+        margin-bottom: 1.25em;
     }
-
-    // To achieve overlap, expand the INNER element of the left column...
-    // ...the right column should not overflow, as it's left-aligned by default
-    // & > *:first-child > * {
-    //     width: 650px;
-    // }
 
     .scroll-graphic {
         position: sticky;
-        top: 8em; // In embedded deployment (which scrolls have to be), got to account for navbar
-        margin-bottom: 8em; // Bottom has to be offset by the same size
-        width: 480px;
-        height: 400px; // Height must be set for sticky to work
+        top: 8em; // Top MUST be set for sticky to work
+        svg {
+            width: 100%;
+            max-width: 100%;
+        }
     }
 
     .scroll-text {
         z-index: 100; // Text should be above graphic
+        position: relative; // Position must be set for z-index to work
+        display: flex;
+        flex-direction: column;
         width: 320px;
         margin: auto;
-        pointer-events: none; // The text container should never steal mouse events
+        pointer-events: none; // The text container should never steal mouse events to avoid conflict with graphic
         .step {
             margin-top: 44vh; // Margin area won't trigger scroll events
             margin-bottom: 22vh; // Margin area won't trigger scroll events
@@ -75,7 +69,6 @@
         .scroll-graphic {
             top: 6em;
             height: 80vh;
-            svg { max-width: 100%; } // Don't overlap
         }
         .scroll-text {
             order: 1; // Always run text after graphic
