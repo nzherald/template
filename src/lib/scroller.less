@@ -6,6 +6,15 @@
 @dark: #4F4F4F;
 
 
+/* Need to remove overflow:hidden from #pb-root for sticky to work */
+#pb-root {
+    overflow: unset;
+}
+#article-body {
+    max-width: unset;
+}
+
+
 .scroll-container {
     display: flex;
     flex-direction: row; // .scroll-graphic and .scroll-text should go side-by-side
