@@ -24,6 +24,7 @@
     .scroll-graphic {
         position: sticky;
         top: 8em; // Top MUST be set for sticky to work
+        width: 100%;
         svg {
             width: 100%;
             max-width: 100%;
@@ -35,32 +36,32 @@
         position: relative; // Position must be set for z-index to work
         display: flex;
         flex-direction: column;
-        width: 320px;
-        margin: auto;
+        width: 100%;
         pointer-events: none; // The text container should never steal mouse events to avoid conflict with graphic
         .step {
             margin-top: 44vh; // Margin area won't trigger scroll events
             margin-bottom: 22vh; // Margin area won't trigger scroll events
             .inner {
+                box-sizing: border-box;
+                width: 320px;
                 padding: 1em;
                 background-color: RGBA(255, 255, 255, 0.9);
                 border: solid 1px #eaeaea;
                 ul {
                     padding-left: 1.2em; // Not enough space for full padding
                 }
+                &, &.left {
+                    margin-left: -50px; // Overhang
+                    margin-right: auto;
+                }
+                &.right {
+                    margin-left: auto;
+                    margin-right: -50px; // Overhang
+                }
             }
             &.highlighted .inner {
                 background-color: RGBA(238, 245, 245, 0.9); // Selected
             }
-        }
-
-        &, &.right-aligned {
-            align-items: flex-end;
-            margin-right: -50px; // Overhang on right edge
-        }
-        &.left-aligned {
-            align-items: flex-start;
-            margin-left: -50px; // Overhang on left edge
         }
     }
 
