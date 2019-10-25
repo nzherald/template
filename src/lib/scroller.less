@@ -65,7 +65,6 @@
         }
     }
 
-    // Expand columns to full width (text & graphic will run in series)
     @media (max-width: 800px) {
         .scroll-graphic {
             top: 6em;
@@ -73,22 +72,11 @@
         }
         .scroll-text {
             order: 1; // Always run text after graphic
-            transform: unset;
-            margin: 0 -20px; // No side margins
-            .step {
-                min-height: unset; // Don't use height in mobile mode
-                padding-bottom: 60vh; // Use padding instead to maintain bottom-top distance
-                padding-top: 20vh; // Extra padding on top so it triggers step earlier
-                &:first-child {
-                    padding-top: 0; // No padding on first element
-                }
-                &:last-child {
-                    min-height: unset; // Don't use height in mobile mode
-                    padding-bottom: 0; // Last child has no padding so it aligns to bottom
-                }
-                .inner {
-                    padding: 0.5em 1em;
-                }
+            .step .inner {
+                padding: 0.6em;
+                margin-left: auto; // Never overhang
+                margin-right: auto; // Never overhang
+                p { font-size: unset; } // Override NZH style
             }
         }
     }
