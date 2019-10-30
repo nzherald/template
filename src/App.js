@@ -1,15 +1,28 @@
 import React, { Suspense, useState } from "react";
 import { format } from "d3-format";
 
-import DrawIt from "./DrawIt";
+const DrawIt = React.lazy(() => import('./DrawIt'));
 
+
+const theme = [
+  "#7a255d",
+  "#E0488B",
+  "#ac58e5",
+  "#9fd0cb",
+  "#e0d33a",
+  "#7566ff",
+  "#533f82",
+  "#365350",
+  "#a19a11",
+  "#3f4482"
+];
 const percentage = format(".0%");
-const margin = { left: 80, bottom: 90, right: 10, top: 40 };
-
+const margin = { left: 40, bottom: 40, right: 40, top: 40 };
 
 const lines = [
   {
-    title: "Quarterly",
+    title: "Labour",
+    visible: true,
     coordinates: [
       {
         year: 2000,
@@ -166,7 +179,16 @@ const lines = [
       {
         year: 2009.5,
         value: 0.056
-      },
+      },{
+        year: 2009.75,
+        value: 0.06
+      }
+    ]
+  },
+  {
+    title: "National",
+    visible: false,
+    coordinates: [
       {
         year: 2009.75,
         value: 0.06
@@ -297,29 +319,37 @@ const lines = [
 
 const frameProps = {
   lines,
+  lineType: "area",
   yExtent: [0, 0.1],
   margin: margin,
   xAccessor: "year",
   yAccessor: "value",
   title: <text textAnchor="middle">Unemployment Rate in New Zealand</text>,
-  axes: [{ orient: "left", tickFormat: percentage }, { orient: "bottom" }]
+  axes: [{ orient: "left", tickFormat: percentage }, { orient: "bottom" }],
+  lineStyle: (d, i) => ({
+    stroke: theme[i],
+    strokeOpacity: 0.9,
+    strokeWidth: 1,
+    fill: theme[i],
+    fillOpacity: 0.9,
+    clipPath: !d.visible && "url(#superclip)"
+  })
 };
 export default () => {
   const width = Math.min(700, window.innerWidth);
   const height = 400;
-  const [drawn, setDrawn] = useState({ "2009.5": 0.056 });
+  const [drawn, setDrawn] = useState({ "2009.75": 0.06 });
   const [complete, setComplete] = useState(false);
   return (
+    <Suspense fallback={<div>Loading...</div>}>
     <DrawIt
-      lines={lines}
-      width={width}
-      height={height}
       drawn={drawn}
       setDrawn={setDrawn}
       complete={complete}
       setComplete={setComplete}
       formatter={percentage}
-      frameProps={frameProps}
-    />
+      config={{hideStart: 2009.75, hideEnd: 2017.75}}
+      frameProps={{...frameProps, size: [width,height]}}
+    /></Suspense>
   );
 };

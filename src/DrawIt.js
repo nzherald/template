@@ -1,10 +1,36 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useSpring } from "react-spring"
+import { useSpring } from "react-spring";
 import { drag } from "d3-drag";
 import { select, mouse } from "d3-selection";
 import { line, curveCatmullRom } from "d3-shape";
+import styled from "@xstyled/styled-components";
 
-import { XYFrame, DividedLine } from "semiotic";
+import { XYFrame } from "semiotic";
+
+const Pulse = styled.circle`
+  fill: white;
+  fill-opacity: 0;
+  animation-duration: 2s;
+  animation-name: pulse;
+  animation-iteration-count: infinite;
+  cursor: pointer;
+  stroke: dimgray;
+  stroke-width: 2px;
+  stroke-opacity: 1;
+
+  @keyframes pulse {
+    from {
+      stroke-width: 3px;
+      stroke-opacity: 1;
+      transform: scale(0.3);
+    }
+    to {
+      stroke-width: 0;
+      stroke-opacity: 0;
+      transform: scale(2);
+    }
+  }
+`;
 
 const theme = [
   "#7a255d",
@@ -19,26 +45,24 @@ const theme = [
   "#3f4482"
 ];
 
-
 export default ({
-  width,
-  height,
-  lines,
   drawn,
   complete,
   setComplete,
   setDrawn,
   formatter,
+  config,
   frameProps
 }) => {
-  const start = 38
-  const [end, setEnd] = useState(38)
-  useSpring({start: complete ? lines[0].coordinates.length : 38,
-    config: {duration: 1000},
-    onFrame: ({start}) => setEnd(start)
-  })
+  const { margin, size, lines, yExtent } = frameProps;
+  const [width, height] = size;
+  const [end, setEnd] = useState(config.hideStart);
+  useSpring({
+    start: complete ? config.hideEnd : config.hideStart,
+    config: { duration: 1000 },
+    onFrame: ({ start }) => setEnd(start)
+  });
 
-  const { margin } = frameProps;
   const [drawing, setDrawing] = useState(false);
   const [pos, setPos] = useState([]);
   const ref = useRef();
@@ -59,50 +83,44 @@ export default ({
     // TODO - use complete to remove drag callback
   }, [ref]);
 
-  const thresholdLine = ({ d, xScale, yScale }) => {
-    console.log(d)
-    const drawnLine = line()
-      .x(d => xScale(d[0]))
-      .y(d => yScale(d[1]))
-      .curve(curveCatmullRom.alpha(0.5));
-    const first = d.data[start];
-    const last = d.data[d.data.length - 1];
-    if (drawing && !complete) {
-      const xDraw = Math.round(xScale.invert(pos[0]) * 4) * 0.25;
-      if (xDraw > first.x && xDraw <= last.x) {
-        const yDraw = yScale.invert(pos[1]);
-        drawn[xDraw] = yDraw;
-      }
-    }
+  const thresholdLine = (num, params) => {
+    const { xScale, yScale } = params;
     const drawArray = Object.entries(drawn)
       .map(([x, y]) => [+x, y])
       .sort();
     const drawPos = drawArray[drawArray.length - 1];
-    if (drawPos[0] >= last.x) {
+    const drawStartX = xScale(drawPos[0]);
+    const drawStartW = xScale(config.hideEnd) - xScale(drawPos[0]);
+
+    const drawnLine = line()
+      .x(d => xScale(d[0]))
+      .y(d => yScale(d[1]))
+      .curve(curveCatmullRom.alpha(0.5));
+    if (drawing && !complete) {
+      const xDraw = Math.round(xScale.invert(pos[0]) * 4) * 0.25;
+      if (xDraw > config.hideStart && xDraw <= config.hideEnd) {
+        const yDraw = yScale.invert(pos[1]);
+        drawn[xDraw] = yDraw;
+      }
+    }
+    if (drawPos[0] >= config.hideEnd) {
       setDrawn(drawn);
       setComplete(true);
     }
-    const drawStartX = xScale(drawPos[0]);
-    const drawStartW = xScale(last.x) - xScale(drawPos[0]);
     return (
-      <g key={`threshold-${complete}-${end}`}>
-        <DividedLine
-          data={[d]}
-          parameters={(p, i) => {
-            if (i <= start) {
-              return { stroke: theme[2], fill: "none", strokeWidth: 3 };
-            } else if (complete && i < end) {
-              return { stroke: theme[0], fill: "none", strokeWidth: 3 };
-            }
-          }}
-          customAccessors={{ x: d => xScale(d.x), y: d => yScale(d.y) }}
-          lineDataAccessor={d => d.data}
-        />
+      <g key="draw">
+        <clipPath id="superclip">
+          <rect
+            x={xScale(config.hideStart)}
+            width={xScale(end) - xScale(config.hideStart)}
+            height={height - margin.top - margin.bottom - 1}
+          ></rect>
+        </clipPath>
         <rect
           x={drawStartX}
           width={drawStartW}
           height={height - margin.top - margin.bottom - 1}
-          fill="#F2F2F2"
+          fill="#D2D2D2"
           fillOpacity="0.8"
         />
         <path
@@ -111,14 +129,11 @@ export default ({
           strokeDasharray="10 6"
           d={drawnLine(drawArray)}
         />
-        <circle
-          cx={drawStartX}
-          cy={yScale(drawPos[1])}
-          r="7"
-          fill="dimgray"
-          style={{ pointer: "cursor" }}
-        />
-        {drawPos[0] > first.x && !complete && (
+        <g transform={`translate(${drawStartX},${yScale(drawPos[1])})`}>
+          <circle r="7" fill="dimgray" />
+          {!complete && <Pulse r="8" fill="dimgray" />}
+        </g>
+        {drawPos[0] > config.hideStart && !complete && (
           <text x={drawStartX} y={yScale(drawPos[1]) - 20} textAnchor="middle">
             {formatter(drawPos[1])}
           </text>
@@ -131,10 +146,15 @@ export default ({
     <div>
       <XYFrame
         {...frameProps}
-        lines={lines}
-        lineType="area"
-        customLineMark={thresholdLine}
-        size={[width, height]}
+        summaries={[
+          {
+            coordinates: [
+              { year: 2009.75, value: yExtent[0] },
+              { year: 2017.75, value: yExtent[1] }
+            ]
+          }
+        ]}
+        customSummaryMark={p => thresholdLine(lines.length, p)}
         foregroundGraphics={[
           <g
             transform={`translate(${margin.left},${margin.top})`}
@@ -153,4 +173,3 @@ export default ({
     </div>
   );
 };
-
