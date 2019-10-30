@@ -81,7 +81,7 @@ export default ({
 
     const invertWide = v => Math.round(xScale.invert(pos[0]) * 4) * 0.25
     const invertNarrow = v => Math.round(xScale.invert(pos[0]) * 2) * 0.5
-    const invert = window.innerWidth < 400 ? invertNarrow : invertWide
+    const invert = width < 400 ? invertNarrow : invertWide
     const drawnLine = line()
       .x(d => xScale(d[0]))
       .y(d => yScale(d[1]))
