@@ -167,6 +167,16 @@ const lines = [
       {
         year: 2008.75,
         value: 0.039
+      }
+    ]
+  },
+  {
+    title: "National",
+    visible: false,
+    coordinates: [
+      {
+        year: 2008.75,
+        value: 0.039
       },
       {
         year: 2009,
@@ -180,16 +190,6 @@ const lines = [
         year: 2009.5,
         value: 0.056
       },{
-        year: 2009.75,
-        value: 0.06
-      }
-    ]
-  },
-  {
-    title: "National",
-    visible: false,
-    coordinates: [
-      {
         year: 2009.75,
         value: 0.06
       },
@@ -328,17 +328,17 @@ const frameProps = {
   axes: [{ orient: "left", tickFormat: percentage }, { orient: "bottom" }],
   lineStyle: (d, i) => ({
     stroke: theme[i],
-    strokeOpacity: 0.9,
+    strokeOpacity: 0.8,
     strokeWidth: 1,
     fill: theme[i],
-    fillOpacity: 0.9,
+    fillOpacity: 0.8,
     clipPath: !d.visible && "url(#superclip)"
   })
 };
 export default () => {
-  const width = Math.min(700, window.innerWidth);
+  const width = Math.min(700, window.innerWidth-20);
   const height = 400;
-  const [drawn, setDrawn] = useState({ "2009.75": 0.06 });
+  const [drawn, setDrawn] = useState({ "2008.75": 0.039 });
   const [complete, setComplete] = useState(false);
   return (
     <Suspense fallback={<div>Loading...</div>}>
@@ -348,7 +348,7 @@ export default () => {
       complete={complete}
       setComplete={setComplete}
       formatter={percentage}
-      config={{hideStart: 2009.75, hideEnd: 2017.75}}
+      config={{hideStart: 2008.75, hideEnd: 2017, highlight: true}}
       frameProps={{...frameProps, size: [width,height]}}
     /></Suspense>
   );

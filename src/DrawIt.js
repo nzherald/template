@@ -32,19 +32,6 @@ const Pulse = styled.circle`
   }
 `;
 
-const theme = [
-  "#7a255d",
-  "#ac58e5",
-  "#E0488B",
-  "#9fd0cb",
-  "#e0d33a",
-  "#7566ff",
-  "#533f82",
-  "#365350",
-  "#a19a11",
-  "#3f4482"
-];
-
 export default ({
   drawn,
   complete,
@@ -92,12 +79,15 @@ export default ({
     const drawStartX = xScale(drawPos[0]);
     const drawStartW = xScale(config.hideEnd) - xScale(drawPos[0]);
 
+    const invertWide = v => Math.round(xScale.invert(pos[0]) * 4) * 0.25
+    const invertNarrow = v => Math.round(xScale.invert(pos[0]) * 2) * 0.5
+    const invert = window.innerWidth < 400 ? invertNarrow : invertWide
     const drawnLine = line()
       .x(d => xScale(d[0]))
       .y(d => yScale(d[1]))
       .curve(curveCatmullRom.alpha(0.5));
     if (drawing && !complete) {
-      const xDraw = Math.round(xScale.invert(pos[0]) * 4) * 0.25;
+      const xDraw = invert(pos[0])
       if (xDraw > config.hideStart && xDraw <= config.hideEnd) {
         const yDraw = yScale.invert(pos[1]);
         drawn[xDraw] = yDraw;
@@ -142,15 +132,40 @@ export default ({
     );
   };
 
+  const highlightLine = pointProps => {
+    const { d, xScale, yScale } = pointProps;
+    const mainline = line()
+      .x(p => xScale(p.year))
+      .y(p => yScale(p.value));
+    return (
+      <g key={`highlight-line-${d.title}`}>
+        <path
+          d={mainline(d.coordinates)}
+          stroke="#333"
+          strokeWidth="3"
+          clipPath={d.visible ? "" : "url(#superclip)"}
+        />
+      </g>
+    );
+  };
+
+  const pointsConfig = config.highlight
+    ? {
+        points: lines,
+        customPointMark: highlightLine
+      }
+    : {};
+
   return (
     <div>
       <XYFrame
         {...frameProps}
+        {...pointsConfig}
         summaries={[
           {
             coordinates: [
-              { year: 2009.75, value: yExtent[0] },
-              { year: 2017.75, value: yExtent[1] }
+              { year: config.hideStart, value: yExtent[0] },
+              { year: config.hideEnd, value: yExtent[1] }
             ]
           }
         ]}
