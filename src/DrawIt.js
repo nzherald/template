@@ -34,8 +34,6 @@ const Pulse = styled.circle`
 
 export default ({
   drawn,
-  complete,
-  setComplete,
   setDrawn,
   formatter,
   config,
@@ -44,26 +42,24 @@ export default ({
   const { margin, size, lines, yExtent } = frameProps;
   const [width, height] = size;
   const [end, setEnd] = useState(config.hideStart);
+  const [complete, setComplete] = useState(false);
+  const [pos, setPos] = useState([]);
+  const ref = useRef();
   useSpring({
     start: complete ? config.hideEnd : config.hideStart,
     config: { duration: 1000 },
     onFrame: ({ start }) => setEnd(start)
   });
 
-  const [drawing, setDrawing] = useState(false);
-  const [pos, setPos] = useState([]);
-  const ref = useRef();
   useEffect(() => {
     if (ref && ref.current) {
       const dragger = drag()
         .on("start", () => {
-          setDrawing(true);
           setPos(mouse(ref.current));
         })
         .on("drag", () => {
           setPos(mouse(ref.current));
         })
-        .on("end", () => setDrawing(false));
 
       select(ref.current).call(dragger);
     }
@@ -74,21 +70,20 @@ export default ({
     const { xScale, yScale } = params;
     const drawArray = Object.entries(drawn)
       .map(([x, y]) => [+x, y])
-      .sort();
+      .sort()
+      .filter(([x]) => x <= config.hideEnd);
     const drawPos = drawArray[drawArray.length - 1];
     const drawStartX = xScale(drawPos[0]);
     const drawStartW = xScale(config.hideEnd) - xScale(drawPos[0]);
 
-    const invertWide = v => Math.round(xScale.invert(pos[0]) * 4) * 0.25
-    const invertNarrow = v => Math.round(xScale.invert(pos[0]) * 2) * 0.5
-    const invert = width < 400 ? invertNarrow : invertWide
+    const invert = v => Math.round(xScale.invert(v) * 4) * 0.25
     const drawnLine = line()
       .x(d => xScale(d[0]))
       .y(d => yScale(d[1]))
       .curve(curveCatmullRom.alpha(0.5));
-    if (drawing && !complete) {
+    if (!complete) {
       const xDraw = invert(pos[0])
-      if (xDraw > config.hideStart && xDraw <= config.hideEnd) {
+      if (xDraw > config.hideStart) {
         const yDraw = yScale.invert(pos[1]);
         drawn[xDraw] = yDraw;
       }
@@ -177,7 +172,7 @@ export default ({
           >
             <rect
               ref={ref}
-              width={width - margin.left - margin.right}
+              width={width - margin.left}
               height={height - margin.top - margin.bottom}
               fill="none"
               pointerEvents="all"
