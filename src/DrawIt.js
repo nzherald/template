@@ -70,7 +70,7 @@ export default ({
     // TODO - use complete to remove drag callback
   }, [ref]);
 
-  const thresholdLine = (num, params) => {
+  const thresholdLine = params => {
     const { xScale, yScale } = params;
     const drawArray = Object.entries(drawn)
       .map(([x, y]) => [+x, y])
@@ -169,7 +169,7 @@ export default ({
             ]
           }
         ]}
-        customSummaryMark={p => thresholdLine(lines.length, p)}
+        customSummaryMark={thresholdLine}
         foregroundGraphics={[
           <g
             transform={`translate(${margin.left},${margin.top})`}
