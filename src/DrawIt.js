@@ -32,14 +32,8 @@ const Pulse = styled.circle`
   }
 `;
 
-export default ({
-  drawn,
-  setDrawn,
-  formatter,
-  config,
-  frameProps
-}) => {
-  const { margin, size, lines, yExtent } = frameProps;
+export default ({ tag, drawn, setDrawn, formatter, config, frameProps }) => {
+  const { margin, size, lines, yExtent, lineStyle } = frameProps;
   const [width, height] = size;
   const [end, setEnd] = useState(config.hideStart);
   const [complete, setComplete] = useState(false);
@@ -59,7 +53,7 @@ export default ({
         })
         .on("drag", () => {
           setPos(mouse(ref.current));
-        })
+        });
 
       select(ref.current).call(dragger);
     }
@@ -76,13 +70,13 @@ export default ({
     const drawStartX = xScale(drawPos[0]);
     const drawStartW = xScale(config.hideEnd) - xScale(drawPos[0]);
 
-    const invert = v => Math.round(xScale.invert(v) * 4) * 0.25
+    const invert = v => Math.round(xScale.invert(v) * 4) * 0.25;
     const drawnLine = line()
       .x(d => xScale(d[0]))
       .y(d => yScale(d[1]))
       .curve(curveCatmullRom.alpha(0.5));
     if (!complete) {
-      const xDraw = invert(pos[0])
+      const xDraw = invert(pos[0]);
       if (xDraw > config.hideStart) {
         const yDraw = yScale.invert(pos[1]);
         drawn[xDraw] = yDraw;
@@ -94,7 +88,7 @@ export default ({
     }
     return (
       <g key="draw">
-        <clipPath id="superclip">
+        <clipPath id={`superclip-${tag}`}>
           <rect
             x={xScale(config.hideStart)}
             width={xScale(end) - xScale(config.hideStart)}
@@ -138,7 +132,7 @@ export default ({
           d={mainline(d.coordinates)}
           stroke="#333"
           strokeWidth="3"
-          clipPath={d.visible ? "" : "url(#superclip)"}
+          clipPath={d.visible ? "" : `url(#superclip-${tag})`}
         />
       </g>
     );
@@ -155,6 +149,12 @@ export default ({
     <div>
       <XYFrame
         {...frameProps}
+        lineStyle={(d, i) => {
+          const ls = lineStyle(d, i);
+          ls.clipPath = !d.visible && `url(#superclip-${tag})`;
+          console.log(ls);
+          return ls;
+        }}
         {...pointsConfig}
         summaries={[
           {

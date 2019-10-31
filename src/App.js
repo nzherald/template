@@ -36,12 +36,12 @@ const frameProps = {
     strokeWidth: 1,
     fill: theme[i],
     fillOpacity: 0.8,
-    clipPath: !d.visible && "url(#superclip)"
   })
 };
-export default () => {
+export default ({basePath, tag}) => {
   const width = Math.min(700, window.innerWidth-20);
   const height = 400;
+  console.log(tag, basePath)
   const [drawn, setDrawn] = useState({ "2008.75": 0.039 });
 /* To use DrawIt you must pass it drawn/setDrawn from a useState hook.
        The drawn state is a dictionary of points - the first one - which is the last
@@ -64,6 +64,7 @@ export default () => {
     <Suspense fallback={<div>Loading...</div>}>
      
     <DrawIt
+    tag={tag}
       drawn={drawn}
       setDrawn={setDrawn}
       formatter={percentage}
