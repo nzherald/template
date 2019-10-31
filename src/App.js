@@ -41,8 +41,6 @@ const frameProps = {
 export default ({basePath, tag}) => {
   const width = Math.min(700, window.innerWidth-20);
   const height = 400;
-  console.log(tag, basePath)
-  const [drawn, setDrawn] = useState({ "2008.75": 0.039 });
 /* To use DrawIt you must pass it drawn/setDrawn from a useState hook.
        The drawn state is a dictionary of points - the first one - which is the last
        known point - should be used initially.
@@ -60,6 +58,7 @@ export default ({basePath, tag}) => {
        render the user drawn portion. It also assues that the x axis will be years
        and won't let you work at a precision of less than quarters...
       */
+  const [drawn, setDrawn] = useState({ "2008.75": 0.039 });
   return (
     <Suspense fallback={<div>Loading...</div>}>
      

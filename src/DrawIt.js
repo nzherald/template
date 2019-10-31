@@ -152,7 +152,6 @@ export default ({ tag, drawn, setDrawn, formatter, config, frameProps }) => {
         lineStyle={(d, i) => {
           const ls = lineStyle(d, i);
           ls.clipPath = !d.visible && `url(#superclip-${tag})`;
-          console.log(ls);
           return ls;
         }}
         {...pointsConfig}
