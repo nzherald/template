@@ -102,7 +102,7 @@ class Simplemap {
     initSources (sources, b) {
         const start = Date.now()
         const onFinish = () => {
-            if (_.every(sources, s => this.map.isStyleLoaded())) {
+            if (_.every(sources, s => this.map.isSourceLoaded(s.id))) {
                 console.log("Sources loaded in", Date.now() - start + "ms")
                 this.map.off("sourcedata", onFinish)
                 if (b) b()
@@ -132,9 +132,9 @@ class Simplemap {
     initLayers (layers, b) {
         const start = Date.now()
         const onFinish = () => {
-            if (_.every(layers, l => this.map.isStyleLoaded())) {
+            if (this.map.isStyleLoaded()) {
                 console.log("Layers loaded in", Date.now() - start + "ms")
-                this.map.off("sourcedata", onFinish)
+                this.map.off("styledata", onFinish)
                 if (b) b()
             }
         }
@@ -142,7 +142,7 @@ class Simplemap {
             console.log("Warning: No layers specified!")
             return onFinish()
         }
-        this.map.on("sourcedata", onFinish)
+        this.map.on("styledata", onFinish)
 
         this.layers = layers
         _.each(layers, l => {
