@@ -5,11 +5,9 @@ if (sessionStorage.getItem("loading") === "done") {
 }
 else {
     console.log("Loading screen created.")
-    const root = document.currentScript.getAttribute("data-targ")
-    if (!root) console.error("Root div not defined! Make sure data-targ has been set on the script tag.")
+    const ct = document.getElementsByClassName("nzh-datavis")[0]
 
-    const ct = document.querySelector(root)
-    if (!ct) console.error("Cannot find root div " + root + "! Nothing will work!")
+    if (!ct) console.error("Cannot find root div using nzh-datavis! Nothing will work!")
 
     const el = document.createElement("div")
     el.innerHTML = HTML

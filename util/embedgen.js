@@ -25,8 +25,6 @@ function dump (content, fn) {
     }
 }
 
-const BAD_BROWSER = '<b>Sorry! Your browser does not support this content.</b>' +
-                    '<p>Please try <a href="https://www.microsoft.com/en-nz/windows/microsoft-edge" target="_blank">Microsoft Edge</a>, <a href="https://www.google.com/chrome/" _target="_blank">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/" _target="_blank">Mozilla Firefox</a>.</p>'
 
 class EmbedPlugin {
     constructor (options) {
@@ -52,7 +50,6 @@ class EmbedPlugin {
             // Create embed.js
             let jsContent = "(function () {"
             jsContent += "console.log('embed.js running.');"
-            jsContent += "var s=document.currentScript;var targ=s&&s.getAttribute('data-targ');var params=s&&s.getAttribute('data-params');\n"
 
             // Browser check and fail
             jsContent += "var isIE=navigator.appName=='Microsoft Internet Explorer'||!!(navigator.userAgent.match(/Trident/)||navigator.userAgent.match(/rv:11/));"
@@ -61,12 +58,9 @@ class EmbedPlugin {
             if (loading) {
                 jsContent += "sessionStorage.setItem('loading','not-done');\n"
                 jsContent += makeJS(loading, "l")
-                jsContent += "l.setAttribute('data-targ', targ || '');\n"
             }
             if (root) {
                 jsContent += makeJS(root, "r")
-                jsContent += "r.setAttribute('data-targ', targ || '');"
-                jsContent += "r.setAttribute('data-params', params || '');"
             }
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
             jsContent += "})()"

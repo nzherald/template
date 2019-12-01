@@ -1,38 +1,39 @@
 import { parse } from "query-string";
 
-import "./base.less";
-import ENV from "Environment";
+import "./base.less"
+import ENV from 'Environment';
 
 if (!Object.entries) {
-  Object.entries = function(obj) {
-    var ownProps = Object.keys(obj),
-      i = ownProps.length,
-      resArray = new Array(i); // preallocate the Array
-    while (i--) resArray[i] = [ownProps[i], obj[ownProps[i]]];
-
-    return resArray;
-  };
-}
+    Object.entries = function(obj) {
+      var ownProps = Object.keys(obj),
+        i = ownProps.length,
+        resArray = new Array(i); // preallocate the Array
+      while (i--) resArray[i] = [ownProps[i], obj[ownProps[i]]];
+  
+      return resArray;
+    };
+  }
 
 class Base {
-  constructor(html) {
-    this.visnodes = [...document.getElementsByClassName("nzh-datavis")].map(
-      n => {
-         $(n).append(html)
-          return {
-              selector: n, 
-              params: parse(n.attributes["data-params"].value),
-              $: $(n)
-          }
-        }
-    );
-    this.basePath =
-      ENV.isProduction &&
-      ENV.separateCrossOriginRequests &&
-      ENV.basePath.includes(location.host)
-        ? ENV.localPath
-        : ENV.basePath;
-  }
+    constructor (html) {
+        this.visnodes = [...document.getElementsByClassName("nzh-datavis")].map(
+            n => {
+               $(n).append(html)
+                return {
+                    selector: n, 
+                    params: n.attributes["data-params"] ? parse(n.attributes["data-params"].value) : {},
+                    $: $(n)
+                }
+              }
+          );
+          this.root = this.visnodes[0]
+          this.basePath =
+            ENV.isProduction &&
+            ENV.separateCrossOriginRequests &&
+            ENV.basePath.includes(location.host)
+              ? ENV.localPath
+              : ENV.basePath;
+    }
 
   premiumWait(render) {
     // Inside premium container - wait for premium container to come down
