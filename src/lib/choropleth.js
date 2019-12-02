@@ -67,7 +67,28 @@ import Simplemap from "./simplemap.js"
 class Choropleth extends Simplemap {
     constructor (opt, b) {
         super(opt, b)
+        this.setPeriod(opt.period)
         this.d3.classed("choropleth", true)
+    }
+
+    setPeriod (period) {
+        if (!period) {
+            console.log("No period defined, going to basic mode.")
+            this.getVal = this.getBasicVal
+        }
+        else if (typeof period == String) {
+            console.log("Setting period to:", period)
+            this.period = period
+            this.getVal = this.getCurrVal
+        }
+        else if (period instanceof Array) {
+            console.log("Setting period to:", period[0], "to", period[1])
+            this.period = period
+            this.getVal = this.getChange
+        }
+        else {
+            console.error("Invalid period format:", period)
+        }
     }
 
     // Bind data to layer
@@ -85,8 +106,29 @@ class Choropleth extends Simplemap {
     }
 
     // CUSTOMISE THIS - when layer is updated, colour is recalculated
-    getC (d) { return this.scale.c(d.val) }
-    isValid (d) { return !!s }
+    // Default mode: data = [{id:"a", val:1}, {id:"b", val:1}, {id:"c", val:5}]
+    getBasicVal (d) {
+        return _.find(d.val)
+    }
+    // Longitudinal modes: data = [{id:"a", points:[{date: "2019-01-01", val: 1}, {date: "2019-02-01", val: 5}]}]
+    getBaseVal (s) {
+        return _.find(s.points, {period: this.period[0]}).val
+    }
+    getCurrVal (s) {
+        return _.find(s.points, {period: this.period[1]}).val
+    }
+    getChange (s) {
+        const cVal = this.getCurrVal(s)
+        const bVal = this.getBaseVal(s)
+        const dec  = (bVal && cVal) ? cVal / bVal - 1 : 0
+        return dec
+    }
+
+    getC (d) {
+        const val = this.getVal(d)
+        return this.scale.c(val)
+    }
+    isValid (d) { return !!d && this.getVal(d) != null }
 
     // Generate a Mapbox expression for all the visible features in a layer using getC
     updateLayer (layer) {
