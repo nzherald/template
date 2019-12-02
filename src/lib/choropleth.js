@@ -157,6 +157,18 @@ class Choropleth extends Simplemap {
         return this.scale.c(val)
     }
     isValid (d) { return !!d && this.getVal(d) != null }
+    setDomain (domain) {
+        const scale = this.scale.c
+        const data = this.data
+        if (domain) scale.domain(domain)
+        else {
+            // Dynamically set scale
+            const max = _(data).map(s => _(s.points).map(p => p[this.measure]).max())
+                               .filter().sortBy(v => v * 1)
+                               .nth(-5) // Ignore outliers
+            scale.domain([0, max]).nice()
+        }
+    }
 
     // Generate a Mapbox expression for all the visible features in a layer using getC
     updateLayer (layer) {
