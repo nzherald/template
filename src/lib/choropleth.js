@@ -95,7 +95,35 @@ class Choropleth extends Simplemap {
     setData (layerName, data, b) {
         const layer = _.find(this.layers, {id: layerName})
         layer.data = data
+        this.checkData(data)
         this.updateLayer(layer, b)
+    }
+
+    // Check that data is consistent with mode
+    checkData (data) {
+        const d = data[0]
+        if (this.period) {
+            if (!d.points) {
+                console.error("Data elements must have a 'points' property (an array containing points)!")
+            }
+            else if (!d.points[0].hasOwnProperty("period")) {
+                console.error("Points must have a 'period' property!")
+            }
+            else if (!d.points[0].hasOwnProperty("val")) {
+                console.error("Points must have a 'val' property!")
+            }
+            else {
+                console.log("Data looks right.")
+            }
+        }
+        else {
+            if (!d.hasOwnProperty("val")) {
+                console.error("Data elements must have a 'val' property!")
+            }
+            else {
+                console.log("Data looks right.")
+            }
+        }
     }
 
     // Update will trigger on move - regenerate layers because only visible elements are generated
