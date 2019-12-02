@@ -1,4 +1,5 @@
 import React, { Suspense, useState, useEffect } from 'react';
+import styled from "@xstyled/styled-components"
 import axios from 'axios';
 
 
@@ -9,6 +10,9 @@ axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*"
 
 
 const XYFrame = React.lazy(() => import('semiotic/lib/XYFrame'));
+
+const App = styled.div` `
+
 const frameProps = {
   size: [700,400],
   margin: { left: 80, bottom: 50, right: 10, top: 40 },
@@ -72,7 +76,7 @@ const frameProps = {
   }
 }
 
-const App = ({basePath}) => {
+export default ({basePath}) => {
   const [data, setData] = useState({lines:[], ...frameProps});
 
   useEffect(() => {
@@ -94,4 +98,3 @@ const App = ({basePath}) => {
   );
 }
 
-export default App;

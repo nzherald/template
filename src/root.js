@@ -9,11 +9,14 @@ class Main extends Base {
     constructor () {
         console.log("Setting up visualisation...")
         super()
-        const app = document.getElementById("nzh-datavis-root")
         this.premiumWait(() => {
             console.log("Rendering...")
-            
-            ReactDOM.render(<App basePath={this.basePath}/>, app)
+            this.visnodes.map(node => {
+                ReactDOM.render(
+                  <App {...node.params} />,
+                  node.selector
+                );
+              }); 
             console.log("Done.")
             this.fadeOut()
         })
