@@ -97,7 +97,7 @@ class Choropleth extends Simplemap {
 
         _(features).uniqBy(f => f.properties[layer.matchBy]).each(f => {      // Iterate through each unique feature
             const id = f.properties[layer.matchBy]                            // Extract ID from feature
-            const d  = _.find(layer.data, {id})                               // Fetch data using ID
+            const d = this.getData(f)
             if (!this.isValid(d)) return                                      // No data for this feature, quit
             exp.push(id, this.getC(d))                                        // Calculate colour and push to expression
             layer.live.push(d)                                                // Save data to dictionary of rendered features
