@@ -176,14 +176,16 @@ class Choropleth extends Simplemap {
         const features = this.map.queryRenderedFeatures({layers: [layer.id]}) // Find all the rendered features in this layer
         layer.live = []                                                       // Reset dictionary for storing data of rendered features
         if (!features.length) return                                          // No features selected, quit
-
         _(features).uniqBy(f => f.properties[layer.matchBy]).each(f => {      // Iterate through each unique feature
             const id = f.properties[layer.matchBy]                            // Extract ID from feature
             const d = this.getData(f)
-            if (!this.isValid(d)) return                                      // No data for this feature, quit
-            exp.push(id, this.getC(d))                                        // Calculate colour and push to expression
-            layer.live.push(d)                                                // Save data to dictionary of rendered features
-            _.assign(d, f.properties)                                         // Push feature properties back into data (for pop-ups)
+            if (!d) console.warn("Cannot find data for:", id)
+            else if (!this.isValid(d)) console.warn("Invalid data for:", id)
+            else {
+                exp.push(id, this.getC(d)) // Calculate colour and push to expression
+                layer.live.push(d)         // Save data to dictionary of rendered features
+                _.assign(d, f.properties)  // Push feature properties back into data (for pop-ups)
+            }
         })
         _.each([this.selected, this.highlighted], f => {
             if (!f) return
