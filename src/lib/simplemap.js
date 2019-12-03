@@ -95,7 +95,12 @@ class Simplemap {
 
         console.log("Loading Mapbox...")
         this.map = new mapboxgl.Map(opt)
-        this.map.on("move", () => this.update())
+        this.map.on("move", (e) => {
+            this.lastEvent = e
+            setTimeout(() => {
+                if (e === this.lastEvent) this.update()
+            }, 50)
+        })
         this.map.once("load", onFinish)
     }
 
