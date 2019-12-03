@@ -96,7 +96,7 @@ class Simplemap {
         console.log("Loading Mapbox...")
         this.map = new mapboxgl.Map(opt)
         this.map.on("move", () => this.update())
-        this.map.on("load", onFinish)
+        this.map.once("load", onFinish)
     }
 
     initSources (sources, b) {
@@ -104,7 +104,6 @@ class Simplemap {
         const onFinish = () => {
             if (_.every(sources, s => this.map.isSourceLoaded(s.id))) {
                 console.log("Sources loaded in", Date.now() - start + "ms")
-                this.map.off("sourcedata", onFinish)
                 if (b) b()
             }
         }
@@ -112,7 +111,7 @@ class Simplemap {
             console.log("Warning: No sources specified!")
             return onFinish()
         }
-        this.map.on("sourcedata", onFinish)
+        this.map.once("sourcedata", onFinish)
 
         this.sources = sources
         _.each(sources, s => {
@@ -134,15 +133,20 @@ class Simplemap {
         const onFinish = () => {
             if (this.map.isStyleLoaded()) {
                 console.log("Layers loaded in", Date.now() - start + "ms")
-                this.map.off("styledata", onFinish)
                 if (b) b()
+                this.map.off("sourcedata", onFinish)
             }
         }
         if (_.isEmpty(layers)) {
             console.log("Warning: No layers specified!")
             return onFinish()
         }
-        this.map.on("styledata", onFinish)
+        // DO NOT CHANGE THIS - You need "sourcedata" here!
+        // "styledata" fires when the style is loaded, but before the elements are rendered
+        // This means that anything which relies on queryRenderedFeatures will fail
+        // The "sourcedata" event fires multiple times as each tile is loaded AFTER styling
+        // So when "sourcedata" is fired AND map.isStyleLoaded() is true, that's when rendering is really finished
+        this.map.on("sourcedata", onFinish)
 
         this.layers = layers
         _.each(layers, l => {
