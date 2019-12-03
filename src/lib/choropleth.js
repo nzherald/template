@@ -92,11 +92,11 @@ class Choropleth extends Simplemap {
     }
 
     // Bind data to layer
-    setData (layerName, data, b) {
+    setData (layerName, data) {
         const layer = _.find(this.layers, {id: layerName})
         layer.data = data
         this.checkData(data)
-        this.updateLayer(layer, b)
+        this.updateLayer(layer)
     }
 
     // Check that data is consistent with mode
