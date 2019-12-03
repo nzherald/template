@@ -178,7 +178,7 @@ class Choropleth extends Simplemap {
         if (!features.length) return                                          // No features selected, quit
         _(features).uniqBy(f => f.properties[layer.matchBy]).each(f => {      // Iterate through each unique feature
             const id = f.properties[layer.matchBy]                            // Extract ID from feature
-            const d = this.getData(f)
+            const d = this.getData(f, layer)
             if (!d) console.warn("Cannot find data for:", id)
             else if (!this.isValid(d)) console.warn("Invalid data for:", id)
             else {

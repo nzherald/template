@@ -173,8 +173,8 @@ class Simplemap {
     }
 
     // Get data from a feature
-    getData (f) {
-        const layer = _.find(this.layers, {id: f.layer.id})
+    getData (f, layer) {
+        layer = layer || _.find(this.layers, {id: f.layer.id})
         const id = f.properties[layer.matchBy]
         const data = _.find(layer.data, d => d.id == id)
         return data
