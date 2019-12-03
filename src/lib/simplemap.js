@@ -7,6 +7,7 @@ import * as turf from "@turf/turf"
 // CAREFUL! This uses a static CSS (https://api.tiles.mapbox.com/mapbox-gl-js/v0.43.0/mapbox-gl.css)
 // You'll want to update this if you update mapboxgl
 import "./mapboxgl.css"
+import "./simplemap.less"
 import mapboxgl from "mapbox-gl"
 
 
