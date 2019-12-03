@@ -189,8 +189,7 @@ class Choropleth extends Simplemap {
         })
         _.each([this.selected, this.highlighted], f => {
             if (!f) return
-            const id = f.properties[layer.matchBy]
-            const d  = _.find(layer.data, {id})
+            const d = this.getData(f, layer)
             layer.live.push(d)
         })
 
