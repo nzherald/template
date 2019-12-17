@@ -11,10 +11,13 @@
         .line {
             transition: none;
             opacity: 0.08;
+            .label {
+                visibility: hidden;
+            }
             &.highlighted,
             &.selected {
                 opacity: 0.8;
-                .point {
+                .point, .label {
                     visibility: visible;
                 }
             }
