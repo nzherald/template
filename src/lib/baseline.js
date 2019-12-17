@@ -149,8 +149,8 @@ class BaseLine {
             val = this.getVal(p, k)
         return (format) ? format(val) : val
     }
-    getX    (p) { return this.scale.x(this.getXVal(p)) }
-    getY    (p) { return this.scale.y(this.getYVal(p)) }
+    getX    (p) { return _.round(this.scale.x(this.getXVal(p)), 1) }
+    getY    (p) { return _.round(this.scale.y(this.getYVal(p)), 1) }
     getC    (p) { return this.scale.c(this.getCVal(p)) }
     getXY   (p) { return [this.getX(p), this.getY(p)] }
 
