@@ -217,6 +217,21 @@ class BaseLine {
                                     .call(this.axis.y)
     }
 
+    // Special ticks setter for scalePoint axes
+    setPointTicks (axis, count, align) {
+        const domain = this.scale[axis].domain()
+        const len = domain.length
+        const step = Math.ceil(len / count)
+        const rmdr = (len - 1) % step
+        const init = (align == "right")  ? rmdr :
+                     (align == "middle") ? Math.floor(rmdr / 2) :
+                     (align == "left")   ? 0 : 0
+        const keys = _.range(init, len, step)
+        const ticks = _.map(keys, i => domain[i])
+        this.axis[axis].tickValues(ticks)
+        this.setAxes()
+    }
+
 
     //===========//
     //   Lines   //
