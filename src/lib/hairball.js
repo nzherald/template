@@ -68,6 +68,7 @@ class Hairball extends BaseLine {
         ln.selectAll(".point").remove()
         ln.filter(".selected, .highlighted").raise()
           .call(el => this.addPoints(el))
+        this.onHighlight(s)
     }
 
     //=============//

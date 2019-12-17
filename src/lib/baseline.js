@@ -102,6 +102,7 @@ class BaseLine {
     select (s) {
         this.selected = (this.selected !== s) ? s : null
         this.highlight(s)
+        this.onSelect(s)
     }
 
     setEvents () {
@@ -114,6 +115,7 @@ class BaseLine {
     }
 
     onHighlight () {}
+    onSelect () {}
     preRedraw () {} // Placeholder for custom pre-redraw event
     postRedraw () {} // Placeholder for custom post-redraw event
 
