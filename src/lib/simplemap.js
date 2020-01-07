@@ -100,7 +100,7 @@ class Simplemap {
             this.lastEvent = e
             setTimeout(() => {
                 if (e === this.lastEvent) this.update()
-            }, 50)
+            }, 25)
         })
         this.map.once("load", onFinish)
     }
@@ -178,11 +178,12 @@ class Simplemap {
         )
     }
 
-    // Get data from a feature
+    // Get data for a feature
     getData (f, layer) {
         layer = layer || _.find(this.layers, {id: f.layer.id})
         const id = f.properties[layer.matchBy]
-        const data = _.find(layer.data, d => d.id == id)
+        const data = _.find(layer.data, d => d[layer.matchBy] == id)
+        if (!data) console.warn("No data found for " + id)
         return data
     }
 }
