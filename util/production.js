@@ -1,5 +1,5 @@
 
-import { homepage } from "../../package.json"
+import { homepage } from "../package.json"
 const basePath = homepage
 const localPath = homepage.replace("/apps/", "/apps-mirror/")
 
