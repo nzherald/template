@@ -47,14 +47,11 @@ class EmbedPlugin {
             }
 
             // Create embed.js
-            let jsContent = "(function () {"
-            jsContent += "console.log('embed.js running.');"
-
-            if (root) {
-                jsContent += makeJS(root, "r")
-            }
+            let jsContent = ""
+            if (root) jsContent += makeJS(root, "r")
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
-            jsContent += "})()"
+            jsContent += "console.log('embed.js finished.');"
+            jsContent = "(function () {" + jsContent + "})()"
             compilation.assets["embed.js"] = dump(jsContent)
 
             // Create embed.css
