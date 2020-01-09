@@ -1,3 +1,5 @@
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+
 // Interprets and bundles all necessary resources to run, with an index.html
 module.exports = {
     entry: {
@@ -22,5 +24,8 @@ module.exports = {
                 loader: "dsv-loader"
             }
         ]
-    }
+    },
+    plugins: [
+        new CopyWebpackPlugin(["static"])
+    ]
 }

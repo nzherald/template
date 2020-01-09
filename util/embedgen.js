@@ -39,11 +39,15 @@ class EmbedPlugin {
             let root
             const js = []
             const css = []
-            css.push(basePath + "loading.css") // loading.css is a static file
+            css.push(basePath + "loading.css") // Always add loading.css first
             for (var fn in compilation.assets) {
                 if (/^root.*js$/.test(fn)) root = basePath + fn
                 else if (/.*\.js$/.test(fn)) js.push(basePath + fn)
-                else if (/.*\.css$/.test(fn)) css.push(basePath + fn)
+                else if (/.*\.css$/.test(fn)) {
+                    if (fn === "loading.css") continue // Don't add loading again
+                    else if (fn === "nzh-base.css") continue // Don't add nzh-base
+                    else css.push(basePath + fn)
+                }
             }
 
             // Create embed.js
