@@ -39,20 +39,17 @@ class EmbedPlugin {
             let root
             const js = []
             const css = []
-            css.push(basePath + "loading.css") // Always add loading.css first
+            const ignore = ["prelaunch.js", "loading.css", "nzh-base.css"]
             for (var fn in compilation.assets) {
-                if (/^root.*js$/.test(fn)) root = basePath + fn
+                if (ignore.indexOf(fn) > -1) continue
+                else if (/^root.*js$/.test(fn)) root = basePath + fn
                 else if (/.*\.js$/.test(fn)) js.push(basePath + fn)
-                else if (/.*\.css$/.test(fn)) {
-                    if (fn === "loading.css") continue // Don't add loading again
-                    else if (fn === "nzh-base.css") continue // Don't add nzh-base
-                    else css.push(basePath + fn)
-                }
+                else if (/.*\.css$/.test(fn)) css.push(basePath + fn)
             }
 
             // Create embed.js
             let jsContent = ""
-            if (root) jsContent += makeJS(root, "r")
+            if (root) jsContent += makeJS(root, "r") // Always load root first
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
             jsContent += "console.log('embed.js finished.');"
             jsContent = "(function () {" + jsContent + "})()"
@@ -60,6 +57,7 @@ class EmbedPlugin {
 
             // Create embed.css
             let cssContent = ""
+            cssContent += makeCSS(basePath + "loading.css") // Always load loading.css first
             css.forEach((url) => cssContent += makeCSS(url))
             compilation.assets["embed.css"] = dump(cssContent)
 
