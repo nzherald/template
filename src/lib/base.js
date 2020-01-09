@@ -1,38 +1,13 @@
-import { parse } from "query-string";
-
 import "./base.less"
 import ENV from 'Environment';
 
-if (!Object.entries) {
-    Object.entries = function(obj) {
-      var ownProps = Object.keys(obj),
-        i = ownProps.length,
-        resArray = new Array(i); // preallocate the Array
-      while (i--) resArray[i] = [ownProps[i], obj[ownProps[i]]];
-  
-      return resArray;
-    };
-  }
 
 class Base {
-    constructor (html) {
-        this.visnodes = [...document.getElementsByClassName("nzh-datavis")].map(
-            n => {
-               $(n).append(html)
-                return {
-                    selector: n, 
-                    params: n.attributes["data-params"] ? parse(n.attributes["data-params"].value) : {},
-                    $: $(n)
-                }
-              }
-          );
-          this.root = this.visnodes[0]
-          this.basePath =
-            ENV.isProduction &&
-            ENV.separateCrossOriginRequests &&
-            ENV.basePath.includes(location.host)
-              ? ENV.localPath
-              : ENV.basePath;
+    constructor (selector, html) {
+        this.root = {selector, $: $(selector)}
+        if (!this.root.$[0]) console.error("Cannot find element '" + selector + "'! Nothing will work!")
+        this.root.$.append(html)
+        this.basePath = (ENV.isProduction && ENV.separateCrossOriginRequests && ENV.basePath.includes(location.host)) ? ENV.localPath : ENV.basePath
     }
 
     premiumWait (render) {

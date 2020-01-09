@@ -4,9 +4,9 @@ import "./root.less"
 
 
 class Main extends Base {
-    constructor () {
-        console.log("Setting up visualisation...")
-        super(HTML)
+    constructor (selector, params) {
+        console.log("Setting up visualisation with parameters:", params)
+        super(selector, HTML)
         console.log("Loading data...")
         null
         this.premiumWait(() => {
@@ -18,4 +18,4 @@ class Main extends Base {
     }
 }
 
-new Main()
+window.Main = window.UniqClassName = Main

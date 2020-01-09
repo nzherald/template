@@ -53,6 +53,5 @@
     "webpack-s3-uploader": "^1.3.3"
   },
   "dependencies": {
-    "query-string": "^6.9.0"
   }
 }
