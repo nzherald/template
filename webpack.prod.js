@@ -9,7 +9,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin")
 module.exports = merge(base, {
     resolve: {
         alias: {
-            Environment$: path.resolve(__dirname, "src/environments/production.js")
+            Environment$: path.resolve(__dirname, "util/production.js")
         }
     },
     mode: "production",
