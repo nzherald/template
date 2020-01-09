@@ -16,8 +16,8 @@ import rawData from "./data/dummy.csv"
 
 
 class Main extends Base {
-    constructor () {
-        super(HTML)
+    constructor (selector, params) {
+        super(selector, HTML)
         const V = new Vis({
             container: "#nzh-datavis-root",
             scale: {
@@ -70,4 +70,4 @@ class Main extends Base {
     }
 }
 
-new Main()
+window.Main = window.UniqClassName = Main

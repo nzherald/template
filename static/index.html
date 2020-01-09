@@ -13,7 +13,9 @@
     <div id="nzh-datavis-root" class="nzh-datavis">
         <a href='https://www.nzherald.co.nz/premium/news/article.cfm?c_id=7&objectid=[!!! INSERT ZEN ID HERE !!!]' target='_blank'>Click here to see full interactive.</a>
     </div>
-    <script src="./embed.js" data-targ="#nzh-datavis-root" data-params=""></script>
+    <script src="./prelaunch.js"></script>
+    <script src="./embed.js"></script>
+    <script>window.onload = function () { new window.Main("#nzh-datavis-root", {"hello":"world"}) }</script>
 
     <!-- Allows this to be used inside a pym iframe -->
     <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>

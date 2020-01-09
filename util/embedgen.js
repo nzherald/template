@@ -5,7 +5,7 @@
  * a decent cache timeout, and the small embed files can be essentially
  * uncached.
  *
- * The webpack entry points loading and root are special.
+ * The webpack entry points root is special.
  * In the javascript loader loading is loaded before anything else
  * and then root is loaded.
  */
@@ -25,8 +25,6 @@ function dump (content, fn) {
     }
 }
 
-const BAD_BROWSER = '<b>Sorry! Your browser does not support this content.</b>' +
-                    '<p>Please try <a href="https://www.microsoft.com/en-nz/windows/microsoft-edge" target="_blank">Microsoft Edge</a>, <a href="https://www.google.com/chrome/" _target="_blank">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/" _target="_blank">Mozilla Firefox</a>.</p>'
 
 class EmbedPlugin {
     constructor (options) {
@@ -38,38 +36,22 @@ class EmbedPlugin {
         compiler.hooks.emit.tap("EmbedPlugin", function (compilation, callback) {
             const basePath = self.options.basePath || ""
             // Sort assets
-            let loading
             let root
             const js = []
             const css = []
+            css.push(basePath + "loading.css") // loading.css is a static file
             for (var fn in compilation.assets) {
-                if (/^loading.*js$/.test(fn)) loading = basePath + fn
-                else if (/^root.*js$/.test(fn)) root = basePath + fn
+                if (/^root.*js$/.test(fn)) root = basePath + fn
                 else if (/.*\.js$/.test(fn)) js.push(basePath + fn)
                 else if (/.*\.css$/.test(fn)) css.push(basePath + fn)
             }
 
             // Create embed.js
-            let jsContent = "(function () {"
-            jsContent += "console.log('embed.js running.');"
-            jsContent += "var s=document.currentScript;var targ=s&&s.getAttribute('data-targ');var params=s&&s.getAttribute('data-params');\n"
-
-            // Browser check and fail
-            jsContent += "var isIE=navigator.appName=='Microsoft Internet Explorer'||!!(navigator.userAgent.match(/Trident/)||navigator.userAgent.match(/rv:11/));"
-            jsContent += `if(isIE){var err = document.getElementById("nzh-datavis-root");if(err){err.innerHTML= '<b>Sorry! Your browser does not support the rating tool.</b> <p>Please try <a href="https://www.microsoft.com/en-nz/windows/microsoft-edge" target="_blank">Microsoft Edge</a>, <a href="https://www.google.com/chrome/" _target="_blank">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/" _target="_blank">Mozilla Firefox</a>.</p>' };return};\n`
-
-            if (loading) {
-                jsContent += "sessionStorage.setItem('loading','not-done');\n"
-                jsContent += makeJS(loading, "l")
-                jsContent += "l.setAttribute('data-targ', targ || '');\n"
-            }
-            if (root) {
-                jsContent += makeJS(root, "r")
-                jsContent += "r.setAttribute('data-targ', targ || '');"
-                jsContent += "r.setAttribute('data-params', params || '');"
-            }
+            let jsContent = ""
+            if (root) jsContent += makeJS(root, "r")
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
-            jsContent += "})()"
+            jsContent += "console.log('embed.js finished.');"
+            jsContent = "(function () {" + jsContent + "})()"
             compilation.assets["embed.js"] = dump(jsContent)
 
             // Create embed.css
