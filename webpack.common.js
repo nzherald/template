@@ -1,7 +1,6 @@
 // Interprets and bundles all necessary resources to run, with an index.html
 module.exports = {
     entry: {
-        loading: "./src/loading.js",
         root: "./src/root.js"
     },
     module: {
