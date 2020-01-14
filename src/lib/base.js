@@ -7,6 +7,7 @@ class Base {
         this.root = {selector, $: $(selector)}
         if (!this.root.$[0]) console.error("Cannot find element '" + selector + "'! Nothing will work!")
         this.root.$.append(html)
+        this.root.$.closest(".pb-feature").addClass("pb-f-article-slideshow") // Herald site hack - hijack swipe on this visualisation
         this.basePath = (ENV.isProduction && ENV.separateCrossOriginRequests && ENV.basePath.includes(location.host)) ? ENV.localPath : ENV.basePath
     }
 
