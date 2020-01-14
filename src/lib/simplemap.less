@@ -1,7 +1,29 @@
 .nzh-datavis {
-    .mapboxgl-popup-close-button {
-        padding: unset;
-        border: 0;
-        background-color: transparent;
+    .mapboxgl-popup {
+        .mapboxgl-popup-close-button {
+            padding: 0.25em;
+            border: 0;
+            background-color: transparent;
+        }
+        .period {
+            text-align: center;
+        }
+        .title {
+            padding: 0 0.8em;
+            margin-bottom: 0.4em;
+            text-align: center;
+            color: #333
+        }
+        table {
+            td {
+                padding: 0 0.5em;
+            }
+            td:first-child {
+                color: #333;
+            }
+            td:last-child {
+                text-align: right;
+            }
+        }
     }
 }
