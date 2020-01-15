@@ -71,6 +71,17 @@ class Choropleth extends Simplemap {
         this.d3.classed("choropleth", true)
     }
 
+    showDataPopup (f, data, title, period) {
+        const sl = d3.create("div")
+        if (period) sl.append("div.period").text(period)
+        if (title) sl.append("div.title.titlefont").text(title)
+        if (data) sl.append("table").append("tbody")
+                    .appendMany("tr", _.toPairs(data))
+                    .appendMany("td", d => d)
+                    .text(d => d)
+        this.showPopup(f, sl.html())
+    }
+
     setPeriod (period) {
         if (!period) {
             console.log("No period defined, going to basic mode.")
