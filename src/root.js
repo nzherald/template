@@ -8,17 +8,13 @@ import "./root.less"
 class Main extends Base {
     constructor (selector, params) {
         console.log("Setting up visualisation with parameters:", params)
-        super(selector, HTML)
+        super(selector)
         console.log("Loading data...")
         null
+        console.log(selector)
         this.premiumWait(() => {
             console.log("Rendering...")
-            this.visnodes.map(node => {
-                ReactDOM.render(
-                  <App {...node.params} />,
-                  node.selector
-                );
-              }); 
+            ReactDOM.render( <App {...params} />, document.querySelector(selector));
             console.log("Done.")
             this.fadeOut()
         })
