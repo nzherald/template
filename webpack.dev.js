@@ -8,7 +8,7 @@ const EmbedPlugin = require("./util/embedgen.js")
 module.exports = merge(base, {
     resolve: {
         alias: {
-            Environment$: path.resolve(__dirname, "src/environments/development.js")
+            Environment$: path.resolve(__dirname, "util/development.js")
         }
     },
     mode: "development",

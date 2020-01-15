@@ -4,16 +4,19 @@
     <meta charset="utf-8" />
     <title>New Zealand Herald Insights</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <link href="./embed.css" rel="stylesheet">
-    <link href="./nzh-520781b01d.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <link href="./nzh-base.css" rel="stylesheet">
+    <link href="./embed.css" rel="stylesheet">
 </head>
 
 <body class="testing">
-    <div id="nzh-datavis-root" class="nzh-datavis" data-params="">
-        <a href='https://www.nzherald.co.nz/premium/news/article.cfm?c_id=7&objectid=[!!! INSERT ZEN ID HERE !!!]' target='_blank'>Click here to see full interactive.</a>
+    <div id="nzh-datavis-root" class="nzh-datavis">
+        <a href="https://www.nzherald.co.nz/premium/news/article.cfm?objectid=[!!! INSERT ZEN ID HERE !!!]" target="_blank">Click here to see full interactive.</a>
     </div>
-    <script src="./embed.js"></script>
+    <link href="embed.css" rel="stylesheet">
+    <script src="prelaunch.js"></script>
+    <script src="embed.js"></script>
+    <script>window.onload = function () { new window.Main("#nzh-datavis-root", {}) }</script>
 
     <!-- Allows this to be used inside a pym iframe -->
     <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>

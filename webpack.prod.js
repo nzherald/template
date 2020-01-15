@@ -3,13 +3,12 @@ const base = require("./webpack.common.js")
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const autoprefixer = require("autoprefixer")
-const CopyWebpackPlugin = require("copy-webpack-plugin")
 
 // Post-processing and minification of bundle
 module.exports = merge(base, {
     resolve: {
         alias: {
-            Environment$: path.resolve(__dirname, "src/environments/production.js")
+            Environment$: path.resolve(__dirname, "util/production.js")
         }
     },
     mode: "production",
@@ -63,7 +62,6 @@ module.exports = merge(base, {
         }
     },
     plugins: [
-        new CopyWebpackPlugin(["static"]),
         new MiniCssExtractPlugin({
             filename: "[name].prod.[chunkhash].css"
         })
