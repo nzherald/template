@@ -11,7 +11,6 @@ class Main extends Base {
         super(selector)
         console.log("Loading data...")
         null
-        console.log(selector)
         this.premiumWait(() => {
             console.log("Rendering...")
             ReactDOM.render( <App {...params} />, document.querySelector(selector));

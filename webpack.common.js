@@ -22,6 +22,10 @@ module.exports = {
             {
                 test: /\.(c|d|t)sv$/,
                 loader: "dsv-loader"
+            },
+            {
+                test: /lines-v10.json$/,
+                loader: "file-loader"
             }
         ]
     },

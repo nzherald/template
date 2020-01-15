@@ -1,12 +1,14 @@
 import React, { Suspense, useState, useEffect } from 'react';
 import styled from "@xstyled/styled-components"
 import axios from 'axios';
+import datafile from "./assets/lines-v10.json"
 
+console.log(datafile)
 
-axios.defaults.headers.common['Content-Type'] ='application/json;charset=utf-8';
-axios.defaults.headers.common['crossdomain'] = true;
-axios.defaults.headers.common['crossorigin'] = 'anonymous';
-axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*"
+// axios.defaults.headers.common['Content-Type'] ='application/json;charset=utf-8';
+// axios.defaults.headers.common['crossdomain'] = true;
+// axios.defaults.headers.common['crossorigin'] = 'anonymous';
+// axios.defaults.headers.common['Access-Control-Allow-Origin'] = "*"
 
 
 const XYFrame = React.lazy(() => import('semiotic/lib/XYFrame'));
@@ -81,7 +83,7 @@ export default ({basePath}) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const lines = await axios(basePath + "lines-v10.json")
+      const lines = await axios(datafile)
 
       setData({lines:lines.data, ...frameProps})
     };
