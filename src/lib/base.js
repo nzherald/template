@@ -1,5 +1,6 @@
 import "./base.less"
-import ENV from 'Environment';
+// Pull in ENV if you need different variable for production and dev
+// import ENV from 'Environment';
 
 
 class Base {
@@ -7,7 +8,6 @@ class Base {
         this.root = {selector, $: $(selector)}
         if (!this.root.$[0]) console.error("Cannot find element '" + selector + "'! Nothing will work!")
         this.root.$.closest(".pb-feature").addClass("pb-f-article-slideshow") // Herald site hack - hijack swipe on this visualisation
-        this.basePath = (ENV.isProduction && ENV.separateCrossOriginRequests && ENV.basePath.includes(location.host)) ? ENV.localPath : ENV.basePath
     }
 
     premiumWait (render) {

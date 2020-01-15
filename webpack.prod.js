@@ -3,6 +3,7 @@ const base = require("./webpack.common.js")
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const autoprefixer = require("autoprefixer")
+const { homepage } = require("./package.json")
 
 // Post-processing and minification of bundle
 module.exports = merge(base, {
@@ -14,7 +15,8 @@ module.exports = merge(base, {
     mode: "production",
     output: {
         filename: "[name].prod.[chunkhash].js",
-        path: path.resolve(__dirname, "dist")
+        path: path.resolve(__dirname, "dist"),
+        publicPath: homepage
     },
     module: {
         rules: [
