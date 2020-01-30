@@ -1,0 +1,33 @@
+.chaosladder {
+    display: flex;
+    flex-direction: column;
+    .header,
+    .row {
+        display: flex;
+        flex-direction: row;
+        background-color: RGBA(255,255,255,0.5);
+        user-select: none;
+        cursor: pointer;
+        & > * {
+            padding: 0 0.4em;
+        }
+        .rank {
+            order: 1;
+            width: 2.4em;
+        }
+        .name {
+            order: 2;
+            flex-grow: 1;
+        }
+        .value {
+            order: 3;
+            text-align: right;
+            width: 2.4em;
+        }
+        &.selected,
+        &.highlighted {
+            font-weight: bold;
+            background-color: #eee;
+        }
+    }
+}
