@@ -17,23 +17,48 @@ class ChaosLadder {
         this.d3 = d3.select(opt.container)
         this.d3.classed("chaosladder", true)
         this.format = opt.format
+        if (opt.title) this.setTitle(opt.title)
+    }
+
+    setTitle (title) {
+        this.d3.selectAppend("div.title")
+            .text(title)
+            .style("order", 0)
     }
 
     setData (series, maxCount, t) {
-        let el = this.d3.selectAll("div.row")
-        series = this.rankData(series, maxCount)
-        const jn = el.data(series, d => this.getId(d))
+        const Me = this
+        let el = this.d3.selectAppend("div.main").selectAll("div.row")
+        el.interrupt()
 
-        // Stop animating and record current positions
-        // This must be done AFTER data assignment, but BEFORE new elements are inserted
-        el.interrupt().each(function (d) {
-            const el = $(this)
-            d.currTop = el.position().top
-            d.currRank = el.find("div.rank").text()
-            d.currVal = el.find("div.value").text()
+        // Save current values
+        const oldData = {}
+        el.each(function (d) {
+            const id = Me.getId(d)
+            oldData[id] = {
+                _oldTop: $(this).position().top,
+                _oldVal: d._val,
+                _oldRank: d._rank
+            }
+        })
+
+        // Sort
+        series = _(series).sortBy("rank") // Sort by existing rank
+                          .sortBy(d => -this.getVal(d) || Infinity) // Descending sort by value
+                          .uniqBy(d => this.getId(d)) // Filter out duplicates - do after sort
+                          .slice(0, maxCount)
+                          .value()
+
+        // Populate
+        _.each(series, (d, i) => {
+            d._id = this.getId(d)
+            d._val = this.getVal(d)
+            d._rank = i + 1
+            _.extend(d, oldData[d._id])
         })
 
         // Create/remove elements
+        const jn = el.data(series, d => d._id)
         jn.join(
             enter => this.makeRow(enter),
             update => {},
@@ -42,7 +67,7 @@ class ChaosLadder {
 
         // Set new order, which moves it to new position
         el = this.d3.selectAll("div.row")
-        el.style("order", d => d.rank)
+        el.style("order", d => d._rank)
 
         // Set up enter/update for redraw
         jn.join(
@@ -55,7 +80,7 @@ class ChaosLadder {
                 const el = update
                 el.st("z-index", 1)
                 el.st("opacity", 1)
-                el.translate(function (d) { return [0, d.currTop - this.offsetTop] })// Add offset, which brings it back to old position)
+                el.translate(function (d) { return [0, d._oldTop - this.offsetTop] }) // Add offset, which brings it back to old position)
             }
         )
 
@@ -63,8 +88,8 @@ class ChaosLadder {
         const tr = el.transition().duration(t)
         tr.st("opacity", 1)
         tr.translate([0, 0]) // 0, 0 will result in element appearing in its expected position, as defined by order
-        tr.select("div.rank").textTween(d => itp(d.currRank || d.rank, d.rank, ".0f"))
-        tr.select("div.value").textTween(d => itp(d.currVal, this.getVal(d), this.format))
+        tr.select("div.rank").textTween(d => itp(d._oldRank || d._rank, d._rank, ".0f"))
+        tr.select("div.value").textTween(d => itp(d._oldVal, d._val, this.format))
     }
 
     highlight (d) {
@@ -90,16 +115,6 @@ class ChaosLadder {
     getId (d) { return d.name }
     getName (d) { return d.name }
     getVal (d) { return d.val }
-
-    // Sort and assign ranks
-    rankData (series, maxCount) {
-        series = _(series).sortBy("rank") // Sort by existing rank
-                          .sortBy(d => -this.getVal(d) || Infinity) // Descending sort by value
-                          .uniqBy(d => this.getId(d)).value()
-        _.each(series, (d, i) => d.rank = i + 1)
-        if (maxCount) series = series.slice(0, maxCount)
-        return series
-    }
 
 
     //==========//

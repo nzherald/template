@@ -1,33 +1,49 @@
 .chaosladder {
-    display: flex;
-    flex-direction: column;
-    .header,
-    .row {
+    border: #f5f5f5 1px solid;
+    background: RGBA(255,255,255,0.9);
+
+    .title {
+        text-align: center;
+        padding: 0.6em;
+        font-family: "Stag Book", Georgia, serif;
+        font-weight: normal;
+        color: #4c585d;
+        background: #f5f5f5;
+    }
+    .main {
         display: flex;
-        flex-direction: row;
-        background-color: RGBA(255,255,255,0.5);
-        user-select: none;
-        cursor: pointer;
-        & > * {
-            padding: 0 0.4em;
-        }
-        .rank {
-            order: 1;
-            width: 2.4em;
-        }
-        .name {
-            order: 2;
-            flex-grow: 1;
-        }
-        .value {
-            order: 3;
-            text-align: right;
-            width: 2.4em;
-        }
-        &.selected,
-        &.highlighted {
-            font-weight: bold;
-            background-color: #eee;
+        flex-direction: column;
+        padding-top: 0.4em;
+        padding-bottom: 0.8em;
+        .header,
+        .row {
+            display: flex;
+            flex-direction: row;
+            user-select: none;
+            cursor: pointer;
+            padding: 0.05em 0.8em;
+
+            & > * {
+                padding: 0 0.4em;
+            }
+            .rank {
+                order: 1;
+                width: 2.4em;
+            }
+            .name {
+                order: 2;
+                flex-grow: 1;
+            }
+            .value {
+                order: 3;
+                text-align: right;
+                width: 2.4em;
+            }
+            &.selected,
+            &.highlighted {
+                font-weight: bold;
+                background-color: #eee;
+            }
         }
     }
 }
