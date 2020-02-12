@@ -152,6 +152,7 @@ class Choropleth extends Simplemap {
                                .nth(-5) // Ignore outliers
             scale.domain([0, max]).nice()
         }
+        scale.clamp(true)
     }
 
     checkLayer (layer) {
