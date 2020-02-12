@@ -168,14 +168,19 @@ class Simplemap {
         return _.find(this.layers, {id})
     }
 
-    getFeature (query, layer) {
+    // Only works when map is rendered from data
+    getFeatures (query, layer) {
         if (typeof layer === "string") layer = this.getLayer(layer)
-        const source = layer.source
-        const features = layer.data.features
-        return _.extend(
-            {source},
-            _.find(features, f => _.isMatch(f.properties, query))
-        )
+        return _(layer.data.features).filter(f => _.isMatch(f.properties, query))
+                                     .map(f => _.extend({source: layer.source}, f))
+                                     .value()
+    }
+
+    // Mostly here to translate MapboxGL filter expressions into something not stupid
+    getRenderedFeatures (query, layer) {
+        const filter = ["all"]
+        _.each(query, (v, k) => filter.push(["==", k, v]))
+        return this.map.queryRenderedFeatures({layers: [layer], filter})
     }
 
     // Get data for a feature
