@@ -107,9 +107,8 @@ class BaseLine {
 
     setEvents () {
         this.svg.d3.on("mousemove", () => {
-            const pos = d3.mouse(this.svg.d3.node())
-            const s = this.getClosestLine(pos)
-            const p = this.getClosestPoint(s, pos)
+            const s = this.getClosestLine()
+            const p = this.getClosestPoint(s)
             this.highlight(s, p)
         })
     }
@@ -327,6 +326,7 @@ class BaseLine {
     }
 
     getClosestLine (pos) {
+        pos = pos || d3.mouse(this.svg.d3.node())
         const ln      = this.d3.selectAll(".lines g.line"),
               closest = _.minBy(ln.nodes(), l => this.distToLine(l, pos)),
               dist    = this.distToLine(closest, pos)
@@ -334,8 +334,9 @@ class BaseLine {
     }
 
     getClosestPoint (s, pos) {
-        if (!s) return
-        return _.minBy(s.points, p => {
+        pos = pos || d3.mouse(this.svg.d3.node())
+        s = s || this.getClosestLine(pos)
+        if (s) return _.minBy(s.points, p => {
             const dx = this.getX(p) - pos[0]
             const dy = this.getY(p) - pos[1]
             return dx * dx + dy * dy;
