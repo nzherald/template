@@ -1,0 +1,27 @@
+@whiteish: #F3F1F2;
+@lightdark: #C8CCCF;
+@darkish: #666;
+@dark: #4c585d;
+
+.timeslider {
+    .main {
+        display: flex;
+        flex-direction: row;
+        .button {
+            width: 2em;
+            height: 2em;
+            padding: 0.25em;
+            box-sizing: border-box;
+            cursor: pointer;
+            path {
+                fill: @darkish;
+            }
+            &:hover path {
+                fill: @dark;
+            }
+        }
+        input {
+            flex-grow: 1;
+        }
+    }
+}
