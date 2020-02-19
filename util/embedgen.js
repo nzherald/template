@@ -10,6 +10,7 @@
  * and then root is loaded.
  */
 
+const SHOW_ERR = `document.body.getElementsByClassName("loading")[0].getElementsByClassName("message")[0].innerHTML="Sorry, something went wrong!"`
 function makeJS (src, id) {
     return `var ${id}=document.createElement('script');${id}.src='${src}';document.body.appendChild(${id});\n`
 }
@@ -52,7 +53,7 @@ class EmbedPlugin {
             if (root) jsContent += makeJS(root, "r") // Always load root first
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
             jsContent += "console.log('embed.js finished.');"
-            jsContent = "(function () {" + jsContent + "})()"
+            jsContent = `(function () {try {${jsContent}} catch (err) {${SHOW_ERR}}})()`
             compilation.assets["embed.js"] = dump(jsContent)
 
             // Create embed.css
