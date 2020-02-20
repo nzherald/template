@@ -5,21 +5,18 @@ import App from "./App";
 import "./root.less";
 
 class Main extends Base {
-    constructor () {
-        console.log("Setting up visualisation...")
-        super()
+    constructor (selector, params) {
+        console.log("Setting up visualisation with parameters:", params)
+        super(selector)
+        console.log("Loading data...")
+        null
         this.premiumWait(() => {
             console.log("Rendering...")
-            this.visnodes.map(node => {
-                ReactDOM.render(
-                  <App {...node.params} />,
-                  node.selector
-                );
-              }); 
+            ReactDOM.render( <App {...params} />, document.querySelector(selector));
             console.log("Done.")
             this.fadeOut()
         })
     }
 }
 
-new Main();
+window.Main = window.UniqClassName = Main

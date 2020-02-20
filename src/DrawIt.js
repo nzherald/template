@@ -1,22 +1,23 @@
-import React, { useState, useRef, useEffect } from "react";
-import { useSpring } from "react-spring";
-import { drag } from "d3-drag";
-import { select, mouse } from "d3-selection";
-import { line, curveCatmullRom } from "d3-shape";
-import styled from "@xstyled/styled-components";
+import React, { useState, useRef, useEffect } from 'react'
+import PropTypes from 'prop-types'
+import { useSpring } from 'react-spring'
+import { drag } from 'd3-drag'
+import { select, mouse } from 'd3-selection'
+import { line, curveCatmullRom } from 'd3-shape'
+import styled from 'styled-components'
 
-import { XYFrame } from "semiotic";
+import { XYFrame } from 'semiotic'
 
 const Pulse = styled.circle`
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-name: pulse;
+  cursor: pointer;
   fill: white;
   fill-opacity: 0;
-  animation-duration: 2s;
-  animation-name: pulse;
-  animation-iteration-count: infinite;
-  cursor: pointer;
   stroke: dimgray;
-  stroke-width: 2px;
   stroke-opacity: 1;
+  stroke-width: 2px;
 
   @keyframes pulse {
     from {
@@ -30,61 +31,61 @@ const Pulse = styled.circle`
       transform: scale(2);
     }
   }
-`;
+`
 
-export default ({ tag, drawn, setDrawn, formatter, config, frameProps }) => {
-  const { margin, size, lines, yExtent, lineStyle } = frameProps;
-  const [width, height] = size;
-  const [end, setEnd] = useState(config.hideStart);
-  const [complete, setComplete] = useState(false);
-  const [pos, setPos] = useState([]);
-  const ref = useRef();
+const DrawIt = ({ tag, drawn, setDrawn, formatter, config, frameProps }) => {
+  const { margin, size, lines, yExtent, lineStyle } = frameProps
+  const [width, height] = size
+  const [end, setEnd] = useState(config.hideStart)
+  const [complete, setComplete] = useState(false)
+  const [pos, setPos] = useState([])
+  const ref = useRef()
   useSpring({
     start: complete ? config.hideEnd : config.hideStart,
     config: { duration: 1000 },
     onFrame: ({ start }) => setEnd(start)
-  });
+  })
 
   useEffect(() => {
     if (ref && ref.current) {
       const dragger = drag()
-        .on("start", () => {
-          setPos(mouse(ref.current));
+        .on('start', () => {
+          setPos(mouse(ref.current))
         })
-        .on("drag", () => {
-          setPos(mouse(ref.current));
-        });
+        .on('drag', () => {
+          setPos(mouse(ref.current))
+        })
 
-      select(ref.current).call(dragger);
+      select(ref.current).call(dragger)
     }
     // TODO - use complete to remove drag callback
-  }, [ref]);
+  }, [ref])
 
   const thresholdLine = params => {
-    const { xScale, yScale } = params;
+    const { xScale, yScale } = params
     const drawArray = Object.entries(drawn)
       .map(([x, y]) => [+x, y])
       .sort()
-      .filter(([x]) => x <= config.hideEnd);
-    const drawPos = drawArray[drawArray.length - 1];
-    const drawStartX = xScale(drawPos[0]);
-    const drawStartW = xScale(config.hideEnd) - xScale(drawPos[0]);
+      .filter(([x]) => x <= config.hideEnd)
+    const drawPos = drawArray[drawArray.length - 1]
+    const drawStartX = xScale(drawPos[0])
+    const drawStartW = xScale(config.hideEnd) - xScale(drawPos[0])
 
-    const invert = v => Math.round(xScale.invert(v) * 4) * 0.25;
+    const invert = v => Math.round(xScale.invert(v) * 4) * 0.25
     const drawnLine = line()
       .x(d => xScale(d[0]))
       .y(d => yScale(d[1]))
-      .curve(curveCatmullRom.alpha(0.5));
+      .curve(curveCatmullRom.alpha(0.5))
     if (!complete) {
-      const xDraw = invert(pos[0]);
+      const xDraw = invert(pos[0])
       if (xDraw > config.hideStart) {
-        const yDraw = yScale.invert(pos[1]);
-        drawn[xDraw] = yDraw;
+        const yDraw = yScale.invert(pos[1])
+        drawn[xDraw] = yDraw
       }
     }
     if (drawPos[0] >= config.hideEnd) {
-      setDrawn(drawn);
-      setComplete(true);
+      setDrawn(drawn)
+      setComplete(true)
     }
     return (
       <g key="draw">
@@ -118,41 +119,41 @@ export default ({ tag, drawn, setDrawn, formatter, config, frameProps }) => {
           </text>
         )}
       </g>
-    );
-  };
+    )
+  }
 
   const highlightLine = pointProps => {
-    const { d, xScale, yScale } = pointProps;
+    const { d, xScale, yScale } = pointProps
     const mainline = line()
       .x(p => xScale(p.year))
-      .y(p => yScale(p.value));
+      .y(p => yScale(p.value))
     return (
       <g key={`highlight-line-${d.title}`}>
         <path
           d={mainline(d.coordinates)}
           stroke="#333"
           strokeWidth="3"
-          clipPath={d.visible ? "" : `url(#superclip-${tag})`}
+          clipPath={d.visible ? '' : `url(#superclip-${tag})`}
         />
       </g>
-    );
-  };
+    )
+  }
 
   const pointsConfig = config.highlight
     ? {
-        points: lines,
-        customPointMark: highlightLine
-      }
-    : {};
+      points: lines,
+      customPointMark: highlightLine
+    }
+    : {}
 
   return (
     <div>
       <XYFrame
         {...frameProps}
         lineStyle={(d, i) => {
-          const ls = lineStyle(d, i);
-          ls.clipPath = !d.visible && `url(#superclip-${tag})`;
-          return ls;
+          const ls = lineStyle(d, i)
+          ls.clipPath = !d.visible && `url(#superclip-${tag})`
+          return ls
         }}
         {...pointsConfig}
         summaries={[
@@ -180,5 +181,18 @@ export default ({ tag, drawn, setDrawn, formatter, config, frameProps }) => {
         ]}
       />
     </div>
-  );
-};
+  )
+}
+
+// const DrawIt = ({ tag, drawn, setDrawn, formatter, config, frameProps }) => {
+DrawIt.propTypes = {
+  tag: PropTypes.string,
+  drawn: PropTypes.object,
+  formatter: PropTypes.func,
+  setDrawn: PropTypes.func,
+  config: PropTypes.object,
+  frameProps: PropTypes.object
+
+}
+
+export default DrawIt

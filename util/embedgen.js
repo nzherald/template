@@ -5,11 +5,12 @@
  * a decent cache timeout, and the small embed files can be essentially
  * uncached.
  *
- * The webpack entry points loading and root are special.
+ * The webpack entry points root is special.
  * In the javascript loader loading is loaded before anything else
  * and then root is loaded.
  */
 
+const SHOW_ERR = `document.body.getElementsByClassName("loading")[0].getElementsByClassName("message")[0].innerHTML="Sorry, something went wrong!"`
 function makeJS (src, id) {
     return `var ${id}=document.createElement('script');${id}.src='${src}';document.body.appendChild(${id});\n`
 }
@@ -36,40 +37,42 @@ class EmbedPlugin {
         compiler.hooks.emit.tap("EmbedPlugin", function (compilation, callback) {
             const basePath = self.options.basePath || ""
             // Sort assets
-            let loading
             let root
             const js = []
             const css = []
+            const ignore = ["prelaunch.js", "loading.css", "nzh-base.css"]
             for (var fn in compilation.assets) {
-                if (/^loading.*js$/.test(fn)) loading = basePath + fn
+                if (ignore.indexOf(fn) > -1) continue
                 else if (/^root.*js$/.test(fn)) root = basePath + fn
                 else if (/.*\.js$/.test(fn)) js.push(basePath + fn)
                 else if (/.*\.css$/.test(fn)) css.push(basePath + fn)
             }
 
             // Create embed.js
-            let jsContent = "(function () {"
-            jsContent += "console.log('embed.js running.');"
-
-            // Browser check and fail
-            jsContent += "var isIE=navigator.appName=='Microsoft Internet Explorer'||!!(navigator.userAgent.match(/Trident/)||navigator.userAgent.match(/rv:11/));"
-            jsContent += `if(isIE){var err = document.getElementById("nzh-datavis-root");if(err){err.innerHTML= '<b>Sorry! Your browser does not support the rating tool.</b> <p>Please try <a href="https://www.microsoft.com/en-nz/windows/microsoft-edge" target="_blank">Microsoft Edge</a>, <a href="https://www.google.com/chrome/" _target="_blank">Google Chrome</a> or <a href="https://www.mozilla.org/en-US/firefox/new/" _target="_blank">Mozilla Firefox</a>.</p>' };return};\n`
-
-            if (loading) {
-                jsContent += "sessionStorage.setItem('loading','not-done');\n"
-                jsContent += makeJS(loading, "l")
-            }
-            if (root) {
-                jsContent += makeJS(root, "r")
-            }
+            let jsContent = ""
+            if (root) jsContent += makeJS(root, "r") // Always load root first
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
-            jsContent += "})()"
+            jsContent += "console.log('embed.js finished.');"
+            jsContent = `(function () {try {${jsContent}} catch (err) {${SHOW_ERR}}})()`
             compilation.assets["embed.js"] = dump(jsContent)
 
             // Create embed.css
             let cssContent = ""
+            cssContent += makeCSS(basePath + "loading.css") // Always load loading.css first
             css.forEach((url) => cssContent += makeCSS(url))
             compilation.assets["embed.css"] = dump(cssContent)
+
+            // Create Zen embed code
+            const divId = "nzh-datavis-root"
+            const nzhLink = "https://www.nzherald.co.nz/premium/news/article.cfm?objectid=[!!! INSERT ZEN ID HERE !!!]"
+            const zenContent = [
+                `<div id="${divId}" class="nzh-datavis"><a href="${nzhLink}" target="_blank">Click here to see full interactive.</a></div>\n`,
+                `<link href="${basePath}embed.css" rel="stylesheet">`,
+                `<script src="${basePath}prelaunch.js"></script>`,
+                `<script src="${basePath}embed.js"></script>`,
+                `<script>window.onload = function () { new window.Main("#${divId}", {}) }</script>`
+            ].join("\n")
+            compilation.assets["zen.txt"] = dump(zenContent)
         })
     }
 }

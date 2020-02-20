@@ -1,7 +1,9 @@
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+const path = require("path")
+
 // Interprets and bundles all necessary resources to run, with an index.html
 module.exports = {
     entry: {
-        loading: "./src/loading.js",
         root: "./src/root.js"
     },
     module: {
@@ -21,7 +23,18 @@ module.exports = {
             {
                 test: /\.(c|d|t)sv$/,
                 loader: "dsv-loader"
+            },
+            {
+                test: /\.json$/,
+                include: [
+                    path.resolve(__dirname, "src/assets")
+                ],
+                type: "javascript/auto",
+                loader: "file-loader"
             }
         ]
-    }
+    },
+    plugins: [
+        new CopyWebpackPlugin(["static"])
+    ]
 }
