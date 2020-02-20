@@ -1,4 +1,5 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin")
+const path = require("path")
 
 // Interprets and bundles all necessary resources to run, with an index.html
 module.exports = {
@@ -24,7 +25,11 @@ module.exports = {
                 loader: "dsv-loader"
             },
             {
-                test: /lines-v10.json$/,
+                test: /\.json$/,
+                include: [
+                    path.resolve(__dirname, "src/assets")
+                ],
+                type: "javascript/auto",
                 loader: "file-loader"
             }
         ]
