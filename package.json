@@ -54,7 +54,6 @@
   },
   "dependencies": {
     "@babel/preset-react": "^7.8.3",
-    "@xstyled/styled-components": "^1.15.1",
     "axios": "^0.19.1",
     "query-string": "^6.9.0",
     "react": "^16.12.0",

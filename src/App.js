@@ -1,5 +1,5 @@
 import React, { Suspense, useState, useEffect } from 'react';
-import styled from "@xstyled/styled-components"
+import styled from "styled-components"
 import axios from 'axios';
 import datafile from "./assets/lines-v10.json"
 
