@@ -32,7 +32,7 @@
     "@babel/preset-env": "^7.8.4",
     "@babel/runtime": "^7.8.4",
     "autoprefixer": "^9.7.4",
-    "aws-sdk": "^2.622.0",
+    "aws-sdk": "^2.627.0",
     "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.1.1",
     "cross-env": "^7.0.0",
