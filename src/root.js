@@ -1,17 +1,16 @@
 import Base from "./lib/base.js"
-import HTML from "./root.html"
+import {Elm} from "./Main.elm"
 import "./root.less"
 
 
 class Main extends Base {
     constructor (selector, params) {
         console.log("Setting up visualisation with parameters:", params)
-        super(selector, HTML)
+        super(selector)
         console.log("Loading data...")
-        null
         this.premiumWait(() => {
             console.log("Rendering...")
-            null
+            Elm.Main.init({node: document.querySelector(selector)})
             console.log("Done.")
             this.fadeOut()
         })

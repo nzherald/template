@@ -52,7 +52,16 @@ module.exports = merge(base, {
                     plugins: ["@babel/transform-runtime", "@babel/proposal-object-rest-spread"],
                     presets: ["@babel/env"],
                 }
+            },
+            {
+                test: /\.elm$/,
+                exclude: [/elm-stuff/, /node_modules/],
+                use: {
+                    loader: 'elm-webpack-loader',
+                    options: {optimize: true}
+                }
             }
+
         ]
     },
     plugins: [
