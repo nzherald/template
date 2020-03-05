@@ -17,15 +17,5 @@
     <script src="prelaunch.js"></script>
     <script src="embed.js"></script>
     <script>window.onload = function () { new window.Main("#nzh-datavis-root", {}) }</script>
-
-    <!-- Allows this to be used inside a pym iframe -->
-    <script type="text/javascript" src="https://pym.nprapps.org/pym.v1.min.js"></script>
-    <script>
-        (function () {
-            var pymChild = new pym.Child()
-            window.addEventListener("resize", function () {pymChild.sendHeight()})
-            window.addEventListener("load",   function () {pymChild.sendHeight()})
-        })()
-    </script>
 </body>
 </html>
