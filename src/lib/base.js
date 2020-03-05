@@ -1,4 +1,5 @@
 import "./base.less"
+import $ from "jquery"
 // Pull in ENV if you need different variable for production and dev
 // import ENV from 'Environment';
 
