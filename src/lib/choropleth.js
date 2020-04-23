@@ -102,18 +102,11 @@ class Choropleth extends Simplemap {
         }
     }
 
-    // Bind data to layer
-    setData (layerName, data) {
-        const layer = _.find(this.layers, {id: layerName})
-        layer.data = data
-        this.checkLayer(layer)
-        this.updateLayer(layer)
-    }
-
     // Update will trigger on move - regenerate layers because only visible elements are generated
     update () {
         // var start = new Date()
         _.each(this.layers, layer => this.updateLayer(layer))
+        this.activeLayer = _.find(this.layers, l => l.live.length)
         // console.log(new Date() - start)
     }
 
@@ -155,55 +148,9 @@ class Choropleth extends Simplemap {
         scale.clamp(true)
     }
 
-    checkLayer (layer) {
-        console.log("Checking layer " + layer.id + "...")
-        // Check data
-        const d = layer.data[0]
-        if (this.period) {
-            if (!d[layer.matchBy]) {
-                console.error("layer.matchBy is set to '" + layer.matchBy + "' but data elements do not have this property!")
-                console.error("Data properties:", _.keys(d))
-            }
-            else if (!d.points) {
-                console.error("Data elements must have a 'points' property (an array containing points)!")
-            }
-            else if (!d.points[0].hasOwnProperty("period")) {
-                console.error("Points must have a 'period' property!")
-            }
-            else if (!d.points[0].hasOwnProperty("val")) {
-                console.error("Points must have a 'val' property!")
-            }
-            else {
-                console.log("Data looks right.")
-            }
-        }
-        else {
-            if (!d.hasOwnProperty("val")) {
-                console.error("Data elements must have a 'val' property!")
-            }
-            else {
-                console.log("Data looks right.")
-            }
-        }
-
-        // Check features
-        const features = this.map.queryRenderedFeatures({layers: [layer.id]})
-        const f = (features.length) ? features[0].properties : {}
-        if (!features.length) {
-            console.warn("Cannot check " + layer.id + " - no rendered features available.")
-        }
-        else if (!_.has(f, layer.matchBy)) {
-            console.error("layer.matchBy is set to '" + layer.matchBy + "' but features in " + layer.id + " do not have this property!")
-            console.error("Feature properties:", _.keys(f))
-        }
-        else {
-            console.log("Layer " + layer.id + " looks right.")
-        }
-    }
-
     // Generate a Mapbox expression for all the visible features in a layer using getC
     updateLayer (layer) {
-        const exp      = ["match", ["get", layer.matchBy]]
+        const exp = ["match", ["get", layer.matchBy]]
         const features = this.map.queryRenderedFeatures({layers: [layer.id]}) // Find all the rendered features in this layer
         layer.live = []                                                       // Reset dictionary for storing data of rendered features
         if (!features.length) return                                          // No features selected, quit

@@ -111,25 +111,18 @@ class Simplemap {
             if (_.every(sources, s => this.map.isSourceLoaded(s.id))) {
                 console.log("Sources loaded in", Date.now() - start + "ms")
                 if (b) b()
+                this.map.off("sourcedata", onFinish)
             }
         }
         if (_.isEmpty(sources)) {
             console.log("Warning: No sources specified!")
             return onFinish()
         }
-        this.map.once("sourcedata", onFinish)
+        this.map.on("sourcedata", onFinish)
 
         this.sources = sources
         _.each(sources, s => {
             console.log("Loading source", s.id + "...")
-            if (s.data) _(s.data.features).find(f => {
-                if (f.id == null) {
-                    throw "IDs missing on some/all features. Give integer IDs to features!"
-                }
-                if (typeof f.id === "string") {
-                    throw "IDs must be integers not strings. Give integer IDs to features!"
-                }
-            })
             this.map.addSource(s.id, _.omit(s, "id"))
         })
     }
@@ -158,7 +151,7 @@ class Simplemap {
         _.each(layers, l => {
             console.log("Loading layer", l.id + "...")
             const source = _.find(this.sources, {id: l.source})
-            l.data = source.data
+            l.data = l.data || source.data
             this.map.addLayer(l, l.insertBefore)
             _.each(l.events, (v, k) => this.map.on(k, l.id, v))
         })
@@ -190,6 +183,36 @@ class Simplemap {
         const data = _.find(layer.data, d => d[layer.matchBy] == id)
         if (!data) console.warn("No data found for " + id)
         return data
+    }
+
+    // Functions for checking data should work with sources/layers
+    checkSourceData (s) {
+        console.log("Checking data for source", s.id + "...")
+        _(s.data.features).find(f => {
+            if (f.id == null) throw "IDs missing on some/all features. Give integer IDs to features!"
+            if (typeof f.id === "string") throw "IDs must be integers not strings. Give integer IDs to features!"
+        })
+        console.log("Data for source", s.id, "is okay.")
+    }
+
+    checkLayerData (l) {
+        console.log("Checking data for layer", l.id + "...")
+        const d = l.data[0]
+        if (!d[l.matchBy]) throw "layer.matchBy is set to '" + l.matchBy + "' but data elements do not have this property!"
+        if (!d.points) {
+            if (!d.hasOwnProperty("val")) throw "Data elements must have a 'points' property (for series) or a 'val' (for single points)!"
+        }
+        else {
+            const p = d.points[0]
+            if (!p.hasOwnProperty("period")) throw "Points must have a 'period' property!"
+            else if (!p.hasOwnProperty("val")) throw "Points must have a 'val' property!"
+        }
+        console.log("Data for layer", l.id, "is okay.")
+
+        const features = this.map.queryRenderedFeatures({layers: [l.id]})
+        if (!features.length) console.warn("Cannot check " + l.id + " - no rendered features available.")
+        else if (!_.has(features[0].properties, l.matchBy)) throw "layer.matchBy is set to '" + l.matchBy + "' but features in " + l.id + " do not have this property!"
+        console.log("Features for layer", l.id, "is okay.")
     }
 }
 
