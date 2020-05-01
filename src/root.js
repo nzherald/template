@@ -1,3 +1,4 @@
+import ENV from "Environment"
 import _ from "lodash"
 import $ from "jquery"
 import * as d3 from "d3"
@@ -17,6 +18,7 @@ import rawData from "./data/dummy.csv"
 
 class Main extends Base {
     constructor (selector, params) {
+        console.log("Setting up visualisation with parameters:", params)
         super(selector, HTML)
         const V = new Vis({
             container: "#nzh-datavis-root",
