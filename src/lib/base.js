@@ -6,7 +6,8 @@ class Base {
     constructor (selector, html) {
         this.root = {selector, $: $(selector)}
         if (!this.root.$[0]) console.error("Cannot find element '" + selector + "'! Nothing will work!")
-        this.root.$.append(html)
+        this.root.$.html(html)
+        this.root.$.addClass("nzh-datavis")
         this.root.$.closest(".pb-feature").addClass("pb-f-article-slideshow") // Herald site hack - hijack swipe on this visualisation
     }
 
