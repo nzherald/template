@@ -2,12 +2,6 @@ import $ from "jquery"
 
 // Generates embed code for Zen
 class ZenGen {
-    // Read parameters from script tag's data-params attribute
-    static getScriptParams () {
-        const params = document.currentScript.getAttribute("data-params")
-        if (params && params !== "null") return this.parseParams(params)
-    }
-
     // Read parameters from URL
     static getURLParams () {
         const params = window.location.href.split("?")[1]
@@ -45,21 +39,14 @@ class ZenGen {
 
     // The bit that you paste into the footer
     static makeFooter (targ, path, params) {
-        const css = this.makeEmbedCSS(targ, path, params)
-        const js = this.makeEmbedJS(targ, path, params)
-        return $("<div/>").append(css).append(js).html()
-    }
-
-    static makeEmbedCSS (targ, path, params) {
-        return $("<link/>").attr("href", path + "embed.css")
-                           .attr("rel", "stylesheet")
-    }
-
-    static makeEmbedJS (targ, path, params) {
-        if (typeof(params) === "object") params = $.param(params)
-        return $("<script/>").attr("src", path + "embed.js")
-                             .attr("data-targ", targ)
-                             .attr("data-params", params)
+        if (path[path.length - 1] != "/") path +"/"
+        const el = [
+            `<link href="${path}embed.css" rel="stylesheet">`,
+            `<script src="${path}prelaunch.js"></script>`,
+            `<script src="${path}embed.js"></script>`,
+            `<script>window.onload = function () { new window.Main("${targ}", ${JSON.stringify(params)}) }</script>`
+        ]
+        return el.join("\n")
     }
 }
 
