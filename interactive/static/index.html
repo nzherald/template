@@ -9,12 +9,14 @@
 </head>
 
 <body class="testing">
-    <div id="nzh-datavis-root" class="nzh-datavis">
-        <a href="https://www.nzherald.co.nz/premium/news/article.cfm?objectid=[!!! INSERT ZEN ID HERE !!!]" target="_blank">Click here to see full interactive.</a>
-    </div>
+    <div id="nzh-datavis-root_c1" class="nzh-datavis"> </div>
+    <div id="nzh-datavis-root_c2" class="nzh-datavis"> </div>
     <link href="embed.css" rel="stylesheet">
     <script src="prelaunch.js"></script>
     <script src="embed.js"></script>
-    <script>window.onload = function () { new window.Main("#nzh-datavis-root", {}) }</script>
+    <script>window.onload = function () { 
+        new window.Main("#nzh-datavis-root_c1", {chart: "ChartOne"})
+        new window.Main("#nzh-datavis-root_c2", {chart: "ChartTwo"})
+    }</script>
 </body>
 </html>

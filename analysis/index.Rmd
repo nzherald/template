@@ -8,4 +8,63 @@ editor_options:
   chunk_output_type: console
 ---
 
-Welcome to my research website.
+```{r, include=F}
+library(tidyverse)
+library(drake)
+library(here)
+library(ggthemes)
+library(scales)
+library(grid)
+library(gridSVG)
+
+source(here("code/functions.R"))
+
+cases <- readd(cases)
+```
+
+_Example_
+
+
+# Covid-19 Cases by DHB
+
+```{r, fig.height=20}
+case_plot <- cases %>%
+  ggplot(aes(x = `date of report`)) +
+  geom_bar(fill = "#ecac0c") +
+  scale_fill_manual(values = c("#ecac0c", "#333c3d", "#121617")) +
+  scale_y_continuous(breaks = breaks_extended(n = 3)) +
+  xlab("Date of report") +
+  ylab("Cases") +
+  labs(title = "Daily cases by DHB") +
+  theme_nzh() +
+  facet_wrap(. ~ dhb, ncol = 1)
+
+case_plot
+```
+
+Save the plot for normal screens
+
+```{r}
+ggsave(here("interactive/src/svg/cases.svg"),
+  plot = case_plot, dpi = 100, width = 6.2, height = 20)
+```
+
+Save the plot for small screens
+
+```{r}
+ggsave(here("interactive/src/svg/cases-small.svg"),
+  plot = case_plot, dpi = 100, width = 3.2, height = 20)
+```
+
+Save the plot using gridSVG
+
+```{r}
+grid_export(here("interactive/src/svg/cases2.svg"),
+  width = 6.2, height = 20, prefix = "",
+  case_plot)
+
+grid_export(here("interactive/src/svg/cases2-small.svg"),
+  width = 3.2, height = 20, prefix = "",
+  case_plot)
+```
+
