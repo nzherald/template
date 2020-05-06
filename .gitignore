@@ -65,3 +65,5 @@ dist
 # Python compiled files
 *.pyc
 elm-stuff
+site_libs
+.Rproj.user
