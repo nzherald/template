@@ -20,10 +20,8 @@ const AWS_CONFIG = {
     region : 'ap-southeast-2'
 }
 
-function smallUploader(options) {
-    return new S3Plugin({
-        include : /.*\.html|embed\.(css|js)/,
-        basePath  : options.basePath,
+function uncachedUploader(options) {
+    return new S3Plugin(Object.assign(options, {
         s3Options : {
             credentials : new AWS.SharedIniFileCredentials({ profile : AWS_CONFIG.profile }),
             region      : AWS_CONFIG.region
@@ -35,14 +33,12 @@ function smallUploader(options) {
                 return "max-age=60,public"
             }
         },
-    });
+    }));
 }
 
-function largeUploader(options) {
+function cachedUploader(options) {
     console.log("Uploading files to", AWS_CONFIG.bucket + options.basePath + "...")
-    return new S3Plugin({
-        exclude: /.*\.html|embed\.(css|js)/,
-        basePath  : options.basePath,
+    return new S3Plugin(Object.assign(options, {
         s3Options : {
             credentials : new AWS.SharedIniFileCredentials({ profile : AWS_CONFIG.profile }),
             region      : AWS_CONFIG.region
@@ -54,7 +50,7 @@ function largeUploader(options) {
                 return "max-age=2592000,public"
             }
         },
-    });
+    }));
 }
 
-module.exports = { smallUploader, largeUploader };
+module.exports = { uncachedUploader, cachedUploader };
