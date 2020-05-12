@@ -63,14 +63,16 @@ class EmbedPlugin {
             compilation.assets["embed.css"] = dump(cssContent)
 
             // Create Zen embed code
+            // Prelaunch must be deferred to destroy the global style that the app tries to apply (which is created via a script we don't control)
+            // Everything else must also be deferred, so that they run after prelaunch
             const divId = "nzh-datavis-root"
             const nzhLink = "https://www.nzherald.co.nz/premium/news/article.cfm?objectid=[!!! INSERT ZEN ID HERE !!!]"
             const zenContent = [
                 `<div id="${divId}" class="nzh-datavis"><a href="${nzhLink}" target="_blank">Click here to see full interactive.</a></div>\n`,
                 `<link href="${basePath}embed.css" rel="stylesheet">`,
-                `<script src="${basePath}prelaunch.js"></script>`,
-                `<script src="${basePath}embed.js"></script>`,
-                `<script>window.onload = function () { new window.Main("#${divId}", {}) }</script>`
+                `<script defer src="${basePath}prelaunch.js"></script>`,
+                `<script defer src="${basePath}embed.js"></script>`,
+                `<script defer>window.onload = function () { new window.Main("#${divId}", {}) }</script>`
             ].join("\n")
             compilation.assets["zen.txt"] = dump(zenContent)
         })
