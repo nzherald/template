@@ -20,9 +20,10 @@ class Main extends Base {
         console.log("Loading data...")
         this.premiumWait(() => {
             console.log("Rendering...")
+            const chart = params.chart || "ChartOne"
             Elm.Main.init({node: document.querySelector(selector), flags: {
-                chart:params.chart,
-                ...charts[params.chart]
+                chart,
+                ...charts[chart]
             }})
             console.log("Done.")
             this.fadeOut()
