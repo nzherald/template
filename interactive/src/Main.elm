@@ -3,9 +3,10 @@ module Main exposing (..)
 import Browser
 import Browser.Dom exposing (Element, getElement)
 import Browser.Events exposing (onResize)
-import Builder exposing (Annotate, buildSvg, isNode, simpleBuildNoStyleNodes)
+import Builder exposing (Annotate, AnnotateState, buildSvg, isNode, simpleBuildNoStyleNodes)
 import Css exposing (..)
 import Css.Global as G
+import Dict
 import Html.Styled exposing (Html, div, fromUnstyled, h1, img, text, toUnstyled)
 import Html.Styled.Attributes as A exposing (css, id)
 import Html.Styled.Lazy exposing (lazy)
@@ -15,6 +16,9 @@ import Json.Decode.Pipeline as D
 import Loaders
 import Result.Extra as Result
 import Task
+import TypedSvg.Core exposing (Attribute)
+import TypedSvg.Events exposing (on)
+import VirtualDom exposing (Handler(..))
 import XmlParser as X
 
 
@@ -88,11 +92,19 @@ type Msg
     = GotPlot (Result Http.Error String)
     | GotNewWidth
     | RootWidth (Result Browser.Dom.Error Element)
+    | Click String String String Float Float
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        Click dhb day n x y ->
+            let
+                ll =
+                    Debug.log dhb ( x, y )
+            in
+            ( model, Cmd.none )
+
         GotNewWidth ->
             ( model, Task.attempt RootWidth (getElement model.chart.idstr) )
 
@@ -143,6 +155,7 @@ view model =
     div
         [ id model.chart.idstr
         , A.class "nzh-datavis"
+        , css [ position relative ]
         ]
         [ if model.initialLoad then
             case model.chart.label of
@@ -180,7 +193,7 @@ chartOne model =
 
 
 chartTwo model =
-    div [] [ lazy (buildSvg [ removeTextStroke, removeRootDims ] >> fromUnstyled) model.chartsvg ]
+    div [] [ lazy (buildSvg [ removeTextStroke, removeRootDims, interact ] >> fromUnstyled) model.chartsvg ]
 
 
 isTextNode =
@@ -189,6 +202,44 @@ isTextNode =
 
 isRoot =
     isNode "svg"
+
+
+isRect =
+    isNode "rect"
+
+
+myClick : String -> String -> String -> Attribute Msg
+myClick dhb day n =
+    on "click" (D.map2 (Click dhb day n) (D.at [ "layerX" ] D.float) (D.at [ "layerY" ] D.float) |> Normal)
+
+
+interact : Annotate Msg
+interact =
+    Annotate isRect addClick
+
+
+addClick : AnnotateState Msg -> AnnotateState Msg
+addClick a =
+    let
+        ( use, pass ) =
+            List.partition (\{ name } -> String.startsWith "data-" name) a.xattrs
+
+        dataAttrs =
+            List.map (\attr -> ( String.replace "data-" "" attr.name, attr.value )) use
+                |> Dict.fromList
+
+        clicker =
+            Maybe.map3 myClick
+                (Dict.get "dhb" dataAttrs)
+                (Dict.get "date" dataAttrs)
+                (Dict.get "n" dataAttrs)
+    in
+    { a
+        | attrs =
+            Maybe.map (\c -> c :: a.attrs) clicker
+                |> Maybe.withDefault a.attrs
+        , xattrs = pass
+    }
 
 
 removeTextStroke : Annotate Msg

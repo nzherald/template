@@ -339,7 +339,7 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-05-06
+<strong>Last updated:</strong> 2020-05-13
 </p>
 <p>
 <strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
@@ -430,16 +430,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnzheraldtemplatetree54164a40d1f6ec0d1321e2bf7c383fd897478f7etargetblank54164a4a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nzherald/template/tree/54164a40d1f6ec0d1321e2bf7c383fd897478f7e" target="_blank">54164a4</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnzheraldtemplatetreecd903d0016f8160010a99fc1d5543b8bd10a5757targetblankcd903d0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nzherald/template/tree/cd903d0016f8160010a99fc1d5543b8bd10a5757" target="_blank">cd903d0</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomnzheraldtemplatetree54164a40d1f6ec0d1321e2bf7c383fd897478f7etargetblank54164a4a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomnzheraldtemplatetreecd903d0016f8160010a99fc1d5543b8bd10a5757targetblankcd903d0a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/nzherald/template/tree/54164a40d1f6ec0d1321e2bf7c383fd897478f7e" target="_blank">54164a4</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/nzherald/template/tree/cd903d0016f8160010a99fc1d5543b8bd10a5757" target="_blank">cd903d0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -449,6 +449,14 @@ Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
     Ignored:    .Rproj.user/
+    Ignored:    .drake/config/
+    Ignored:    .drake/data/
+    Ignored:    .drake/drake/
+    Ignored:    .drake/keys/
+    Ignored:    .drake/scratch/
+    Ignored:    interactive/.DS_Store
+    Ignored:    interactive/elm-stuff/
+    Ignored:    interactive/node_modules/
     Ignored:    interactive/package-lock.json
     Ignored:    interactive/src/.DS_Store
     Ignored:    interactive/src/assets/
@@ -456,15 +464,18 @@ Ignored files:
     Ignored:    renv/staging/
 
 Untracked files:
-    Untracked:  .drake/
-    Untracked:  _drake.R
-    Untracked:  code/functions.R
-    Untracked:  code/packages.R
-    Untracked:  interactive/src/cases.svg
-    Untracked:  interactive/src/svg/
+    Untracked:  Rplots.svg
 
 Unstaged changes:
     Modified:   analysis/index.Rmd
+    Modified:   interactive/elm.json
+    Modified:   interactive/src/Main.elm
+    Modified:   interactive/src/root.js
+    Deleted:    interactive/src/svg/cases-small.svg
+    Deleted:    interactive/src/svg/cases.svg
+    Deleted:    interactive/src/svg/cases2-small.svg
+    Deleted:    interactive/src/svg/cases2.svg
+    Modified:   interactive/webpack.common.js
 
 </code></pre>
 <p>
@@ -503,6 +514,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/nzherald/template/blob/3b0a72317504fa358d2a7764e4afb81f53de2a37/analysis/index.Rmd" target="_blank">3b0a723</a>
+</td>
+<td>
+Chris Knox
+</td>
+<td>
+2020-05-06
+</td>
+<td>
+elm portion in place
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/nzherald/template/3b0a72317504fa358d2a7764e4afb81f53de2a37/docs/index.html" target="_blank">3b0a723</a>
+</td>
+<td>
+Chris Knox
+</td>
+<td>
+2020-05-06
+</td>
+<td>
+elm portion in place
+</td>
+</tr>
 <tr>
 <td>
 html
@@ -558,22 +603,88 @@ Start workflowr project.
   theme_nzh() +
   facet_wrap(. ~ dhb, ncol = 1)
 
-case_plot</code></pre>
+case_plot
+grid.force()
+dd &lt;- grid.get(&quot;geom_rect&quot;, grep=T, global = T) %&gt;%
+    map_chr(function(g){g$name})
+
+grid.garnish(&quot;geom_rect&quot;, grep=T, global = T, group=T, class=&quot;fd&quot;)
+grid.export(annotate = F,
+    strict = F,
+    addClasses = F,
+    indent = T,
+    usePaths = &quot;none&quot;)</code></pre>
 <p><img src="figure/index.Rmd/unnamed-chunk-2-1.svg" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-1">
+Past versions of unnamed-chunk-2-1.svg
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-1" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nzherald/template/blob/3b0a72317504fa358d2a7764e4afb81f53de2a37/docs/figure/index.Rmd/unnamed-chunk-2-1.svg" target="_blank">3b0a723</a>
+</td>
+<td>
+Chris Knox
+</td>
+<td>
+2020-05-06
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><img src="figure/index.Rmd/unnamed-chunk-2-2.svg" width="672" style="display: block; margin: auto;" /></p>
 <p>Save the plot for normal screens</p>
-<pre class="r"><code>ggsave(here(&quot;interactive/src/svg/cases.svg&quot;),
+<pre class="r"><code>ggsave(here(&quot;interactive/src/assets/svg/cases.svg&quot;),
   plot = case_plot, dpi = 100, width = 6.2, height = 20)</code></pre>
 <p>Save the plot for small screens</p>
-<pre class="r"><code>ggsave(here(&quot;interactive/src/svg/cases-small.svg&quot;),
+<pre class="r"><code>ggsave(here(&quot;interactive/src/assets/svg/cases-small.svg&quot;),
   plot = case_plot, dpi = 100, width = 3.2, height = 20)</code></pre>
 <p>Save the plot using gridSVG</p>
-<pre class="r"><code>grid_export(here(&quot;interactive/src/svg/cases2.svg&quot;),
-  width = 6.2, height = 20, prefix = &quot;&quot;,
-  case_plot)
+<pre class="r"><code>garnisher &lt;- function(df) {
+  function() {
+    garnish_data &lt;- df %&gt;% mutate(ggr = grid.get(&quot;geom_rect&quot;, grep=T, global = T) %&gt;% map_chr(function(g){g$name}))
+    garnish_data %&gt;% pmap(function(dhb, data, ggr) {
+      grid.garnish(ggr, class=dhb)
+    })
+  }
+}
 
-grid_export(here(&quot;interactive/src/svg/cases2-small.svg&quot;),
+plot_data &lt;- cases %&gt;%
+    arrange(dhb,`date of report`) %&gt;%
+    group_by(dhb, reported=`date of report`) %&gt;%
+    summarise(n=n()) %&gt;%
+  ungroup() %&gt;%
+  group_nest(dhb)
+
+grid_export(here(&quot;interactive/src/assets/svg/cases2.svg&quot;),
+  width = 6.2, height = 20, prefix = &quot;&quot;,
+  case_plot, garnish = garnisher(plot_data))
+
+grid_export(here(&quot;interactive/src/assets/svg/cases2-small.svg&quot;),
   width = 3.2, height = 20, prefix = &quot;&quot;,
-  case_plot)</code></pre>
+  case_plot, garnish = garnisher(plot_data))
+
+jsonlite::write_json(plot_data, here(&quot;interactive/src/assets/cases2.json&quot;))</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">

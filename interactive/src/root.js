@@ -2,14 +2,15 @@ import Base from "./lib/base.js"
 import {Elm} from "./Main.elm"
 import "./root.less"
 
-import cases from "./svg/cases.svg"
-import casesSmall from "./svg/cases-small.svg"
-import cases2 from "./svg/cases2.svg"
-import cases2Small from "./svg/cases2-small.svg"
+import cases from "./assets/svg/cases.svg"
+import casesSmall from "./assets/svg/cases-small.svg"
+import cases2 from "./assets/svg/cases2.svg"
+import cases2Small from "./assets/svg/cases2-small.svg"
+import caseData from "./assets/svg/cases2.json"
 
 const charts = {
     ChartOne: { normal: cases, small: casesSmall },
-    ChartTwo: { normal: cases2, small: cases2Small },
+    ChartTwo: { normal: cases2, small: cases2Small, cases: caseData },
 }
 
 

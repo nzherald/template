@@ -40,31 +40,62 @@ case_plot <- cases %>%
   facet_wrap(. ~ dhb, ncol = 1)
 
 case_plot
+grid.force()
+dd <- grid.get("geom_rect", grep=T, global = T) %>%
+    map_chr(function(g){g$name})
+
+grid.garnish("geom_rect", grep=T, global = T, group=T, class="fd")
+grid.export(annotate = F,
+    strict = F,
+    addClasses = F,
+    indent = T,
+    usePaths = "none")
 ```
 
 Save the plot for normal screens
 
 ```{r}
-ggsave(here("interactive/src/svg/cases.svg"),
+ggsave(here("interactive/src/assets/svg/cases.svg"),
   plot = case_plot, dpi = 100, width = 6.2, height = 20)
 ```
 
 Save the plot for small screens
 
 ```{r}
-ggsave(here("interactive/src/svg/cases-small.svg"),
+ggsave(here("interactive/src/assets/svg/cases-small.svg"),
   plot = case_plot, dpi = 100, width = 3.2, height = 20)
 ```
 
 Save the plot using gridSVG
 
 ```{r}
-grid_export(here("interactive/src/svg/cases2.svg"),
-  width = 6.2, height = 20, prefix = "",
-  case_plot)
 
-grid_export(here("interactive/src/svg/cases2-small.svg"),
+garnisher <- function(df) {
+  function() {
+    garnish_data <- df %>% mutate(ggr = grid.get("geom_rect", grep=T, global = T) %>% map_chr(function(g){g$name}))
+    garnish_data %>% pmap(function(dhb, data, ggr) {
+      grid.garnish(ggr, class=dhb)
+    })
+  }
+}
+
+plot_data <- cases %>%
+    arrange(dhb,`date of report`) %>%
+    group_by(dhb, reported=`date of report`) %>%
+    summarise(n=n()) %>%
+  ungroup() %>%
+  group_nest(dhb)
+
+grid_export(here("interactive/src/assets/svg/cases2.svg"),
+  width = 6.2, height = 20, prefix = "",
+  case_plot, garnish = garnisher(plot_data))
+
+grid_export(here("interactive/src/assets/svg/cases2-small.svg"),
   width = 3.2, height = 20, prefix = "",
-  case_plot)
+  case_plot, garnish = garnisher(plot_data))
+
+jsonlite::write_json(r2d3::as_d3_data(plot_data), 
+                     here("interactive/src/assets/svg/cases2.json"),
+                     auto_unbox = T)
 ```
 
