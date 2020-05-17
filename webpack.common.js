@@ -22,7 +22,16 @@ module.exports = {
             {
                 test: /\.(c|d|t)sv$/,
                 loader: "dsv-loader"
+            },
+            {
+                test: /\.(json|csv|dsv|tsv|svg)$/,
+                include: [
+                    path.resolve(__dirname, "src/assets")
+                ],
+                type: "javascript/auto",
+                loader: "file-loader"
             }
+
         ]
     },
     plugins: [
