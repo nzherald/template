@@ -24,7 +24,7 @@ module.exports = {
                 loader: "dsv-loader"
             },
             {
-                test: /\.json$/,
+                test: /\.(json|csv|dsv|tsv|svg)$/,
                 include: [
                     path.resolve(__dirname, "src/assets")
                 ],
