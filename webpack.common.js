@@ -36,6 +36,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new CopyWebpackPlugin(["static"])
+        new CopyWebpackPlugin({ patterns: [ { from: 'static', to: 'dist' } ] })
     ]
 }
