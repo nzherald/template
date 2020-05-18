@@ -32,7 +32,6 @@ module.exports = {
                 type: "javascript/auto",
                 loader: "file-loader"
             }
-
         ]
     },
     plugins: [
