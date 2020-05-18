@@ -1,4 +1,5 @@
 const CopyWebpackPlugin = require("copy-webpack-plugin")
+const path = require("path")
 
 // Interprets and bundles all necessary resources to run, with an index.html
 module.exports = {
@@ -35,6 +36,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new CopyWebpackPlugin(["static"])
+        new CopyWebpackPlugin({ patterns: [ { from: 'static', to: 'dist' } ] })
     ]
 }
