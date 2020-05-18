@@ -1,5 +1,5 @@
-import "./base.less"
 import $ from "jquery"
+import "./base.less"
 
 
 class Base {

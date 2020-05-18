@@ -32,6 +32,38 @@ class EmbedPlugin {
         this.options = options
     }
 
+    // Read and deserialise parameters from URL
+    static getURLParams () {
+        const params = window.location.href.split("?")[1]
+        const out = {}
+        if (!params) return
+        _.each(params.split("&"), s => {
+            const a = s.split("=")
+            out[a[0]] = decodeURIComponent(a[1])
+        })
+        return out
+    }
+
+    // The bit that you paste into the article
+    static makeRootDiv (targ) {
+        if (targ[0] === "#") return `<div class='nzh-datavis' id='${ targ.substr(1) }'></div>`
+        else if (targ[0] === ".") return `<div class='nzh-datavis ${ targ.substr(1) }'></div>`
+        else throw "Invalid selector - " + targ + "!"
+    }
+
+    // The bit that you paste into the footer
+    // Prelaunch must be deferred to destroy the global style that the app tries to apply (which is created via a script we don't control)
+    // Everything else must also be deferred, so that they run after prelaunch
+    static makeFooter (targ, path, params) {
+        if (path[path.length - 1] != "/") path += "/"
+        return [
+            `<link href="${path}embed.css" rel="stylesheet">`,
+            `<script defer src="${path}prelaunch_v2.js"></script>`,
+            `<script defer src="${path}embed.js"></script>`,
+            `<script defer>window.onload = function () { new window.Main("${targ}", ${JSON.stringify(params)}) }</script>`
+        ].join("\n")
+    }
+
     apply (compiler) {
         const self = this
         compiler.hooks.emit.tap("EmbedPlugin", function (compilation, callback) {
@@ -62,19 +94,11 @@ class EmbedPlugin {
             css.forEach((url) => cssContent += makeCSS(url))
             compilation.assets["embed.css"] = dump(cssContent)
 
-            // Create Zen embed code
-            // Prelaunch must be deferred to destroy the global style that the app tries to apply (which is created via a script we don't control)
-            // Everything else must also be deferred, so that they run after prelaunch
-            const divId = "nzh-datavis-root"
-            const nzhLink = "https://www.nzherald.co.nz/premium/news/article.cfm?objectid=[!!! INSERT ZEN ID HERE !!!]"
-            const zenContent = [
-                `<div id="${divId}" class="nzh-datavis"><a href="${nzhLink}" target="_blank">Click here to see full interactive.</a></div>\n`,
-                `<link href="${basePath}embed.css" rel="stylesheet">`,
-                `<script defer src="${basePath}prelaunch.js"></script>`,
-                `<script defer src="${basePath}embed.js"></script>`,
-                `<script defer>window.onload = function () { new window.Main("#${divId}", {}) }</script>`
-            ].join("\n")
-            compilation.assets["zen.txt"] = dump(zenContent)
+            // Create Zen code
+            const targ = "#nzh-datavis-root"
+            const embed = EmbedPlugin.makeRootDiv(targ)
+            const footer = EmbedPlugin.makeFooter(targ, basePath, {})
+            compilation.assets["zen.txt"] = dump(`${embed}\n\n${footer}`)
         })
     }
 }
