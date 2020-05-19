@@ -32,10 +32,9 @@ module.exports = {
                 type: "javascript/auto",
                 loader: "file-loader"
             }
-
         ]
     },
     plugins: [
-        new CopyWebpackPlugin({ patterns: [ { from: 'static', to: 'dist' } ] })
+        new CopyWebpackPlugin({ patterns: [ { from: 'static'} ] })
     ]
 }
