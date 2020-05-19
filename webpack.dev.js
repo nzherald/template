@@ -46,6 +46,8 @@ module.exports = merge(base, {
         new MiniCssExtractPlugin({
             filename: "[name].dev.[chunkhash].css"
         }),
-        new EmbedPlugin({basePath: ""})
+        new EmbedPlugin({
+            basePath: ""
+        })
     ]
 })
