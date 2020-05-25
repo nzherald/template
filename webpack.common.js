@@ -9,32 +9,34 @@ module.exports = {
     module: {
         rules: [
             {
-                test: /\.html$/,
-                loader: "html-loader"
+                include: [ path.resolve(__dirname, "src/assets") ],
+                loader: "file-loader",
+                type: "javascript/auto"
             },
             {
-                test: /\.(png|svg|jpg|gif)$/,
-                loader: "file-loader"
-            },
-            {
-                test: /\.(woff|woff2|eot|ttf|otf)$/,
-                loader: "file-loader"
-            },
-            {
-                test: /\.(c|d|t)sv$/,
-                loader: "dsv-loader"
-            },
-            {
-                test: /\.(json|csv|dsv|tsv|svg)$/,
-                include: [
-                    path.resolve(__dirname, "src/assets")
-                ],
-                type: "javascript/auto",
-                loader: "file-loader"
+                exclude: [ path.resolve(__dirname, "src/assets") ],
+                rules: [
+                    {
+                        test: /\.html$/,
+                        loader: "html-loader"
+                    },
+                    {
+                        test: /\.(png|svg|jpg|gif)$/,
+                        loader: "file-loader"
+                    },
+                    {
+                        test: /\.(woff|woff2|eot|ttf|otf)$/,
+                        loader: "file-loader"
+                    },
+                    {
+                        test: /\.(csv|dsv|tsv)$/,
+                        loader: "dsv-loader"
+                    }
+                ]
             }
         ]
     },
     plugins: [
-        new CopyWebpackPlugin({ patterns: [ { from: 'static', to: 'dist' } ] })
+        new CopyWebpackPlugin({ patterns: [ { from: 'static'} ] })
     ]
 }
