@@ -216,6 +216,7 @@ class BaseLine {
                                     .call(this.axis.x).translate([0, height])
         if (this.axis.y) this.svg.d3.selectAppend("g.yAxis.axis")
                                     .call(this.axis.y)
+        this.d3.select(".lines").raise()
     }
 
     // Special ticks setter for scalePoint axes
@@ -310,19 +311,31 @@ class BaseLine {
         ct.raise()
         ct.append("line").at("y2", "-1.15em")
         ct.append("circle").at("r", 5)
+        ct.append("rect.background").at("dy", "-2em")
         ct.append("text.val").at("dy", "-2em")
     }
     setPoints (el) {
-        el = el.selectAll("g.point")
-               .translate(p => this.getXY(p))
-               .select("text.val").html("")
-        el.append("tspan.period")
+        const tx = el.selectAll("g.point")
+                     .translate(p => this.getXY(p))
+                     .select("text.val").html("")
+        tx.append("tspan.period")
           .at("dy", "-3.5em")
           .text(p => this.getPrintVal(p, "x"))
-        el.append("tspan.val")
+        tx.append("tspan.val")
           .at("x", 0)
           .at("dy", "1.1em")
           .text(p => this.getPrintVal(p, "y"))
+        el.selectAll("g.point rect.background")
+          .datum(function (d) {
+              return {
+                  bBox: $(this).siblings("text.val")[0].getBBox(),
+                  fontSize: parseFloat($(this).css("font-size"))
+              }
+          })
+          .at("x", d => d.bBox.x - 0.6 * d.fontSize)
+          .at("y", d => d.bBox.y - 0.4 * d.fontSize)
+          .at("width", d => d.bBox.width + 1.2 * d.fontSize)
+          .at("height", d => d.bBox.height + 0.8 * d.fontSize)
     }
 
     getClosestLine (pos) {
