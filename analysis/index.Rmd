@@ -45,14 +45,14 @@ Save the plot for normal screens
 
 ```{r}
 ggsave(here("interactive/src/assets/svg/convictions.svg"),
-  plot = plot, dpi = 100, width = 6.2, height = 20)
+  plot = plot, dpi = 100, width = 6.2, height = 4)
 ```
 
 Save the plot for small screens
 
 ```{r}
 ggsave(here("interactive/src/assets/svg/convictions-small.svg"),
-  plot = plot, dpi = 100, width = 3.2, height = 20)
+  plot = plot, dpi = 100, width = 3.2, height = 3)
 ```
 
 Save the plot using gridSVG
