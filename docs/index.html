@@ -13,7 +13,7 @@
 
 <title>Home</title>
 
-<script src="site_libs/header-attrs-2.1/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.2/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/readable.min.css" rel="stylesheet" />
@@ -321,7 +321,7 @@ $(document).ready(function () {
 
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
-<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span>
+<span class="glyphicon glyphicon-list" aria-hidden="true"></span> workflowr <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 </button>
 </p>
 <div id="workflowr-report" class="collapse">
@@ -330,7 +330,7 @@ $(document).ready(function () {
 <a data-toggle="tab" href="#summary">Summary</a>
 </li>
 <li>
-<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> </a>
+<a data-toggle="tab" href="#checks"> Checks <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -339,10 +339,10 @@ $(document).ready(function () {
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2020-05-13
+<strong>Last updated:</strong> 2020-06-04
 </p>
 <p>
-<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 1
+<strong>Checks:</strong> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7 <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> 0
 </p>
 <p>
 <strong>Knit directory:</strong> <code>template-dev/</code> <span class="glyphicon glyphicon-question-sign" aria-hidden="true" title="This is the local directory in which the code in this file was executed."> </span>
@@ -358,12 +358,12 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges"> <span class="glyphicon glyphicon-exclamation-sign text-danger" aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted changes </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguncommittedchanges" class="panel-collapse collapse">
+<div id="strongRMarkdownfilestronguptodate" class="panel-collapse collapse">
 <div class="panel-body">
-<p>The R Markdown file has unstaged changes. To know which version of the R Markdown file created these results, you’ll want to first commit it to the Git repo. If you’re still working on the analysis, you can ignore this warning. When you’re finished, you can run <code>wflow_publish</code> to commit the R Markdown file and build the HTML.</p>
+<p>Great! Since the R Markdown file has been committed to the Git repository, you know the exact version of the code that produced these results.</p>
 </div>
 </div>
 </div>
@@ -430,16 +430,16 @@ This reproducible <a href="http://rmarkdown.rstudio.com">R Markdown</a> analysis
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnzheraldtemplatetreecd903d0016f8160010a99fc1d5543b8bd10a5757targetblankcd903d0a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nzherald/template/tree/cd903d0016f8160010a99fc1d5543b8bd10a5757" target="_blank">cd903d0</a> </a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomnzheraldtemplatetree5cca566c9d7ce1568c5a97a492d54490f74e976etargetblank5cca566a"> <span class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> <strong>Repository version:</strong> <a href="https://github.com/nzherald/template/tree/5cca566c9d7ce1568c5a97a492d54490f74e976e" target="_blank">5cca566</a> </a>
 </p>
 </div>
-<div id="strongRepositoryversionstrongahrefhttpsgithubcomnzheraldtemplatetreecd903d0016f8160010a99fc1d5543b8bd10a5757targetblankcd903d0a" class="panel-collapse collapse">
+<div id="strongRepositoryversionstrongahrefhttpsgithubcomnzheraldtemplatetree5cca566c9d7ce1568c5a97a492d54490f74e976etargetblank5cca566a" class="panel-collapse collapse">
 <div class="panel-body">
 <p>
 Great! You are using Git for version control. Tracking code development and connecting the code version to the results is critical for reproducibility.
 </p>
 <p>
-The results in this page were generated with repository version <a href="https://github.com/nzherald/template/tree/cd903d0016f8160010a99fc1d5543b8bd10a5757" target="_blank">cd903d0</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
+The results in this page were generated with repository version <a href="https://github.com/nzherald/template/tree/5cca566c9d7ce1568c5a97a492d54490f74e976e" target="_blank">5cca566</a>. See the <em>Past versions</em> tab to see a history of the changes made to the R Markdown and HTML files.
 </p>
 <p>
 Note that you need to be careful to ensure that all relevant files for the analysis have been committed to Git prior to generating the results (you can use <code>wflow_publish</code> or <code>wflow_git_commit</code>). workflowr only checks the R Markdown file, but you know if there are other scripts or data files that it depends on. Below is the status of the Git repository when the results were generated:
@@ -460,22 +460,18 @@ Ignored files:
     Ignored:    interactive/package-lock.json
     Ignored:    interactive/src/.DS_Store
     Ignored:    interactive/src/assets/
+    Ignored:    node_modules/
+    Ignored:    package-lock.json
     Ignored:    renv/library/
     Ignored:    renv/staging/
 
 Untracked files:
-    Untracked:  Rplots.svg
+    Untracked:  .lintr
+    Untracked:  code/plan/
+    Untracked:  data/adults-convicted-in-court.csv
 
 Unstaged changes:
-    Modified:   analysis/index.Rmd
-    Modified:   interactive/elm.json
-    Modified:   interactive/src/Main.elm
-    Modified:   interactive/src/root.js
-    Deleted:    interactive/src/svg/cases-small.svg
-    Deleted:    interactive/src/svg/cases.svg
-    Deleted:    interactive/src/svg/cases2-small.svg
-    Deleted:    interactive/src/svg/cases2.svg
-    Modified:   interactive/webpack.common.js
+    Modified:   _drake.R
 
 </code></pre>
 <p>
@@ -514,6 +510,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/nzherald/template/blob/01adeb459b25063d13ede4eedef6d166bea01d34/analysis/index.Rmd" target="_blank">01adeb4</a>
+</td>
+<td>
+Chris Knox
+</td>
+<td>
+2020-05-13
+</td>
+<td>
+gridSVG does not work how I thought it was
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/nzherald/template/01adeb459b25063d13ede4eedef6d166bea01d34/docs/index.html" target="_blank">01adeb4</a>
+</td>
+<td>
+Chris Knox
+</td>
+<td>
+2020-05-13
+</td>
+<td>
+gridSVG does not work how I thought it was
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -639,6 +669,17 @@ Date
 <tbody>
 <tr>
 <td>
+<a href="https://github.com/nzherald/template/blob/01adeb459b25063d13ede4eedef6d166bea01d34/docs/figure/index.Rmd/unnamed-chunk-2-1.svg" target="_blank">01adeb4</a>
+</td>
+<td>
+Chris Knox
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+<tr>
+<td>
 <a href="https://github.com/nzherald/template/blob/3b0a72317504fa358d2a7764e4afb81f53de2a37/docs/figure/index.Rmd/unnamed-chunk-2-1.svg" target="_blank">3b0a723</a>
 </td>
 <td>
@@ -653,6 +694,43 @@ Chris Knox
 </div>
 </div>
 <p><img src="figure/index.Rmd/unnamed-chunk-2-2.svg" width="672" style="display: block; margin: auto;" /></p>
+<p>
+<button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-unnamed-chunk-2-2">
+Past versions of unnamed-chunk-2-2.svg
+</button>
+</p>
+<div id="fig-unnamed-chunk-2-2" class="collapse">
+<div class="table-responsive">
+<table class="table table-condensed table-hover">
+<thead>
+<tr>
+<th>
+Version
+</th>
+<th>
+Author
+</th>
+<th>
+Date
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>
+<a href="https://github.com/nzherald/template/blob/01adeb459b25063d13ede4eedef6d166bea01d34/docs/figure/index.Rmd/unnamed-chunk-2-2.svg" target="_blank">01adeb4</a>
+</td>
+<td>
+Chris Knox
+</td>
+<td>
+2020-05-13
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <p>Save the plot for normal screens</p>
 <pre class="r"><code>ggsave(here(&quot;interactive/src/assets/svg/cases.svg&quot;),
   plot = case_plot, dpi = 100, width = 6.2, height = 20)</code></pre>
@@ -674,9 +752,9 @@ plot_data &lt;- cases %&gt;%
     group_by(dhb, reported=`date of report`) %&gt;%
     summarise(n=n()) %&gt;%
   ungroup() %&gt;%
-  group_nest(dhb)
-
-grid_export(here(&quot;interactive/src/assets/svg/cases2.svg&quot;),
+  group_nest(dhb)</code></pre>
+<pre><code>`summarise()` regrouping output by &#39;dhb&#39; (override with `.groups` argument)</code></pre>
+<pre class="r"><code>grid_export(here(&quot;interactive/src/assets/svg/cases2.svg&quot;),
   width = 6.2, height = 20, prefix = &quot;&quot;,
   case_plot, garnish = garnisher(plot_data))
 
@@ -684,7 +762,9 @@ grid_export(here(&quot;interactive/src/assets/svg/cases2-small.svg&quot;),
   width = 3.2, height = 20, prefix = &quot;&quot;,
   case_plot, garnish = garnisher(plot_data))
 
-jsonlite::write_json(plot_data, here(&quot;interactive/src/assets/cases2.json&quot;))</code></pre>
+jsonlite::write_json(r2d3::as_d3_data(plot_data), 
+                     here(&quot;interactive/src/assets/svg/cases2.json&quot;),
+                     auto_unbox = T)</code></pre>
 <br>
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-sessioninfo" data-toggle="collapse" data-target="#workflowr-sessioninfo" style="display: block;">
@@ -709,30 +789,31 @@ attached base packages:
 [8] base     
 
 other attached packages:
- [1] gdtools_0.2.2   gridSVG_1.7-2   scales_1.1.0    ggthemes_4.2.0 
- [5] here_0.1        drake_7.12.0    forcats_0.5.0   stringr_1.4.0  
- [9] dplyr_0.8.5     purrr_0.3.4     readr_1.3.1     tidyr_1.0.2    
-[13] tibble_3.0.1    ggplot2_3.3.0   tidyverse_1.3.0
+ [1] gdtools_0.2.2   gridSVG_1.7-2   scales_1.1.1    ggthemes_4.2.0 
+ [5] here_0.1        drake_7.12.2    forcats_0.5.0   stringr_1.4.0  
+ [9] dplyr_1.0.0     purrr_0.3.4     readr_1.3.1     tidyr_1.1.0    
+[13] tibble_3.0.1    ggplot2_3.3.1   tidyverse_1.3.0
 
 loaded via a namespace (and not attached):
- [1] httr_1.4.1        jsonlite_1.6.1    modelr_0.1.7      assertthat_0.2.1 
- [5] base64url_1.4     renv_0.9.3        cellranger_1.1.0  yaml_2.2.1       
- [9] progress_1.2.2    pillar_1.4.4      backports_1.1.6   lattice_0.20-41  
-[13] glue_1.4.0        digest_0.6.25     promises_1.1.0    rvest_0.3.5      
-[17] colorspace_1.4-1  htmltools_0.4.0   httpuv_1.5.2      XML_3.99-0.3     
-[21] pkgconfig_2.0.3   broom_0.5.6       haven_2.2.0       svglite_1.2.3    
-[25] whisker_0.4       later_1.0.0       git2r_0.27.1      txtq_0.2.0       
-[29] generics_0.0.2    farver_2.0.3      ellipsis_0.3.0    withr_2.2.0      
-[33] cli_2.0.2         magrittr_1.5      crayon_1.3.4      readxl_1.3.1     
-[37] evaluate_0.14     storr_1.2.1       fs_1.4.1          fansi_0.4.1      
-[41] nlme_3.1-147      xml2_1.3.2        tools_4.0.0       prettyunits_1.1.1
-[45] hms_0.5.3         lifecycle_0.2.0   munsell_0.5.0     reprex_0.3.0     
-[49] compiler_4.0.0    systemfonts_0.2.1 rlang_0.4.6       rstudioapi_0.11  
-[53] igraph_1.2.5      labeling_0.3      rmarkdown_2.1     gtable_0.3.0     
-[57] DBI_1.1.0         R6_2.4.1          lubridate_1.7.8   knitr_1.28       
-[61] filelock_1.0.2    workflowr_1.6.2   rprojroot_1.3-2   stringi_1.4.6    
-[65] parallel_4.0.0    Rcpp_1.0.4.6      vctrs_0.2.4       dbplyr_1.4.3     
-[69] tidyselect_1.0.0  xfun_0.13        </code></pre>
+ [1] httr_1.4.1        jsonlite_1.6.1    modelr_0.1.8      assertthat_0.2.1 
+ [5] base64url_1.4     blob_1.2.1        renv_0.10.0       cellranger_1.1.0 
+ [9] r2d3_0.2.3        yaml_2.2.1        progress_1.2.2    pillar_1.4.4     
+[13] backports_1.1.7   lattice_0.20-41   glue_1.4.1        digest_0.6.25    
+[17] promises_1.1.0    rvest_0.3.5       colorspace_1.4-1  htmltools_0.4.0  
+[21] httpuv_1.5.3.1    XML_3.99-0.3      pkgconfig_2.0.3   broom_0.5.6      
+[25] haven_2.3.1       svglite_1.2.3     whisker_0.4       later_1.0.0      
+[29] git2r_0.27.1      txtq_0.2.0        generics_0.0.2    farver_2.0.3     
+[33] ellipsis_0.3.1    withr_2.2.0       cli_2.0.2         magrittr_1.5     
+[37] crayon_1.3.4      readxl_1.3.1      evaluate_0.14     storr_1.2.1      
+[41] fs_1.4.1          fansi_0.4.1       nlme_3.1-148      xml2_1.3.2       
+[45] tools_4.0.0       prettyunits_1.1.1 hms_0.5.3         lifecycle_0.2.0  
+[49] munsell_0.5.0     reprex_0.3.0      compiler_4.0.0    systemfonts_0.2.2
+[53] rlang_0.4.6       rstudioapi_0.11   htmlwidgets_1.5.1 igraph_1.2.5     
+[57] labeling_0.3      rmarkdown_2.2     gtable_0.3.0      DBI_1.1.0        
+[61] R6_2.4.1          lubridate_1.7.8   knitr_1.28        filelock_1.0.2   
+[65] workflowr_1.6.2   rprojroot_1.3-2   stringi_1.4.6     parallel_4.0.0   
+[69] Rcpp_1.0.4.6      vctrs_0.3.0       dbplyr_1.4.4      tidyselect_1.1.0 
+[73] xfun_0.14        </code></pre>
 </div>
 </div>
 

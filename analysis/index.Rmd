@@ -19,7 +19,7 @@ library(gridSVG)
 
 source(here("code/functions.R"))
 
-cases <- readd(cases)
+convicted_adults <- readd(convicted_adults)
 ```
 
 _Example_
@@ -28,42 +28,31 @@ _Example_
 # Covid-19 Cases by DHB
 
 ```{r, fig.height=20}
-case_plot <- cases %>%
-  ggplot(aes(x = `date of report`)) +
-  geom_bar(fill = "#ecac0c") +
-  scale_fill_manual(values = c("#ecac0c", "#333c3d", "#121617")) +
-  scale_y_continuous(breaks = breaks_extended(n = 3)) +
-  xlab("Date of report") +
-  ylab("Cases") +
-  labs(title = "Daily cases by DHB") +
-  theme_nzh() +
-  facet_wrap(. ~ dhb, ncol = 1)
+plot <- convicted_adults %>%
+  filter(ethnicity == "Total Ethnicity", sentence == "Total sentences") %>%
+  ggplot(aes(x = calendar_year, y = value)) +
+  geom_line(color = "#ecac0c", size = 1.2) +
+  scale_y_continuous(labels = comma, limits = c(0, NA)) +
+  xlab("Year") +
+  ylab("Convictions") +
+  labs(title = "Adults convicted in court") +
+  theme_nzh()
 
-case_plot
-grid.force()
-dd <- grid.get("geom_rect", grep=T, global = T) %>%
-    map_chr(function(g){g$name})
-
-grid.garnish("geom_rect", grep=T, global = T, group=T, class="fd")
-grid.export(annotate = F,
-    strict = F,
-    addClasses = F,
-    indent = T,
-    usePaths = "none")
+plot
 ```
 
 Save the plot for normal screens
 
 ```{r}
-ggsave(here("interactive/src/assets/svg/cases.svg"),
-  plot = case_plot, dpi = 100, width = 6.2, height = 20)
+ggsave(here("interactive/src/assets/svg/convictions.svg"),
+  plot = plot, dpi = 100, width = 6.2, height = 20)
 ```
 
 Save the plot for small screens
 
 ```{r}
-ggsave(here("interactive/src/assets/svg/cases-small.svg"),
-  plot = case_plot, dpi = 100, width = 3.2, height = 20)
+ggsave(here("interactive/src/assets/svg/convictions-small.svg"),
+  plot = plot, dpi = 100, width = 3.2, height = 20)
 ```
 
 Save the plot using gridSVG
