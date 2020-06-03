@@ -25,7 +25,7 @@ convicted_adults <- readd(convicted_adults)
 _Example_
 
 
-# Covid-19 Cases by DHB
+# Adults convicted in court 1980 to 2020
 
 ```{r, fig.height=20}
 plot <- convicted_adults %>%
@@ -54,6 +54,105 @@ Save the plot for small screens
 ggsave(here("interactive/src/assets/svg/convictions-small.svg"),
   plot = plot, dpi = 100, width = 3.2, height = 3)
 ```
+
+
+# Māori Adults convicted in court 1980 to 2020
+
+```{r, fig.height=20}
+plot <- convicted_adults %>%
+  filter(ethnicity == "Maori", sentence == "Total sentences") %>%
+  ggplot(aes(x = calendar_year, y = value)) +
+  geom_line(color = "#ecac0c", size = 1.2) +
+  scale_y_continuous(labels = comma, limits = c(0, NA)) +
+  xlab("Year") +
+  ylab("Convictions") +
+  labs(title = "Māori adults convicted in court") +
+  theme_nzh()
+
+plot
+```
+
+Save the plot for normal screens
+
+```{r}
+ggsave(here("interactive/src/assets/svg/māori-convictions.svg"),
+  plot = plot, dpi = 100, width = 6.2, height = 4)
+```
+
+Save the plot for small screens
+
+```{r}
+ggsave(here("interactive/src/assets/svg/māori-convictions-small.svg"),
+  plot = plot, dpi = 100, width = 3.2, height = 3)
+```
+
+
+# Adults Imprisoned 1980 to 2020
+
+```{r, fig.height=20}
+plot2 <- convicted_adults %>%
+  filter(ethnicity == "Total Ethnicity", sentence == "Imprisonment sentences") %>%
+  ggplot(aes(x = calendar_year, y = value)) +
+  geom_line(color = "#ecac0c", size = 1.2) +
+  scale_y_continuous(labels = comma, limits = c(0, NA)) +
+  xlab("Year") +
+  ylab("Convictions") +
+  labs(title = "Adults convicted in court") +
+  theme_nzh()
+
+plot2
+```
+
+Save the plot for normal screens
+
+```{r}
+ggsave(here("interactive/src/assets/svg/imprisonment.svg"),
+  plot = plot2, dpi = 100, width = 6.2, height = 4)
+```
+
+Save the plot for small screens
+
+```{r}
+ggsave(here("interactive/src/assets/svg/imprisonment-small.svg"),
+  plot = plot2, dpi = 100, width = 3.2, height = 3)
+```
+
+
+
+
+# Māori Adults Imprisoned 1980 to 2020
+
+```{r, fig.height=20}
+plot3 <- convicted_adults %>%
+  filter(ethnicity == "Maori", sentence == "Imprisonment sentences") %>%
+  ggplot(aes(x = calendar_year, y = value)) +
+  geom_line(color = "#ecac0c", size = 1.2) +
+  scale_y_continuous(labels = comma, limits = c(0, NA)) +
+  xlab("Year") +
+  ylab("Convictions") +
+  labs(title = "Māori adults imprisoned") +
+  theme_nzh()
+
+plot3
+```
+
+Save the plot for normal screens
+
+```{r}
+ggsave(here("interactive/src/assets/svg/māori-imprisonment.svg"),
+  plot = plot3, dpi = 100, width = 6.2, height = 4)
+```
+
+Save the plot for small screens
+
+```{r}
+ggsave(here("interactive/src/assets/svg/māori-imprisonment-small.svg"),
+  plot = plot3, dpi = 100, width = 3.2, height = 3)
+```
+
+
+
+
 
 Save the plot using gridSVG
 
