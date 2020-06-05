@@ -6,7 +6,7 @@
   "description": "Basic template for new story",
   "keywords": [],
   "version": "0.0.1",
-  "homepage": "https://insights.nzherald.co.nz/apps/template/",
+  "homepage": "https://insights.nzherald.co.nz/apps/2020/template/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nzherald/template.git"
