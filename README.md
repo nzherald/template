@@ -90,6 +90,8 @@ article.
 
 There are 3 useful functions in `src/lib/util.js` 
 
+The master template is a fully functioning example of all of these functions.
+
 #### `nzhconsole`
 
 Within the Herald site `console.log` is redirected to an array of strings that can be viewed at
@@ -122,7 +124,8 @@ scrolly-telling article would require further customisation or a different appro
 
 This scrolly telling approach just grabs each embedded interactive element and makes it sticky for
 the specified number of paragraphs. There is also the option to pass a callback which will be called
-whenever a given paragraph is focussed.
+whenever a given paragraph is focussed. The `elm` branch includes a working example of using this
+callback in `root.js` - the callback code is all JS not Elm.
 
 
     <script defer>window.onload = function () { 
