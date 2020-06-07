@@ -11,7 +11,7 @@ class Main extends Base {
         console.log("Loading data...")
         this.premiumWait(() => {
             console.log("Rendering...")
-            Elm.Main.init({node: document.querySelector(selector)})
+            Elm.Main.init({node: document.querySelector(selector), flags: {...params}})
             console.log("Done.")
             this.fadeOut()
             if (params.setupScrolly) {
