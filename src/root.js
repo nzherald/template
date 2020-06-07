@@ -1,8 +1,8 @@
 import ENV from "Environment"
 import Base from "./lib/base.js"
 import {Elm} from "./Main.elm"
+import { nzhconsole, setupScrolly, appWarn } from "./lib/util.js"
 import "./root.less"
-
 
 class Main extends Base {
     constructor (selector, params) {
@@ -14,6 +14,12 @@ class Main extends Base {
             Elm.Main.init({node: document.querySelector(selector)})
             console.log("Done.")
             this.fadeOut()
+            if (params.setupScrolly) {
+                const scrolly = setupScrolly(params.setupScrolly)
+            }
+            if (params.appWarn) {
+                appWarn(this.root.selector, params.appWarn, params.category)
+            }
         })
     }
 }
