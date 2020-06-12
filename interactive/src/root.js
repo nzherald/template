@@ -1,5 +1,6 @@
 import Base from "./lib/base.js"
 import {Elm} from "./Main.elm"
+import { nzhconsole, setupScrolly, appWarn } from "./lib/util.js"
 import "./root.less"
 
 import cases from "./assets/svg/cases.svg"
@@ -28,6 +29,12 @@ class Main extends Base {
             }})
             console.log("Done.")
             this.fadeOut()
+            if (params.setupScrolly) {
+                const scrolly = setupScrolly(params.setupScrolly)
+            }
+            if (params.appWarn) {
+                appWarn(this.root.selector, params.appWarn, params.category)
+            }
         })
     }
 }

@@ -96,12 +96,25 @@
     font-family: "Source Sans Pro Light", "Helvetica", sans-serif;
 }
 
+
+
+.articlestory {
+    .nav-collapsible {
+        #pb-root {
+            overflow: visible;
+        }
+    }
+}
+
 .nzh-datavis {
     .basefont;
     position: relative;
     width: 100%;
     max-width: 940px;
     min-height: 320px;
+    @media (max-width: 500px) {
+        min-height: 160px;
+    }
     margin: auto;
     font-size: 18px;
 

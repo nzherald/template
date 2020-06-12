@@ -1,24 +1,101 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8" />
-    <title>New Zealand Herald Insights</title>
-    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
-    <style>
-        /* Simulate live page constraints (normal is 620px, Big Read is 940px) */
-        body {
-            width: 620px;
-            max-width: 100%;
-            margin: auto;
-        }
-    </style>
-</head>
+    <head>
+        <meta charset="utf-8" />
+        <title>New Zealand Herald Insights</title>
+        <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <style>
+/* Simulate live page constraints (normal is 620px, Big Read is 940px) */
+body {
+    width: 620px;
+    max-width: 100%;
+    margin: auto;
+    font-family: "Source Sans Pro Light";
+}
+        </style>
+    </head>
 
-<body>
-    <div id="nzh-datavis-root" class="nzh-datavis"></div>
-    <link href="embed.css" rel="stylesheet">
-    <script defer src="prelaunch_v2.js"></script>
-    <script defer src="embed.js"></script>
-    <script defer>window.onload = function () { new window.Main("#nzh-datavis-root", {}) }</script>
-</body>
+    <body>
+        <div id="article-content">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+
+            <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            </p>
+
+            <div class="element-rawhtml">
+                <div id="nzh-datavis-root" class="nzh-datavis"></div>
+            </div>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                ut labore et dolore magna aliqua. </p>
+
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. </p>
+
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.</p>
+
+            <p>This paragraph should make the first chart go away</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. </p>
+
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. </p>
+
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                officia deserunt mollit anim id est laborum.</p>
+            <div class="element-rawhtml">
+                <div id="nzh-datavis-root2" class="nzh-datavis"></div>
+            </div>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                ut labore et dolore magna aliqua. </p>
+
+            <p>This paragraph should make the second chart go away</p>
+
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. </p>
+
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.</p>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                ut labore et dolore magna aliqua. </p>
+
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                cillum dolore eu fugiat nulla pariatur. </p>
+
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                deserunt mollit anim id est laborum.</p>
+
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+                tempor incididunt ut labore et dolore magna aliqua. </p>
+
+            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
+                pariatur. </p>
+
+            <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui
+                officia deserunt mollit anim id est laborum.</p>
+
+
+        </div>
+        <link href="embed.css" rel="stylesheet">
+        <script defer src="prelaunch_v2.js"></script>
+        <script defer src="embed.js"></script>
+        <script defer>window.onload = function () { 
+            new window.Main("#nzh-datavis-root", { appWarn: 12234834 }) 
+        new window.Main("#nzh-datavis-root2", {chart: "māori", setupScrolly: [4, 2]}) 
+    }</script>
+    </body>
 </html>
