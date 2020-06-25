@@ -3,6 +3,7 @@ const base = require("./webpack.common.js")
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const autoprefixer = require("autoprefixer")
+const Dotenv = require('dotenv-webpack');
 const { homepage } = require("./package.json")
 
 // Post-processing and minification of bundle
@@ -55,6 +56,7 @@ module.exports = merge(base, {
                     presets: ["@babel/env", "@babel/preset-react"],
                 }
             }
+
         ]
     },
     optimization: {
@@ -66,6 +68,7 @@ module.exports = merge(base, {
     plugins: [
         new MiniCssExtractPlugin({
             filename: "[name].prod.[chunkhash].css"
-        })
+        }),
+        new Dotenv({path: ".env.prod"})
     ]
 })

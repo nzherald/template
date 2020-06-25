@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>New Zealand Herald Insights</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+</head>
+
+<body>
+    <div id="rnahw-wrapper">
+        <div id="nzh-datavis-root" class="nzh-datavis"></div>
+        <link href="embed.css" rel="stylesheet">
+        <script defer src="prelaunch_v2.js"></script>
+        <script defer src="embed.js"></script>
+        <script defer>window.onload = function () { new window.Main("#nzh-datavis-root", {}) }</script>
+
+        <script>
+            // prevents code colissions with global scope
+            (function() {
+                var styleElement = document.createElement('style');
+                styleElement.innerHTML = '\n body {\n margin: 0;\n padding: 0;\n }\n\n * {\n font-family: sans-serif;\n line-height: 26px;\n font-size: 19px;\n color: #323A3C;\n }\n a:link {\n color: #35A1D7;\n }\n ';
+                document.head.appendChild(styleElement);;
+                if (!document.getElementById("rnahw-wrapper")) {
+                    var wrapper = document.createElement('div');
+                    wrapper.id = 'rnahw-wrapper';
+                    while (document.body.firstChild instanceof Node) {
+                        wrapper.appendChild(document.body.firstChild);
+                    }
+                    document.body.appendChild(wrapper);
+                }
+                var usingScale = 0;
+                var scaling = false;
+                var zoomedin = false;
+                var lastHeight = 0;
+                var heightTheSameTimes = 0;
+                var maxHeightTheSameTimes = 5;
+                var forceRefreshDelay = 1000;
+                var forceRefreshTimeout;
+                var checkPostMessageTimeout;
+                function updateSize() {
+                    if (zoomedin || scaling) {
+                        return;
+                    }
+                    if (!window.hasOwnProperty('ReactNativeWebView') || !window.ReactNativeWebView.hasOwnProperty('postMessage')) {
+                        checkPostMessageTimeout = setTimeout(updateSize, 200);
+                        return;
+                    }
+                    clearTimeout(checkPostMessageTimeout);
+                    height = wrapper.offsetHeight || document.documentElement.offsetHeight;
+                    width = wrapper.offsetWidth || document.documentElement.offsetWidth;
+                    if (!usingScale && window.innerWidth) {
+                        usingScale = 1;
+                    }
+                    window.ReactNativeWebView.postMessage(JSON.stringify({
+                        width: Math.min(width, screen.width),
+                        height: height * usingScale
+                    }));
+                    // Make additional height checks (required to fix issues wit twitter embeds)
+                    clearTimeout(forceRefreshTimeout);
+                    if (lastHeight !== height) {
+                        heightTheSameTimes = 1;
+                    }
+                    else {
+                        heightTheSameTimes++;
+                    }
+                    lastHeight = height;
+                    if (heightTheSameTimes <= maxHeightTheSameTimes) {
+                        forceRefreshTimeout = setTimeout( updateSize, heightTheSameTimes * forceRefreshDelay );
+                    }
+                }
+
+                window.addEventListener('load', updateSize);
+                window.addEventListener('resize', updateSize);
+                var MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+                var observer = new MutationObserver(updateSize);
+                observer.observe(document, { subtree: true, attributes: true });
+                updateSize();
+            })();
+        </script>
+    </div>
+</body>
+</html>

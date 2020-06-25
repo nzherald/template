@@ -1,7 +1,7 @@
 const merge = require("webpack-merge")
 const base = require("./webpack.prod.js")
 const EmbedPlugin = require("./util/embedgen.js")
-const {smallUploader, largeUploader} = require("./util/uploader")
+const { uncachedUploader, cachedUploader } = require("./util/uploader")
 
 // Generates embed.js and deploys to https://insights.nzherald.co.nz/app/livetest[arg]
 // e.g. npm run livetest -> deploys to https://insights.nzherald.co.nz/app/livetest
@@ -21,8 +21,11 @@ const path = "/apps/livetest" + subpath + "/"
 
 module.exports = merge(base, {
     plugins: [
-        new EmbedPlugin({basePath: host + path}),
-        largeUploader({basePath: path}),
-        smallUploader({basePath: path})
+        new EmbedPlugin({
+            basePath: host + path
+        }),
+        uncachedUploader({
+            basePath: path
+        })
     ]
 })

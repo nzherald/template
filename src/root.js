@@ -1,21 +1,29 @@
+import React from 'react'
+import {render} from 'react-dom';
+import ENV from "Environment"
 import Base from "./lib/base.js"
-import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './App';
-import "./root.less"
+import { nzhconsole, setupScrolly, appWarn } from "./lib/util.js"
 
+import App from "./app"
+import "./root.less"
 
 class Main extends Base {
     constructor (selector, params) {
-        console.log("Setting up visualisation with parameters:", params)
+        nzhconsole("Setting up visualisation with parameters:", params)
         super(selector)
-        console.log("Loading data...")
+        nzhconsole("Loading data...")
         null
         this.premiumWait(() => {
-            console.log("Rendering...")
-            ReactDOM.render( <App {...params} />, document.querySelector(selector));
-            console.log("Done.")
+            nzhconsole("Rendering...")
+            render(<App />, document.querySelector(selector))
+            nzhconsole("Done.")
             this.fadeOut()
+            if (params.setupScrolly) {
+                const scrolly = setupScrolly(params.setupScrolly)
+            }
+            if (params.appWarn) {
+                appWarn(this.root.selector, params.appWarn, params.category)
+            }
         })
     }
 }

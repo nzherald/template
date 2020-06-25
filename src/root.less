@@ -1,36 +1,25 @@
-@whiteish: #F3F1F2;
-@lightdark: #C8CCCF;
-@darkish: #666;
-@dark: #4c585d;
-
-/* Simulate live page constraints (normal is 620px, Big Read is 940px) */
-body.testing {
-    width: 620px;
-    max-width: 100%;
-    margin: auto;
-}
-
 /* Project-specific styles go here */
 .nzh-datavis {
-    svg {
-        .uncertainty_cone {
-            transform: none;
-            fill: #de4b8b;
-            fill-opacity: 0.20;
+}
+
+.element-rawhtml {
+    &.sticky-graphic {
+        position: sticky;
+        top: 0;
+        @media (max-width: 600px) {
+            top: 70px;
         }
-        .tick, .axis-tick path {
-            stroke: #ddd;
-        }
-        .frame-title {
-            text {
-                font-family: "Stag Sans";
-                font-size: 16px;
-            }
-        }
-        text {
-            font-size: 14px;
-        }
+        z-index: 10;
     }
+    &.graphic-defocus {
+        animation: slideaway 700ms ease-out forwards;
+    }
+}
+
+@keyframes slideaway {
+  to {
+    top: -500px;
+  }
 }
 
 @media (max-width: 800px) {
