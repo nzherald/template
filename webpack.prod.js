@@ -69,6 +69,6 @@ module.exports = merge(base, {
         new MiniCssExtractPlugin({
             filename: "[name].prod.[chunkhash].css"
         }),
-        new Dotenv({path: ".env.prod"})
+        // new Dotenv({path: ".env.prod"})
     ]
 })

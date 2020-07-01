@@ -1,47 +1,43 @@
-import React, { useState } from 'react';
-import MapGL, { Source, Layer } from 'react-map-gl';
+import React, { Suspense } from 'react';
+import styled from "styled-components"
+import useResizeObserver from "use-resize-observer";
 
-import {clusterLayer, clusterCountLayer, unclusteredPointLayer} from './layers';
-import ece from "./assets/ece.geojson"
+const DurationChart = React.lazy(() => import("./duration-chart"))
+const OffenceChart = React.lazy(() => import("./offence-chart"))
+const DeltaChart = React.lazy(() => import("./delta-chart"))
 
-const MAPBOX_TOKEN = process.env.MAPBOX_TOKEN; // Set your mapbox token here
+const App = styled.div`
+.tick-line {
+  stroke: rgba(0,0,0,0.2);
+}
+.axis-baseline {
+  stroke: rgba(0,0,0,0.4);
+}
+.ordinal-labels {
+  font-size: 14px;
+}
+padding-bottom: 18px;
+`
 
-const initialViewport = {
-      latitude: -36.845,
-      longitude: 174.735,
-      // zoom: 9.89,
-      zoom: 12.5,
-      bearing: 0,
-      pitch: 0
-    }
+const pickChart = (chart, w) => {
+  switch (chart) {
+    case "offence":
+    return <OffenceChart w={w}/>
+    case "duration":
+      return <DurationChart w={w}/>
+    default:
+      return <DeltaChart w={w}/>
+  }
+}
 
-const App = props => {
-  const [viewport, setViewport] = useState(initialViewport)
-  console.log(viewport)
+export default ({chart, initialWidth, minHeight = "auto"}) => {
+  const { ref, width = initialWidth } = useResizeObserver();
   return (
-    <div>
-      <h2>A Map</h2>
-    <MapGL
-        {...viewport}
-        width="100%"
-        height="520px"
-        onViewportChange={setViewport}
-        mapboxApiAccessToken={MAPBOX_TOKEN}
-      >
-      <Source
-          type="geojson"
-          data="https://docs.mapbox.com/mapbox-gl-js/assets/earthquakes.geojson"
-          cluster={true}
-          clusterMaxZoom={11}
-          clusterRadius={50}
-        >
-        <Layer {...clusterLayer} />
-          <Layer {...clusterCountLayer} />
-          <Layer {...unclusteredPointLayer} />
-      </Source>
-      </MapGL>
-      </div>
+    <App ref={ref} style={{minHeight}}>
+      <Suspense fallback="loading ...">
+        {pickChart(chart, width)}
+      </Suspense>
+    </App>
   )
 }
 
-export default App

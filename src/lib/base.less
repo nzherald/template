@@ -111,12 +111,12 @@
     position: relative;
     width: 100%;
     max-width: 940px;
-    min-height: 320px;
+    min-height: 160px;
     @media (max-width: 500px) {
         min-height: 160px;
     }
     margin: auto;
-    font-size: 18px;
+    font-size: 16px;
 
     // Mobile/Desktop
     .mobile {
@@ -163,12 +163,11 @@
     }
 
     svg {
-        overflow: visible;
         text {
-            .basefont;
+            fill: @dark;
+            .titlefont;
         }
         path {
-            fill: none;
         }
         .axis {
             user-select: none;

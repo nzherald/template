@@ -1,19 +1,26 @@
 /* Project-specific styles go here */
 .nzh-datavis {
+  .loading {
+    opacity: 1;
+    transition: opacity 1s ease-out;
+    &.remove {
+      opacity: 0.2;
+    }
+  }
 }
 
 .element-rawhtml {
-    &.sticky-graphic {
-        position: sticky;
-        top: 0;
-        @media (max-width: 600px) {
-            top: 70px;
-        }
-        z-index: 10;
+  &.sticky-graphic {
+    position: sticky;
+    top: 0;
+    @media (max-width: 600px) {
+      top: 70px;
     }
-    &.graphic-defocus {
-        animation: slideaway 700ms ease-out forwards;
-    }
+    z-index: 10;
+  }
+  &.graphic-defocus {
+    animation: slideaway 700ms ease-out forwards;
+  }
 }
 
 @keyframes slideaway {
@@ -23,5 +30,6 @@
 }
 
 @media (max-width: 800px) {
-    .nzh-datavis {}
+  .nzh-datavis {
+  }
 }

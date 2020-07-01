@@ -9,6 +9,11 @@
   z-index: 9999;
   user-select: none;
   background-color: rgba(0, 0, 0, 0.6);
+  opacity: 1;
+  transition: opacity 1s ease-out;
+  &.remove {
+    opacity: 0.2;
+  }
 }
 .nzh-datavis .loading .message {
   margin: auto;
@@ -31,7 +36,7 @@
   height: 100%;
   opacity: 0.6;
   border-radius: 50%;
-  background-color: #F3F1F2;
+  background-color: #f3f1f2;
   -webkit-animation: sk-bounce 2s infinite ease-in-out;
   animation: sk-bounce 2s infinite ease-in-out;
 }

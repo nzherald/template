@@ -48,6 +48,6 @@ module.exports = merge(base, {
         new EmbedPlugin({
             basePath: ""
         }),
-        new Dotenv({path: ".env.dev"})
+        // new Dotenv({path: ".env.dev"})
     ]
 })

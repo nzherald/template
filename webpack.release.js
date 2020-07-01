@@ -1,8 +1,8 @@
 const merge = require("webpack-merge")
 const base = require("./webpack.prod.js")
-const url = require("url")
 const EmbedPlugin = require("./util/embedgen.js")
 const { homepage } = require("./package.json")
+const { uncachedUploader, cachedUploader } = require("./util/uploader")
 
 // Delete this if you know what you're doing
 if (homepage.indexOf("https://insights.nzherald.co.nz/apps/") === -1) {
@@ -14,6 +14,14 @@ module.exports = merge(base, {
     plugins: [
         new EmbedPlugin({
             basePath: homepage
+        }),
+        uncachedUploader({
+            basePath: path,
+            include: uncached
+        }),
+        cachedUploader({
+            basePath: path,
+            exclude: uncached
         }),
     ]
 })

@@ -56,6 +56,9 @@ body {
 
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                 ut labore et dolore magna aliqua. </p>
+            <div class="element-rawhtml">
+                <div id="nzh-datavis-root3" class="nzh-datavis"></div>
+            </div>
 
             <p>This paragraph should make the second chart go away</p>
 
@@ -94,8 +97,11 @@ body {
         <script defer src="prelaunch_v2.js"></script>
         <script defer src="embed.js"></script>
         <script defer>window.onload = function () { 
-            new window.Main("#nzh-datavis-root", { appWarn: 12234834 }) 
-        new window.Main("#nzh-datavis-root2", {chart: "māori", setupScrolly: [4, 2]}) 
+            try {
+            new window.Main("#nzh-datavis-root", { chart: 'duration' }) 
+            } catch {}
+        new window.Main("#nzh-datavis-root2", {chart: "offence"}) 
+        new window.Main("#nzh-datavis-root3", {chart: "delta"}) 
     }</script>
     </body>
 </html>
