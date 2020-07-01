@@ -2,26 +2,6 @@
 .nzh-datavis {
 }
 
-.element-rawhtml {
-    &.sticky-graphic {
-        position: sticky;
-        top: 0;
-        @media (max-width: 600px) {
-            top: 70px;
-        }
-        z-index: 10;
-    }
-    &.graphic-defocus {
-        animation: slideaway 700ms ease-out forwards;
-    }
-}
-
-@keyframes slideaway {
-  to {
-    top: -500px;
-  }
-}
-
 @media (max-width: 800px) {
     .nzh-datavis {}
 }
