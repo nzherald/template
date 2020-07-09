@@ -14,7 +14,7 @@ const frameProps = {
   oAccessor: "duration",
   rAccessor: ["y2013", "y2019"],
   rExtent: [0],
-  style: (d) => {
+  style: (d: { rIndex: number; }) => {
     return {
       fill: d.rIndex === 0 ? "#394190" : "#38a3d7",
       stroke: d.rIndex === 0 ? "#394190" : "#38a3d7",
@@ -38,11 +38,11 @@ const frameProps = {
       />
     );
   },
-  oLabel: (l) => {
+  oLabel: (l: {}) => {
     if (l.includes("and")) {
       return (
         <text textAnchor="end">
-          {l.split(" and ").map((d, i) => (
+          {l.split(" and ").map((d: {}, i: number) => (
             <tspan key={i} x={0} dy={22 * i - 5}>
               {i ? d : d + " and"}
             </tspan>
@@ -68,13 +68,18 @@ const Chart = styled.div`
 
 export interface ChartProps { w: number; }
 
-export default ({w}) => (
-  <Chart>
-    <h3>
-      How long are Māori women spending on remand?&nbsp;
+const ChartComponent = (props: ChartProps) => {
+  const { w } = props
+  return (
+    <Chart>
+      <h3>
+        How long are Māori women spending on remand?&nbsp;
       <span style={{ color: "#394190" }}>2013</span>&nbsp; vs&nbsp;
       <span style={{ color: "#38a3d7" }}>2019</span>
-    </h3>
-    <OrdinalFrame {...frameProps} size={[w, 300]} />
-  </Chart>
-);
+      </h3>
+      <OrdinalFrame {...frameProps} size={[w, 300]} />
+    </Chart>
+  );
+}
+
+export default ChartComponent
