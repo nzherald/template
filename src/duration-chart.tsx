@@ -66,15 +66,15 @@ const Chart = styled.div`
   }
 `;
 
-export default ({w}) => {
-  return (
-    <Chart>
-      <h3>
-        How long are Māori women spending on remand?&nbsp;
-        <span style={{ color: "#394190" }}>2013</span>&nbsp;vs&nbsp;
-        <span style={{ color: "#38a3d7" }}>2019</span>
-      </h3>
-      <OrdinalFrame {...frameProps} size={[w,300]} />
-    </Chart>
-  );
-};
+export interface ChartProps { w: number; }
+
+export default ({w}) => (
+  <Chart>
+    <h3>
+      How long are Māori women spending on remand?&nbsp;
+      <span style={{ color: "#394190" }}>2013</span>&nbsp; vs&nbsp;
+      <span style={{ color: "#38a3d7" }}>2019</span>
+    </h3>
+    <OrdinalFrame {...frameProps} size={[w, 300]} />
+  </Chart>
+);

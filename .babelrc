@@ -1,0 +1,12 @@
+{
+    "plugins": [
+        "@babel/transform-runtime",
+        "@babel/proposal-object-rest-spread",
+        "@babel/plugin-syntax-dynamic-import"
+    ],
+    "presets": [
+        "@babel/env",
+        "@babel/preset-typescript",
+        "@babel/preset-react"
+    ]
+}

@@ -2,7 +2,7 @@ import React, { Suspense } from 'react';
 import styled from "styled-components"
 import useResizeObserver from "use-resize-observer";
 
-const DurationChart = React.lazy(() => import("./duration-chart"))
+const DurationChart = React.lazy(() => import("./duration-chart.tsx"))
 const OffenceChart = React.lazy(() => import("./offence-chart"))
 const DeltaChart = React.lazy(() => import("./delta-chart"))
 

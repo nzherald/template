@@ -6,6 +6,10 @@ module.exports = {
     entry: {
         root: "./src/root.js"
     },
+    devtool: "inline-source-map",
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js']
+      },
     module: {
         rules: [
             {
