@@ -1,4 +1,4 @@
-const merge = require("webpack-merge")
+const { merge } = require("webpack-merge")
 const base = require("./webpack.prod.js")
 const EmbedPlugin = require("./util/embedgen.js")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
