@@ -1,4 +1,4 @@
-const merge = require("webpack-merge")
+const { merge } = require("webpack-merge")
 const base = require("./webpack.prod.js")
 const url = require("url")
 const EmbedPlugin = require("./util/embedgen.js")
