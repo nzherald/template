@@ -4,6 +4,8 @@ import { appWarn } from "./lib/util.js"
 import HTML from "./root.html"
 import "./root.less"
 
+console.log(ENV)
+
 class Main extends Base {
     constructor (selector, params) {
         console.log("Setting up visualisation with parameters:", params)
