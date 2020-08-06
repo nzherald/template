@@ -1,10 +1,9 @@
-const merge = require("webpack-merge");
-const base = require("./webpack.common.js");
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const autoprefixer = require("autoprefixer");
-const Dotenv = require("dotenv-webpack");
-const { homepage } = require("./package.json");
+const { merge } = require("webpack-merge")
+const base = require("./webpack.common.js")
+const path = require("path")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const autoprefixer = require("autoprefixer")
+const { homepage } = require("./package.json")
 
 // Post-processing and minification of bundle
 module.exports = merge(base, {
