@@ -1,11 +1,17 @@
 <script>
-	export let name;
+  import Nested from './Nested.svelte';
+  export let name;
 </script>
 
-<style>
-	h1 {
-		color: purple;
-	}
+<style lang="less">
+  div {
+    h1 {
+      color: steelblue;
+    }
+  }
 </style>
 
-<h1>Hello {name}!</h1>
+<div>
+  <h1>Hello {name}!</h1>
+  <Nested />
+</div>

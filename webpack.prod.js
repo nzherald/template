@@ -29,7 +29,8 @@ module.exports = merge(base, {
           loader: "svelte-loader",
           options: {
             emitCss: true,
-            hydratable: true
+            hydratable: true,
+            preprocess: require("svelte-preprocess")({ /* options */ }),
           },
         },
       },

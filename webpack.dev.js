@@ -29,7 +29,8 @@ module.exports = merge(base, {
           options: {
             emitCss: true,
             hotReload: true,
-            hydratable: true
+            hydratable: true,
+            preprocess: require("svelte-preprocess")({ /* options */ }),
           },
         },
       },
@@ -48,5 +49,5 @@ module.exports = merge(base, {
       basePath: "",
     }),
   ],
-  devtool: 'source-map'
+  devtool: "source-map",
 });
