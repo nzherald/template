@@ -1,17 +1,16 @@
 <script>
-  import Nested from './Nested.svelte';
-  export let name;
+  import { interactiveWidth } from "./stores";
+  import Nested from "./Nested.svelte";
 </script>
 
 <style lang="less">
-  div {
-    h1 {
-      color: steelblue;
-    }
+  #wrapper {
+    margin: 20px;
+    border: 1px solid slateblue;
+    border-radius: 16px;
   }
 </style>
 
-<div>
-  <h1>Hello {name}!</h1>
+<div id="wrapper" bind:clientWidth={$interactiveWidth}>
   <Nested />
 </div>

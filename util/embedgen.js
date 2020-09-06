@@ -76,7 +76,7 @@ class EmbedPlugin {
             for (var fn in compilation.assets) {
                 if (ignore.indexOf(fn) > -1) continue
                 else if (/^root.*js$/.test(fn)) root = basePath + fn
-                else if (/.*\.js$/.test(fn)) js.push(basePath + fn)
+                // else if (/.*\.js$/.test(fn)) js.push(basePath + fn)
                 else if (/.*\.css$/.test(fn)) css.push(basePath + fn)
             }
 
