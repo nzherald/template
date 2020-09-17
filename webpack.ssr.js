@@ -1,6 +1,6 @@
 const path = require('path')
 const nodeExternals = require('webpack-node-externals')
-const { homepage } = require("./package.json")
+const { homepage } = require('./package.json')
 
 // Post-processing and minification of bundle
 module.exports = {
@@ -69,22 +69,11 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: [
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-          },
-          'less-loader',
-        ],
+        use: [ 'css-loader', 'postcss-loader', 'less-loader', ],
       },
       {
         test: /\.css$/,
-        use: [
-          'css-loader',
-          {
-            loader: 'postcss-loader',
-          },
-        ],
+        use: [ 'css-loader', 'postcss-loader', ],
       },
       {
         test: /\.(js|es6)$/,
@@ -99,7 +88,12 @@ module.exports = {
           presets: ['@babel/env'],
         },
       },
+      {
+        test: /\.ya?ml$/,
+        type: 'json', // Required by Webpack v4
+        use: 'yaml-loader',
+      },
     ],
   },
-  plugins: [ ],
+  plugins: [],
 }

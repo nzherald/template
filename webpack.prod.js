@@ -1,24 +1,24 @@
-const { merge } = require("webpack-merge");
-const base = require("./webpack.common.js");
-const path = require("path");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const autoprefixer = require("autoprefixer");
-const { homepage } = require("./package.json");
+const { merge } = require('webpack-merge')
+const base = require('./webpack.common.js')
+const path = require('path')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const autoprefixer = require('autoprefixer')
+const { homepage } = require('./package.json')
 
 // Post-processing and minification of bundle
 module.exports = merge(base, {
   resolve: {
     alias: {
-      Environment$: path.resolve(__dirname, "util/production.js"),
-      svelte: path.resolve("node_modules", "svelte"),
+      Environment$: path.resolve(__dirname, 'util/production.js'),
+      svelte: path.resolve('node_modules', 'svelte'),
     },
-    extensions: [".mjs", ".js", ".svelte"],
-    mainFields: ["svelte", "browser", "module", "main"],
+    extensions: ['.mjs', '.js', '.svelte'],
+    mainFields: ['svelte', 'browser', 'module', 'main'],
   },
-  mode: "production",
+  mode: 'production',
   output: {
-    filename: "[name].prod.[chunkhash].js",
-    path: path.resolve(__dirname, "dist"),
+    filename: '[name].prod.[chunkhash].js',
+    path: path.resolve(__dirname, 'dist'),
     publicPath: homepage,
   },
   module: {
@@ -26,11 +26,13 @@ module.exports = merge(base, {
       {
         test: /\.svelte$/,
         use: {
-          loader: "svelte-loader",
+          loader: 'svelte-loader',
           options: {
             emitCss: true,
             hydratable: true,
-            preprocess: require("svelte-preprocess")({ /* options */ }),
+            preprocess: require('svelte-preprocess')({
+              /* options */
+            }),
           },
         },
       },
@@ -38,43 +40,33 @@ module.exports = merge(base, {
         test: /\.less$/,
         use: [
           MiniCssExtractPlugin.loader,
-          "css-loader",
-          {
-            loader: "postcss-loader",
-            options: { plugins: [autoprefixer()] },
-          },
-          "less-loader",
+          'css-loader',
+          'postcss-loader',
+          'less-loader',
         ],
       },
       {
         test: /\.css$/,
-        use: [
-          MiniCssExtractPlugin.loader,
-          "css-loader",
-          {
-            loader: "postcss-loader",
-            options: { plugins: [autoprefixer()] },
-          },
-        ],
+        use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
       },
       {
         test: /\.(js|es6)$/,
-        loader: "babel-loader",
-        include: path.resolve(__dirname, "src"),
+        loader: 'babel-loader',
+        include: path.resolve(__dirname, 'src'),
         exclude: /(node_modules|bower_components)/,
         query: {
           plugins: [
-            "@babel/transform-runtime",
-            "@babel/proposal-object-rest-spread",
+            '@babel/transform-runtime',
+            '@babel/proposal-object-rest-spread',
           ],
-          presets: ["@babel/env"],
+          presets: ['@babel/env'],
         },
       },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({
-      filename: "[name].prod.[chunkhash].css",
+      filename: '[name].prod.[chunkhash].css',
     }),
   ],
-});
+})
