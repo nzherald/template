@@ -9,6 +9,7 @@ import * as d3jetpack from "d3-jetpack"
 // import "promise-polyfill/src/polyfill"
 
 import Base from "./lib/base.js"
+import { appWarn } from "./lib/util.js"
 import HTML from "./root.html"
 import "./root.less"
 
@@ -54,7 +55,10 @@ class Main extends Base {
         this.premiumWait(() => {
             V.setData(data)
             console.log("Done.")
-            this.fadeOut()
+            //this.fadeOut()
+            if (params.appWarn) {
+                appWarn(this.root.selector, params.appWarn, params.category)
+            }
         })
     }
 
