@@ -7,7 +7,6 @@
   #wrapper {
     margin: 20px;
     border: 1px solid slateblue;
-    border-radius: 16px;
   }
 </style>
 
