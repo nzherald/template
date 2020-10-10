@@ -1,74 +1,70 @@
-@import "./fonts.less";
+@import './fonts.less';
 
-@whiteish: #F3F1F2;
-@lightdark: #C8CCCF;
+@whiteish: #f3f1f2;
+@lightdark: #c8cccf;
 @darkish: #666;
 @dark: #4c585d;
 
-.titlefont {
-    font-family: "Stag Book", Georgia, serif;
-    font-weight: normal;
+
+.titlefont() {
+  font-family: 'Stag', Georgia, serif;
+  font-weight: 400;
+  font-weight: normal;
 }
-.basefont {
-    font-family: "Source Sans Pro", "Helvetica", sans-serif;
-    font-weight: 300;
-}
-
-
-
-.articlestory {
-    .nav-collapsible {
-        #pb-root {
-            overflow: visible;
-        }
-    }
+.basefont() {
+  font-family: 'Source Sans Pro', 'Helvetica', sans-serif;
+  font-weight: 300;
 }
 
 .nzh-datavis {
+  .basefont;
+  position: relative;
+  width: 100%;
+  max-width: 940px;
+  min-height: 320px;
+  @media (max-width: 500px) {
+    min-height: 160px;
+  }
+  margin: auto;
+  font-size: 18px;
+
+  // Mobile/Desktop
+  .mobile {
+    display: none;
+  }
+
+  // Overwrite base styles
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  label {
+    .titlefont;
+    margin: 0.3em auto 0.2em auto;
+    color: @dark;
+  }
+  select {
     .basefont;
-    position: relative;
-    width: 100%;
-    max-width: 940px;
-    min-height: 320px;
-    @media (max-width: 500px) {
-        min-height: 160px;
+    padding: 0.25em 0.5em;
+    background-color: #fff;
+    border: @lightdark 1px solid;
+    color: @dark;
+    font-weight: bold;
+    &.disabled {
+      appearance: none;
+      -webkit-appearance: none;
+      border-style: hidden !important;
+      padding: 0 !important;
     }
-    margin: auto;
-    font-size: 18px;
-
-    // Mobile/Desktop
-    .mobile {
-        display: none;
-    }
-
-    // Overwrite base styles
-    h1,h2,h3,h4,h5,label {
-        .titlefont;
-        margin: 0.3em auto 0.2em auto;
-        color: @dark;
-    }
-    select {
-        .basefont;
-        padding: 0.25em 0.5em;
-        background-color: #fff;
-        border: @lightdark 1px solid;
-        color: @dark;
-        font-weight: bold;
-        &.disabled {
-            appearance: none;
-            -webkit-appearance: none;
-            border-style: hidden !important;
-            padding: 0 !important;
-        }
-    }
-    button {
-        padding: 0.4em 8em;
-        border: @lightdark 1px solid;
-        background-color: #fff;
-    }
-    .row {
-        margin-left: unset;
-        margin-right: unset;
-    }
-
+  }
+  button {
+    padding: 0.4em 8em;
+    border: @lightdark 1px solid;
+    background-color: #fff;
+  }
+  .row {
+    margin-left: unset;
+    margin-right: unset;
+  }
 }
