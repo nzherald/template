@@ -6,7 +6,7 @@
   "description": "Basic template for new story",
   "keywords": [],
   "version": "0.0.1",
-  "homepage": "https://insights.nzherald.co.nz/apps/svelte-template/",
+  "homepage": "https://insights.nzherald.co.nz/apps/2020/svelte-template/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/nzherald/template.git"
@@ -44,6 +44,7 @@
     "less": "^3.12.2",
     "less-loader": "^7.0.2",
     "mini-css-extract-plugin": "^1.0.0",
+    "postcss": "^8.1.1",
     "postcss-loader": "^4.0.4",
     "postcss-preset-env": "^6.7.0",
     "style-loader": "^2.0.0",
