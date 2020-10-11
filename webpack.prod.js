@@ -25,10 +25,7 @@ module.exports = merge(base, {
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
-                    {
-                        loader: "postcss-loader",
-                        options: {plugins: [autoprefixer()]}
-                    },
+                    "postcss-loader",
                     "less-loader"
                 ]
             },
@@ -37,10 +34,7 @@ module.exports = merge(base, {
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
-                    {
-                        loader: "postcss-loader",
-                        options: {plugins: [autoprefixer()]}
-                    }
+                    "postcss-loader",
                 ]
             },
             {

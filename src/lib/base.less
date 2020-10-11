@@ -1,122 +1,80 @@
-@font-face{
-    font-family:Source Sans Pro Bold;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/source-sans-pro/SourceSansPro-Bold.otf)
-}
-@font-face{
-    font-family:Source Sans Pro Semibold;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/source-sans-pro/SourceSansPro-Semibold.otf)
-}
-@font-face{
-    font-family:Source Sans Pro Italic;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/source-sans-pro/SourceSansPro-It.otf)
-}
-@font-face{
-    font-family:Source Sans Pro Light;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/source-sans-pro/SourceSansPro-Light.otf)
-}
-@font-face{
-    font-family:Source Sans Pro;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/source-sans-pro/SourceSansPro-Regular.otf)
-}
-@font-face{
-    font-family:Stag Bold;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/stag/Stag-Bold.otf)
-}
-@font-face{
-    font-family:Stag Book;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/stag/Stag-Book.otf)
-}
-@font-face{
-    font-family:Stag Light;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/stag/Stag-Light.otf)
-}
-@font-face{
-    font-family:Stag Light Italic;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/stag/Stag-LightItalic.otf)
-}
-@font-face{
-    font-family:Stag Medium;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/stag/Stag-Medium.otf)
-}
-@font-face{
-    font-family:Stag Sans Bold;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/stag-sans/StagSans-Bold.otf)
-}
-@font-face{
-    font-family:Stag Sans Book;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/stag-sans/StagSans-Book.otf)
-}
-@font-face{
-    font-family:Stag Sans Light;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/stag-sans/StagSans-Light.otf)
-}
-@font-face{
-    font-family:Stag Sans Medium;
-    font-weight:400;
-    font-style:normal;
-    src:url(//www.nzherald.co.nz/pb/resources/fonts/stag-sans/StagSans-Medium.otf)
-}
+@import './fonts.less';
 
-@whiteish: #F3F1F2;
-@lightdark: #C8CCCF;
+@whiteish: #f3f1f2;
+@lightdark: #c8cccf;
 @darkish: #666;
 @dark: #4c585d;
 
-.titlefont {
-    font-family: "Stag Book", Georgia, serif;
-    font-weight: normal;
+@premium: #ecac0c;
+@sport: #50ac47;
+@sport-shade: #3c8135;
+@business: #394190;
+@business-shade: #2e3045;
+@national: #38a3d7;
+@national-shade: #2b7199;
+@world: #3374ba;
+@world-shade: #255589;
+@entertainment: #a43f82;
+@entertainment-shade: #752d5d;
+@lifestyle: #de2363;
+@lifestyle-shade: #ae1b4e;
+@technology: #ef5633;
+@technology-shade: #c1462a;
+@travel: #f47d22;
+@travel-shade: #c7661c;
+@property: #30bdb0;
+@property-shade: #259389;
+
+@fallback: #333c3d;
+@primary: #1c2122;
+@secondary: #f5f5f5;
+
+// Added brackets to font mixins so that they are just mixins
+// This just reduces the number of time the same definition appears in the generated css
+// If it isn't the behaviour needed - i.e. you want to directly set .titlefont as
+// a class on an element then remove the brackets.
+
+.titlefont() {
+  font-family: 'Stag', Georgia, serif;
+  font-weight: 400;
+  font-weight: normal;
 }
-.basefont {
-    font-family: "Source Sans Pro Light", "Helvetica", sans-serif;
+.basefont() {
+  font-family: 'Source Sans Pro', 'Helvetica', sans-serif;
+  font-weight: 300;
 }
 
+// CJHK 20201011 - removed css for to support stick on old site
 
-
-.articlestory {
-    .nav-collapsible {
-        #pb-root {
-            overflow: visible;
-        }
+// CJHK 20201011 - removed added CSS to make use of full-width in big read in fusion
+.article-bigread {
+  .article__body {
+    max-width: 100%;
+    figure,
+    h1,
+    h2,
+    h3,
+    h4,
+    p {
+      max-width: 630px;
     }
+    p {
+      margin: 0 auto 10px;
+    }
+  }
 }
 
 .nzh-datavis {
-    .basefont;
-    position: relative;
-    width: 100%;
-    max-width: 940px;
-    min-height: 320px;
-    @media (max-width: 500px) {
-        min-height: 160px;
-    }
-    margin: auto;
-    font-size: 18px;
+  .basefont;
+  position: relative;
+  width: 100%;
+  max-width: 940px;
+  min-height: 320px;
+  @media (max-width: 500px) {
+    min-height: 160px;
+  }
+  margin: auto;
+  font-size: 18px;
 
     // Mobile/Desktop
     .mobile {
