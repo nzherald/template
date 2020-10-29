@@ -15,7 +15,6 @@ module.exports = merge(base, {
     mode: "production",
     output: {
         filename: "[name].prod.[chunkhash].js",
-        path: path.resolve(__dirname, "dist"),
         publicPath: homepage
     },
     module: {

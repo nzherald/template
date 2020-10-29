@@ -13,10 +13,12 @@ module.exports = merge(base, {
     },
     mode: "development",
     output: {
-        filename: "[name].dev.[hash].js"
+        filename: "[name].dev.[contenthash].js",
+        publicPath: "/"
     },
     devServer: {
-        contentBase: ["./static", "./static-dev"]
+        contentBase: ["./static", "./static-dev"],
+        open: true
     },
     module: {
         rules: [
