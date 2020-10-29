@@ -18,7 +18,7 @@
     "start": "webpack serve --config webpack.dev.js",
     "analyse": "rm -rf dist/* && webpack --config webpack.analyse.js",
     "livetest": "rm -rf dist/* && webpack --config webpack.livetest.js",
-    "release": "rm -rf dist/* && webpack --config webpack.release.js"
+    "release": "rm -rf dist/* && webpack --config webpack.release.js && ./upload.sh"
   },
   "browserslist": [
     "last 5 version",
