@@ -15,8 +15,13 @@ else
     exit 1
 fi
 
+if [[ -d $DST_DIR ]]
+then
+    rm -r $DST_DIR/*
+else
+    mkdir $DST_DIR
+fi
 cd $DST_DIR
-rm -r $DST_DIR/*
 wget --convert-links -nv --domains www.nzherald.co.nz $NZH_URL
 wget --convert-links -nv --domains www.nzherald.co.nz https://www.nzherald.co.nz/pf/dist/components/combinations/default.js
 nodejs $WRK_DIR/rip-test.js $DST_DIR $WRK_DIR
