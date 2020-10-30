@@ -2,7 +2,7 @@
 
 set -ex
 
-homepage=$(jq -r .homepage < package.json)
+homepage=$(jqn 'get("homepage")' < package.json)
 s3bucket="s3://s3.newsapps.nz/${homepage##https://insights.nzherald.co.nz/}"
 
 aws --profile nzherald s3 sync \
