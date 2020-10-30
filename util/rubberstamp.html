@@ -1,0 +1,27 @@
+<script>
+    // Placeholder to take down paywall, in lieu of actual paywall system
+    window.addEventListener('load', function () {
+        console.log('Rubberstamper loaded, will run very soon...');
+        setTimeout(() => {
+            // Hidden elements are tagged with an encrypted class name, find an element to get the class name
+            var targClass = null;
+            var sampleElement = document.getElementsByClassName('article__raw-html__bottom')[0];
+            for (var i = 0; i < sampleElement.classList.length; i++) {
+                if (sampleElement.classList[i] != 'article__raw-html__bottom') {
+                    targClass = sampleElement.classList[i];
+                    break;
+                }
+            }
+            // Remove style and encrypted class from hidden elements
+            var paras = document.getElementsByClassName(targClass);
+            while (paras.length) {
+                paras[0].removeAttribute('style');
+                paras[0].classList.remove(targClass);
+            };
+            // Add full-content to body (this is watched by visualisations to know when paywall is down) and remove offer
+            document.getElementsByClassName('article__body')[0].className = 'article__body article__content full-content';
+            document.getElementsByClassName('article-offer')[0].remove();
+            console.log('Rubberstamper pulled down paywall.')
+        }, 100);
+    });
+</script>

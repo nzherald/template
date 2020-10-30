@@ -3,7 +3,9 @@ const base = require("./webpack.common.js")
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const EmbedPlugin = require("./util/embedgen.js")
+const { getPort } = require('portfinder-sync')
 
+const port = getPort(8080)
 // Spins up dev server with bundles using minimal template
 module.exports = merge(base, {
     resolve: {
@@ -13,10 +15,13 @@ module.exports = merge(base, {
     },
     mode: "development",
     output: {
-        filename: "[name].dev.[hash].js"
+        filename: "[name].dev.[contenthash].js",
+        publicPath: "/"
     },
     devServer: {
-        contentBase: ["./static", "./static-dev"]
+        contentBase: ["./static", "./.nzh-rip"],
+        open: true,
+        port
     },
     module: {
         rules: [
