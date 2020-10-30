@@ -2,11 +2,13 @@
 # Rips a designated test page from the NZH site and turns it into a local test page
 WRK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 DST_DIR=$WRK_DIR/../.nzh-rip
-if [[ -z $1 || $1 == "normal" ]]
+LAYOUT=`jqn 'get("layout")' < $WRK_DIR/../package.json`
+
+if [[ -z $LAYOUT || $LAYOUT == "normal" ]]
 then
     echo "Ripping normal premium (dj-t2) page..."
     NZH_URL="https://www.nzherald.co.nz/nz/dj-t2/DEYOM6DGQCKKAQ4WBYJB5UJAHU/"
-elif [[ $1 == "bigread" ]]
+elif [[ $LAYOUT == "bigread" ]]
 then
     echo "Ripping big-read premium (dj-t3) page..."
     NZH_URL="https://www.nzherald.co.nz/nz/dj-t3/OH4O2PVLHHNA2UY7MHWH55CUOQ/"
