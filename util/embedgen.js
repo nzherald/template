@@ -60,7 +60,7 @@ class EmbedPlugin {
             `<link href="${path}embed.css" rel="stylesheet">`,
             `<script defer src="${path}prelaunch_v2.js"></script>`,
             `<script defer src="${path}embed.js"></script>`,
-            `<script defer>window.onload = function () { new window.Main("${targ}", ${JSON.stringify(params)}) }</script>`
+            `<script>window.addEventListener('load', function () { new window.Main("${targ}", ${JSON.stringify(params)}) })</script>`
         ].join("\n")
     }
 
