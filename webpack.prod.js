@@ -25,7 +25,10 @@ module.exports = merge(base, {
                     MiniCssExtractPlugin.loader,
                     "css-loader",
                     "postcss-loader",
-                    "less-loader"
+                    {
+                        loader: "less-loader",
+                        options: { lessOptions: { globalVars: { projectName: name } } }
+                    }
                 ]
             },
             {
