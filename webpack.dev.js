@@ -4,6 +4,7 @@ const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const EmbedPlugin = require("./util/embedgen.js")
 const { getPort } = require('portfinder-sync')
+const { name } = require('./package.json')
 
 const port = getPort(8080)
 // Spins up dev server with bundles using minimal template
@@ -39,8 +40,6 @@ module.exports = merge(base, {
         new MiniCssExtractPlugin({
             filename: "[name].dev.[chunkhash].css"
         }),
-        new EmbedPlugin({
-            basePath: ""
-        })
+        new EmbedPlugin({ name, basePath: "" })
     ]
 })

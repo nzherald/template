@@ -1,3 +1,4 @@
+import ENV from "Environment"
 import $ from "jquery"
 import "./base.less"
 
@@ -8,6 +9,7 @@ class Base {
         if (!this.root.$[0]) console.error("Cannot find element '" + selector + "'! Nothing will work!")
         this.root.$.html(html)
         this.root.$.addClass("nzh-datavis")
+        this.root.$.addClass(ENV.name)
         this.root.$.closest(".pb-feature").addClass("pb-f-article-slideshow") // Herald site hack - hijack swipe on this visualisation
     }
 

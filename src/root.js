@@ -22,4 +22,4 @@ class Main extends Base {
     }
 }
 
-window.Main = window.UniqClassName = Main
+window.DataVisDevMain = window[ENV.name] = Main

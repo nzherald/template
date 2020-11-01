@@ -44,23 +44,16 @@ class EmbedPlugin {
         return out
     }
 
-    // The bit that you paste into the article
-    static makeRootDiv (targ) {
-        if (targ[0] === "#") return `<div class='nzh-datavis' id='${ targ.substr(1) }'></div>`
-        else if (targ[0] === ".") return `<div class='nzh-datavis ${ targ.substr(1) }'></div>`
-        else throw "Invalid selector - " + targ + "!"
-    }
-
     // The bit that you paste into the footer
     // Prelaunch must be deferred to destroy the global style that the app tries to apply (which is created via a script we don't control)
     // Everything else must also be deferred, so that they run after prelaunch
-    static makeFooter (targ, path, params) {
+    static makeFooter (targ, path, name, params) {
         if (path[path.length - 1] != "/") path += "/"
         return [
             `<link href="${path}embed.css" rel="stylesheet">`,
             `<script defer src="${path}prelaunch_v2.js"></script>`,
             `<script defer src="${path}embed.js"></script>`,
-            `<script>window.addEventListener('load', function () { new window.Main("${targ}", ${JSON.stringify(params)}) })</script>`
+            `<script>window.addEventListener("load", function () { console.log("Embedgen footer running."); new window["${name}"]("${targ}", ${JSON.stringify(params)}); })</script>`
         ].join("\n")
     }
 
@@ -68,6 +61,7 @@ class EmbedPlugin {
         const self = this
         compiler.hooks.emit.tap("EmbedPlugin", function (compilation, callback) {
             const basePath = self.options.basePath || ""
+            const mainName = self.options.name || "DataVisDevMain"
             // Sort assets
             let root
             const js = []
@@ -96,8 +90,8 @@ class EmbedPlugin {
 
             // Create Zen code
             const targ = "#nzh-datavis-root"
-            const embed = EmbedPlugin.makeRootDiv(targ)
-            const footer = EmbedPlugin.makeFooter(targ, basePath, {})
+            const embed = `<div id='${ targ.substr(1) }'></div>`
+            const footer = EmbedPlugin.makeFooter(targ, basePath, mainName, {})
             compilation.assets["zen.txt"] = dump(`${embed}\n\n${footer}`)
         })
     }
