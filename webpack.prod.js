@@ -3,7 +3,7 @@ const base = require("./webpack.common.js")
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const autoprefixer = require("autoprefixer")
-const { homepage } = require("./package.json")
+const { homepage, name } = require("./package.json")
 
 // Post-processing and minification of bundle
 module.exports = merge(base, {
