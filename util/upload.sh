@@ -2,7 +2,7 @@
 
 set -ex
 
-homepage=$(jqn 'get("homepage")' < package.json)
+homepage=$(node -e "const {homepage} = require('./package.json'); console.log(homepage)")
 s3bucket="s3://s3.newsapps.nz/${homepage##https://insights.nzherald.co.nz/}"
 
 aws --profile nzherald s3 sync \

@@ -2,7 +2,7 @@
 # Rips a designated test page from the NZH site and turns it into a local test page
 WRK_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 DST_DIR=$WRK_DIR/../.nzh-rip
-LAYOUT=`jqn 'get("layout")' < $WRK_DIR/../package.json`
+LAYOUT=$npm_package_config_layout
 
 if [[ -z $LAYOUT || $LAYOUT == "normal" ]]
 then
