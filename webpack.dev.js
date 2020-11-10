@@ -19,6 +19,8 @@ module.exports = merge(base, {
   },
   devServer: {
     contentBase: ["./static", "./static-dev"],
+    open: true,
+    port: 9001
   },
   module: {
     rules: [
