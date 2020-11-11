@@ -1,8 +1,11 @@
-const { merge } = require("webpack-merge");
-const base = require("./webpack.common.js");
-const path = require("path");
-const EmbedPlugin = require("./util/embedgen.js");
+const { merge } = require("webpack-merge")
+const base = require("./webpack.common.js")
+const path = require("path")
+const EmbedPlugin = require("./util/embedgen.js")
+const { getPort } = require('portfinder-sync')
+const { name } = require('./package.json')
 
+const port = getPort(8080)
 // Spins up dev server with bundles using minimal template
 module.exports = merge(base, {
   resolve: {
@@ -15,12 +18,13 @@ module.exports = merge(base, {
   },
   mode: "development",
   output: {
-    filename: "[name].dev.[hash].js",
+    filename: "[name].dev.[contenthash].js",
+    publicPath: "/"
   },
   devServer: {
-    contentBase: ["./static", "./static-dev"],
+    contentBase: ["./static", "./.nzh-rip"],
     open: true,
-    port: 9001
+    port
   },
   module: {
     rules: [
@@ -39,7 +43,10 @@ module.exports = merge(base, {
       },
       {
         test: /\.less$/,
-        use: ["style-loader", "css-loader", "less-loader"],
+        use: ["style-loader", "css-loader", {
+          loader: "less-loader",
+          options: { lessOptions: { globalVars: { projectName: name } } }
+        }],
       },
       {
         test: /\.css$/,
@@ -48,9 +55,7 @@ module.exports = merge(base, {
     ],
   },
   plugins: [
-    new EmbedPlugin({
-      basePath: "",
-    }),
+    new EmbedPlugin({ name, basePath: "", }),
   ],
   devtool: "source-map",
 });

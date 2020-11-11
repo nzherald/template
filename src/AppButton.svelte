@@ -1,3 +1,7 @@
+<script lang="ts">
+  export let inapp = true;
+</script>
+
 <style lang="less">
   @import "./theme.less";
   a {
@@ -11,11 +15,10 @@
       }
     }
     .app-button {
-      background-image: url(./map-button.jpg);
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
-      height: 200px;
+      height: 100px;
       position: relative;
       .overlay {
         position: absolute;
@@ -38,13 +41,10 @@
   }
 </style>
 
-<a
-  class:inapp={typeof window !== "undefined" && window.hasOwnProperty('ReactNativeWebView')}
-  href="https://www.nzherald.co.nz/world/us-election-donald-trump-v-joe-biden-live-results/IAXUG6CB4ACSFDBRJN5E5O5VXA/"
-  target="_blank">
+<a class:inapp href="https://www.nzherald.co.nz/" target="_blank">
   <div class="app-button">
     <div class="overlay">
-      <div>APP USERS CLICK HERE FOR MAP</div>
+      <div>APP USERS CLICK HERE</div>
     </div>
   </div>
 </a>

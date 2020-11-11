@@ -65,3 +65,6 @@ dist
 # Python compiled files
 *.pyc
 server
+
+# Ripped pages for testing
+.nzh-rip

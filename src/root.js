@@ -1,6 +1,5 @@
-// import ENV from "Environment"
+import ENV from "Environment"
 import Base from './lib/base.js'
-import { appWarn } from './lib/util.js'
 import HTML from './root.html'
 import './root.less'
 
@@ -15,20 +14,11 @@ class Main extends Base {
       new App({
         target: this.root.node,
         hydrate: true,
-        props: {},
+        props: {...params, inapp: !window.hasOwnProperty('ReactNativeWebView')},
       })
       console.log('Done.')
-      if (params.appWarn) {
-        appWarn(this.root.selector, params.appWarn, params.category)
-      }
     })
   }
 }
 
-window.Main = window.UniqClassName = Main
-
-// This appears to work for speeding up things
-// The onload event is very late in NZH (due to some of the ad loading etc)
-// This feels super dodgy so just delete it if something seems flaky
-window.onload()
-window.onload = null
+window.DataVisDevMain = window[ENV.name] = Main

@@ -47,24 +47,53 @@
 // CJHK 20201011 - removed css for to support stick on old site
 
 // CJHK 20201011 - removed added CSS to make use of full-width in big read in fusion
+
 .article-bigread {
   .article__body {
     max-width: 100%;
+    div.article__raw-html {
+      max-width: none;
+      * {
+        max-width: none;
+      }
+    }
+    & > div,
+    aside,
     figure,
     h1,
     h2,
     h3,
-    h4,
-    p {
+    div.article__action-bar,
+    h4 {
       max-width: 630px;
+      margin-left: auto;
+      margin-right: auto;
     }
     p {
+      max-width: 630px;
       margin: 0 auto 10px;
     }
   }
 }
 
-.nzh-datavis {
+.article {
+  .nzh-datavis {
+    max-width: 630px;
+  }
+}
+
+.nzh-datavis.@{projectName} {
+  // block page css
+  // revert prevents any NZH css affecting our CSS classes
+  // but it also stops attributes from getting to SVG elements
+  // the line below lets attributes (and everything else) through for common elements
+  // add or remove elements as neeed
+  * {
+    :not(circle):not(path):not(image):not(text):not(rect):not(line):not(polygon):not(polyline) {
+      all: revert;
+    }
+  }
+
   .basefont;
   position: relative;
   width: 100%;
@@ -80,6 +109,15 @@
   .mobile {
     display: none;
   }
+  @media (max-width: 800px) {
+    font-size: 16px;
+    .desktop {
+      display: none;
+    }
+    .mobile {
+      display: inherit;
+    }
+  }
 
   // Overwrite base styles
   h1,
@@ -89,7 +127,7 @@
   h5,
   label {
     .titlefont;
-    margin: 0.3em auto 0.2em auto;
+    margin: 0.8em auto 0.2em auto;
     color: @dark;
   }
   select {
@@ -114,5 +152,18 @@
   .row {
     margin-left: unset;
     margin-right: unset;
+  }
+
+  svg {
+    overflow: visible;
+    text {
+      .basefont;
+    }
+    path {
+      fill: none;
+    }
+    .axis {
+      user-select: none;
+    }
   }
 }

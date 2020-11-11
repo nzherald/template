@@ -11,12 +11,12 @@ module.exports = {
       Environment$: path.resolve(__dirname, 'util/production.js'),
       svelte: path.resolve('node_modules', 'svelte'),
     },
-    extensions: ['.mjs', '.js', '.svelte'],
+    extensions: ['.mjs', '.js', '.svelte', ".ts"],
     mainFields: ['svelte', 'browser', 'module', 'main'],
   },
   mode: 'production',
   entry: {
-    root: './src/App.svelte',
+    root: './src/Ssr.svelte',
   },
   output: {
     filename: 'App.js',
@@ -40,7 +40,7 @@ module.exports = {
             loader: 'html-loader',
           },
           {
-            test: /\.(png|svg|jpg|gif)$/,
+            test: /\.(png|svg|jpg|gif|JPG|jpeg)$/,
             loader: 'file-loader',
           },
           {
@@ -52,6 +52,11 @@ module.exports = {
             loader: 'dsv-loader',
           },
         ],
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
       {
         test: /\.svelte$/,
@@ -69,11 +74,11 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: [ 'css-loader', 'postcss-loader', 'less-loader', ],
+        use: ['css-loader', 'postcss-loader', 'less-loader'],
       },
       {
         test: /\.css$/,
-        use: [ 'css-loader', 'postcss-loader', ],
+        use: ['css-loader', 'postcss-loader'],
       },
       {
         test: /\.(js|es6)$/,
