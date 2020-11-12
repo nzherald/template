@@ -14,7 +14,7 @@ class Main extends Base {
       new App({
         target: this.root.node,
         hydrate: true,
-        props: {...params, inapp: !window.hasOwnProperty('ReactNativeWebView')},
+        props: {...params, inapp: window.hasOwnProperty('ReactNativeWebView')},
       })
       console.log('Done.')
     })
