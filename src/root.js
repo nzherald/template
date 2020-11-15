@@ -1,6 +1,6 @@
 import ENV from "Environment"
 import Base from './lib/base.js'
-import HTML from './root.html'
+import HTML from '../ssr/app.html'
 import './root.less'
 
 class Main extends Base {

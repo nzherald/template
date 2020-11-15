@@ -1,34 +1,5 @@
 @import './fonts.less';
 
-@whiteish: #f3f1f2;
-@lightdark: #c8cccf;
-@darkish: #666;
-@dark: #4c585d;
-
-@premium: #ecac0c;
-@sport: #50ac47;
-@sport-shade: #3c8135;
-@business: #394190;
-@business-shade: #2e3045;
-@national: #38a3d7;
-@national-shade: #2b7199;
-@world: #3374ba;
-@world-shade: #255589;
-@entertainment: #a43f82;
-@entertainment-shade: #752d5d;
-@lifestyle: #de2363;
-@lifestyle-shade: #ae1b4e;
-@technology: #ef5633;
-@technology-shade: #c1462a;
-@travel: #f47d22;
-@travel-shade: #c7661c;
-@property: #30bdb0;
-@property-shade: #259389;
-
-@fallback: #333c3d;
-@primary: #1c2122;
-@secondary: #f5f5f5;
-
 // Added brackets to font mixins so that they are just mixins
 // This just reduces the number of time the same definition appears in the generated css
 // If it isn't the behaviour needed - i.e. you want to directly set .titlefont as
@@ -41,7 +12,7 @@
 }
 .basefont() {
   font-family: 'Source Sans Pro', 'Helvetica', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 // CJHK 20201011 - removed css for to support stick on old site
@@ -88,82 +59,15 @@
   // but it also stops attributes from getting to SVG elements
   // the line below lets attributes (and everything else) through for common elements
   // add or remove elements as neeed
-  * {
-    :not(circle):not(path):not(image):not(text):not(rect):not(line):not(polygon):not(polyline) {
+  & :not(svg):not(g):not(circle):not(path):not(image):not(text):not(rect):not(line):not(polygon):not(polyline) {
       all: revert;
-    }
   }
 
   .basefont;
   position: relative;
   width: 100%;
   max-width: 940px;
-  min-height: 320px;
-  @media (max-width: 500px) {
-    min-height: 160px;
-  }
+  min-height: 160px;
   margin: auto;
   font-size: 18px;
-
-  // Mobile/Desktop
-  .mobile {
-    display: none;
-  }
-  @media (max-width: 800px) {
-    font-size: 16px;
-    .desktop {
-      display: none;
-    }
-    .mobile {
-      display: inherit;
-    }
-  }
-
-  // Overwrite base styles
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  label {
-    .titlefont;
-    margin: 0.8em auto 0.2em auto;
-    color: @dark;
-  }
-  select {
-    .basefont;
-    padding: 0.25em 0.5em;
-    background-color: #fff;
-    border: @lightdark 1px solid;
-    color: @dark;
-    font-weight: bold;
-    &.disabled {
-      appearance: none;
-      -webkit-appearance: none;
-      border-style: hidden !important;
-      padding: 0 !important;
-    }
-  }
-  button {
-    padding: 0.4em 8em;
-    border: @lightdark 1px solid;
-    background-color: #fff;
-  }
-  .row {
-    margin-left: unset;
-    margin-right: unset;
-  }
-
-  svg {
-    overflow: visible;
-    text {
-      .basefont;
-    }
-    path {
-      fill: none;
-    }
-    .axis {
-      user-select: none;
-    }
-  }
 }

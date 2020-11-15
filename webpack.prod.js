@@ -12,7 +12,7 @@ module.exports = merge(base, {
       Environment$: path.resolve(__dirname, 'util/production.js'),
       svelte: path.resolve('node_modules', 'svelte'),
     },
-    extensions: ['.mjs', '.js', '.svelte'],
+    extensions: ['.mjs', '.js', '.svelte', ".ts"],
     mainFields: ['svelte', 'browser', 'module', 'main'],
   },
   mode: 'production',
@@ -24,6 +24,19 @@ module.exports = merge(base, {
   module: {
     rules: [
       {
+        test: /\.(js|ts|mjs|svelte)$/,
+        include: path.resolve(__dirname, 'src'),
+        exclude: /(node_modules|bower_components)/,
+        use: {
+          loader: 'babel-loader',
+        },
+      },
+      {
+        test: /\.tsx?$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
+      },
+      {
         test: /\.svelte$/,
         use: {
           loader: 'svelte-loader',
@@ -31,7 +44,22 @@ module.exports = merge(base, {
             emitCss: true,
             hydratable: true,
             preprocess: require('svelte-preprocess')({
-              /* options */
+              babel: {
+                presets: [
+                  [
+                    '@babel/preset-env',
+                    {
+                      loose: true,
+                      // No need for babel to resolve modules
+                      modules: false,
+                      targets: {
+                        // ! Very important. Target es6+
+                        esmodules: true,
+                      },
+                    },
+                  ],
+                ],
+              }
             }),
           },
         },
@@ -51,20 +79,7 @@ module.exports = merge(base, {
       {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
-      },
-      {
-        test: /\.(js|es6)$/,
-        loader: 'babel-loader',
-        include: path.resolve(__dirname, 'src'),
-        exclude: /(node_modules|bower_components)/,
-        query: {
-          plugins: [
-            '@babel/transform-runtime',
-            '@babel/proposal-object-rest-spread',
-          ],
-          presets: ['@babel/env'],
-        },
-      },
+      }
     ],
   },
   plugins: [

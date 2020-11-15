@@ -3,13 +3,15 @@ module.exports = function(api) {
 
   const presets = [
       ["@babel/preset-env", {
-          useBuiltIns: "entry", // or "entry"
-          corejs: 2,
+          useBuiltIns: "usage",
+          corejs: { version: 3, proposals: true },
+          targets: "> 0.25%, not dead"
       }],
   ];
   const plugins = [
       "@babel/proposal-object-rest-spread",
-      "@babel/transform-runtime"
+      "@babel/transform-runtime",
+      "@babel/plugin-proposal-optional-chaining"
   ];
 
   return {

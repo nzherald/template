@@ -13,7 +13,7 @@ module.exports = merge(base, {
       Environment$: path.resolve(__dirname, "util/development.js"),
       svelte: path.resolve("node_modules", "svelte"),
     },
-    extensions: [".mjs", ".js", ".svelte"],
+    extensions: [".mjs", ".js", ".svelte", ".ts"],
     mainFields: ["svelte", "browser", "module", "main"],
   },
   mode: "development",
@@ -40,6 +40,15 @@ module.exports = merge(base, {
             preprocess: require("svelte-preprocess")({ /* options */ }),
           },
         },
+      },
+      {
+        test: /\.tsx?$/,
+        use: {
+          loader: 'ts-loader',
+          options: {
+          },
+        },
+        exclude: /node_modules/,
       },
       {
         test: /\.less$/,
