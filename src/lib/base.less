@@ -88,10 +88,8 @@
   // but it also stops attributes from getting to SVG elements
   // the line below lets attributes (and everything else) through for common elements
   // add or remove elements as neeed
-  * {
-    :not(circle):not(path):not(image):not(text):not(rect):not(line):not(polygon):not(polyline) {
+  & :not(svg):not(g):not(circle):not(path):not(image):not(text):not(rect):not(line):not(polygon):not(polyline) {
       all: revert;
-    }
   }
 
   .basefont;
