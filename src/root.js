@@ -1,4 +1,3 @@
-import ENV from "Environment"
 import Base from "./lib/base.js"
 import { appWarn } from "./lib/util.js"
 import HTML from "./root.html"

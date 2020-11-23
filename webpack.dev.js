@@ -1,4 +1,5 @@
 const { merge } = require("webpack-merge")
+const { DefinePlugin } = require("webpack")
 const base = require("./webpack.common.js")
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
@@ -9,11 +10,6 @@ const { name } = require('./package.json')
 const port = getPort(8080)
 // Spins up dev server with bundles using minimal template
 module.exports = merge(base, {
-    resolve: {
-        alias: {
-            Environment$: path.resolve(__dirname, "util/development.js")
-        }
-    },
     mode: "development",
     output: {
         filename: "[name].dev.[contenthash].js",
@@ -44,6 +40,14 @@ module.exports = merge(base, {
         ]
     },
     plugins: [
+        new DefinePlugin({
+            ENV: JSON.stringify({
+                name: name,
+                path: "./",
+                isProduction: false,
+                isDevelopment: true
+            })
+        }),
         new MiniCssExtractPlugin({
             filename: "[name].dev.[chunkhash].css"
         }),

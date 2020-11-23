@@ -1,4 +1,5 @@
 const { merge } = require("webpack-merge")
+const { DefinePlugin } = require("webpack")
 const base = require("./webpack.common.js")
 const path = require("path")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
@@ -7,11 +8,6 @@ const { homepage, name } = require("./package.json")
 
 // Post-processing and minification of bundle
 module.exports = merge(base, {
-    resolve: {
-        alias: {
-            Environment$: path.resolve(__dirname, "util/production.js")
-        }
-    },
     mode: "production",
     output: {
         filename: "[name].prod.[chunkhash].js",
@@ -48,6 +44,14 @@ module.exports = merge(base, {
         ]
     },
     plugins: [
+        new DefinePlugin({
+            ENV: JSON.stringify({
+                name: name,
+                path: homepage,
+                isProduction: true,
+                isDevelopment: false
+            })
+        }),
         new MiniCssExtractPlugin({
             filename: "[name].prod.[chunkhash].css"
         })

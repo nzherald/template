@@ -1,4 +1,3 @@
-import ENV from "Environment"
 import './base.less'
 
 class Base {
