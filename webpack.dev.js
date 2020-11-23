@@ -1,19 +1,28 @@
-// Post-processing and minification of bundle
+// Spins up dev server with bundles using minimal template
 // Configs
 const { merge } = require("webpack-merge")
 const base = require("./webpack.common.js")
-const { homepage, name } = require("../package.json")
+const { homepage, name } = require("./package.json")
 // Tools
 const path = require("path")
+const { getPort } = require("portfinder-sync")
 // Plugins
 const { DefinePlugin } = require("webpack")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const EmbedPlugin = require("./util/embedgen.js")
+
+const port = getPort(8080)
 
 module.exports = merge(base, {
-    mode: "production",
+    mode: "development",
     output: {
-        filename: "[name].prod.[chunkhash].js",
-        publicPath: homepage
+        filename: "[name].dev.[contenthash].js",
+        publicPath: "/"
+    },
+    devServer: {
+        contentBase: ["./static", "./.nzh-rip"],
+        open: true,
+        port
     },
     module: {
         rules: [
@@ -22,7 +31,6 @@ module.exports = merge(base, {
                 use: [
                     MiniCssExtractPlugin.loader,
                     "css-loader",
-                    "postcss-loader",
                     {
                         loader: "less-loader",
                         options: { lessOptions: { globalVars: { projectName: name } } }
@@ -33,15 +41,8 @@ module.exports = merge(base, {
                 test: /\.css$/,
                 use: [
                     MiniCssExtractPlugin.loader,
-                    "css-loader",
-                    "postcss-loader",
+                    "css-loader"
                 ]
-            },
-            {
-                test: /\.(js|es6)$/,
-                loader: "babel-loader",
-                include: path.resolve(__dirname, "src"),
-                exclude: /(node_modules|bower_components)/,
             }
         ]
     },
@@ -49,11 +50,12 @@ module.exports = merge(base, {
         new DefinePlugin({
             ENV: JSON.stringify({
                 name: name,
-                path: homepage,
-                isProduction: true,
-                isDevelopment: false
+                path: "./",
+                isProduction: false,
+                isDevelopment: true
             })
         }),
-        new MiniCssExtractPlugin({ filename: "[name].prod.[chunkhash].css" })
+        new MiniCssExtractPlugin({ filename: "[name].dev.[chunkhash].css" }),
+        new EmbedPlugin({ name, basePath: "" })
     ]
 })

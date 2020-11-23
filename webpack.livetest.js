@@ -7,7 +7,7 @@ const base = require("./webpack.prod.js")
 // Tools
 const AWS = require("aws-sdk")
 // Plugins
-const EmbedPlugin = require("../util/embedgen.js")
+const EmbedPlugin = require("./util/embedgen.js")
 const S3Plugin = require("webpack-s3-uploader")
 
 let subpath = ""

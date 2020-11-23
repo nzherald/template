@@ -2,12 +2,12 @@
 // Configs
 const { merge } = require("webpack-merge")
 const base = require("./webpack.prod.js")
-const { homepage, name } = require("../package.json")
+const { homepage, name } = require("./package.json")
 // Tools
 const url = require("url")
 const AWS = require("aws-sdk")
 // Plugins
-const EmbedPlugin = require("../util/embedgen.js")
+const EmbedPlugin = require("./util/embedgen.js")
 const S3Plugin = require("webpack-s3-uploader")
 
 if (homepage.indexOf("https://insights.nzherald.co.nz/apps/") === -1) {

@@ -9,12 +9,12 @@ module.exports = {
     module: {
         rules: [
             {
-                include: path.resolve(__dirname, "../src/assets"),
+                include: path.resolve(__dirname, "./src/assets"),
                 loader: "file-loader",
                 type: "javascript/auto"
             },
             {
-                exclude: path.resolve(__dirname, "../src/assets"),
+                exclude: path.resolve(__dirname, "./src/assets"),
                 rules: [
                     {
                         test: /\.html$/,
