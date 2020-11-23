@@ -6,11 +6,8 @@
  * uncached.
  *
  * The webpack entry points root is special.
- * In the javascript loader loading is loaded before anything else
- * and then root is loaded.
  */
 
-const SHOW_ERR = `document.body.getElementsByClassName("loading")[0].getElementsByClassName("message")[0].innerHTML="Sorry, something went wrong!"`
 function makeJS (src, id) {
     return `var ${id}=document.createElement('script');${id}.src='${src}';document.body.appendChild(${id});\n`
 }
@@ -66,7 +63,7 @@ class EmbedPlugin {
             let root
             const js = []
             const css = []
-            const ignore = ["prelaunch.js", "loading.css", "nzh-base.css"]
+            const ignore = ["prelaunch_v2.js"]
             for (var fn in compilation.assets) {
                 if (ignore.indexOf(fn) > -1) continue
                 else if (/^root.*js$/.test(fn)) root = basePath + fn
@@ -79,7 +76,7 @@ class EmbedPlugin {
             if (root) jsContent += makeJS(root, "r") // Always load root first
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
             jsContent += "console.log('embed.js finished.');"
-            jsContent = `(function () {try {${jsContent}} catch (err) {${SHOW_ERR}}})()`
+            jsContent = `(function () {${jsContent}})()`
             compilation.assets["embed.js"] = dump(jsContent)
 
             // Create embed.css
@@ -91,7 +88,7 @@ class EmbedPlugin {
             // Create Zen code
             const targ = "#nzh-datavis-root"
             const embed = `<div id='${ targ.substr(1) }' class="nzh-datavis"></div>`
-            const footer = EmbedPlugin.makeFooter(targ, basePath, mainName,  "Default embedgen.js footer running.")
+            const footer = EmbedPlugin.makeFooter(targ, basePath, mainName, "Default embedgen.js footer running.")
             compilation.assets["zen.txt"] = dump(`${embed}\n\n${footer}`)
         })
     }
