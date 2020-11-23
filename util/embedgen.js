@@ -29,18 +29,6 @@ class EmbedPlugin {
         this.options = options
     }
 
-    // Read and deserialise parameters from URL
-    static getURLParams () {
-        const params = window.location.href.split("?")[1]
-        const out = {}
-        if (!params) return
-        _.each(params.split("&"), s => {
-            const a = s.split("=")
-            out[a[0]] = decodeURIComponent(a[1])
-        })
-        return out
-    }
-
     // The bit that you paste into the footer
     // Prelaunch must be deferred to destroy the global style that the app tries to apply (which is created via a script we don't control)
     // Everything else must also be deferred, so that they run after prelaunch
@@ -55,10 +43,9 @@ class EmbedPlugin {
     }
 
     apply (compiler) {
-        const self = this
+        const basePath = this.options.basePath || ""
+        const mainName = this.options.name || "DataVisDevMain"
         compiler.hooks.emit.tap("EmbedPlugin", function (compilation, callback) {
-            const basePath = self.options.basePath || ""
-            const mainName = self.options.name || "DataVisDevMain"
             // Sort assets
             let root
             const js = []
@@ -80,13 +67,12 @@ class EmbedPlugin {
 
             // Create embed.css
             let cssContent = ""
-            cssContent += makeCSS(basePath + "loading.css") // Always load loading.css first
             css.forEach((url) => cssContent += makeCSS(url))
             compilation.assets["embed.css"] = dump(cssContent)
 
             // Create Zen code
             const targ = "#nzh-datavis-root"
-            const embed = `<div id='${ targ.substr(1) }' class="nzh-datavis"></div>`
+            const embed = `<div id="${ targ.substr(1) }" class="nzh-datavis"></div>`
             const footer = EmbedPlugin.makeFooter(targ, basePath, mainName, `Default load event is instantiating new ${mainName}.`)
             compilation.assets["zen.txt"] = dump(`${embed}\n\n${footer}`)
         })
