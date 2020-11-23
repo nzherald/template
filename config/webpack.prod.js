@@ -54,8 +54,6 @@ module.exports = merge(base, {
                 isDevelopment: false
             })
         }),
-        new MiniCssExtractPlugin({
-            filename: "[name].prod.[chunkhash].css"
-        })
+        new MiniCssExtractPlugin({ filename: "[name].prod.[chunkhash].css" })
     ]
 })

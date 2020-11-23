@@ -8,7 +8,7 @@ const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer")
 
 module.exports = merge(base, {
     plugins: [
-        new EmbedPlugin({basePath: ""}),
+        new EmbedPlugin({ basePath: "" }),
         new BundleAnalyzerPlugin()
     ]
 })
