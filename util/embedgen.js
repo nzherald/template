@@ -90,7 +90,7 @@ class EmbedPlugin {
 
             // Create Zen code
             const targ = "#nzh-datavis-root"
-            const embed = `<div id='${ targ.substr(1) }'></div>`
+            const embed = `<div id='${ targ.substr(1) }' class="nzh-datavis"></div>`
             const footer = EmbedPlugin.makeFooter(targ, basePath, mainName,  "Default embedgen.js footer running.")
             compilation.assets["zen.txt"] = dump(`${embed}\n\n${footer}`)
         })
