@@ -1,5 +1,6 @@
 const fs = require('fs')
 const cheerio = require('cheerio')
+const { makeFooter } = require('./embedgen.js')
 
 // The footer is a chunk of HTML in a string in an object in a script tag (euuuggghhh)
 function escapeChunk (chunk) {
@@ -32,11 +33,11 @@ function escapeChunk (chunk) {
 //     }
 // }
 
-function replaceLiveFooter (indexFn, footerFn) {
+function replaceLiveFooter (indexFn) {
     console.log("Replacing embed footer in index.html...")
     let success = false
     const $ = cheerio.load(fs.readFileSync(indexFn, "utf-8"))
-    const footer = fs.readFileSync(footerFn, "utf-8")
+    const footer = makeFooter("#nzh-datavis-root", "./", "DataVisDevMain", "Local testing footer running!")
     if ($(".article__raw-html__bottom")) {
         $(".article__raw-html__bottom").html(footer)
         console.log("Success!")
@@ -81,5 +82,5 @@ function hackAntiPiracy (indexFn, defaultjsFn, rubberStampFn) {
     }
 }
 
-replaceLiveFooter(`${process.argv[2]}/index.html`, `${process.argv[3]}/footer.html`)
+replaceLiveFooter(`${process.argv[2]}/index.html`)
 hackAntiPiracy(`${process.argv[2]}/index.html`, `${process.argv[2]}/default.js`, `${process.argv[3]}/rubberstamp.html`)
