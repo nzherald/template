@@ -75,7 +75,7 @@ class EmbedPlugin {
             let jsContent = ""
             if (root) jsContent += makeJS(root, "r") // Always load root first
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
-            jsContent += "console.log('embed.js finished.');"
+            jsContent += `console.log('embed.js loaded root.js and ${js.length} other scripts.');`
             jsContent = `(function () {${jsContent}})()`
             compilation.assets["embed.js"] = dump(jsContent)
 
@@ -88,7 +88,7 @@ class EmbedPlugin {
             // Create Zen code
             const targ = "#nzh-datavis-root"
             const embed = `<div id='${ targ.substr(1) }' class="nzh-datavis"></div>`
-            const footer = EmbedPlugin.makeFooter(targ, basePath, mainName, "Default embedgen.js footer running.")
+            const footer = EmbedPlugin.makeFooter(targ, basePath, mainName, `Default load event is instantiating new ${mainName}.`)
             compilation.assets["zen.txt"] = dump(`${embed}\n\n${footer}`)
         })
     }

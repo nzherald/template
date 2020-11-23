@@ -5,7 +5,7 @@ const { makeFooter } = require('./embedgen.js')
 function replaceLiveFooter (indexFn) {
     console.log("Replacing embed footer in index.html...")
     const $ = cheerio.load(fs.readFileSync(indexFn, "utf-8"))
-    const footer = makeFooter("#nzh-datavis-root", "./", "DataVisDevMain", "Local testing footer running!")
+    const footer = makeFooter("#nzh-datavis-root", "./", "DataVisDevMain", "Placeholder load event is instantiating new DataVisDevMain.")
     if ($(".article__raw-html__bottom")) {
         $(".article__raw-html__bottom").html(footer)
         console.log("Success!")
