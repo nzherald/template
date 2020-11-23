@@ -1,14 +1,18 @@
+// Spins up dev server with bundles using minimal template
+// Configs
 const { merge } = require("webpack-merge")
-const { DefinePlugin } = require("webpack")
 const base = require("./webpack.common.js")
+const { homepage, name } = require("../package.json")
+// Tools
 const path = require("path")
+const { getPort } = require("portfinder-sync")
+// Plugins
+const { DefinePlugin } = require("webpack")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const EmbedPlugin = require("./util/embedgen.js")
-const { getPort } = require('portfinder-sync')
-const { name } = require('./package.json')
+const EmbedPlugin = require("../util/embedgen.js")
 
 const port = getPort(8080)
-// Spins up dev server with bundles using minimal template
+
 module.exports = merge(base, {
     mode: "development",
     output: {
@@ -48,9 +52,7 @@ module.exports = merge(base, {
                 isDevelopment: true
             })
         }),
-        new MiniCssExtractPlugin({
-            filename: "[name].dev.[chunkhash].css"
-        }),
+        new MiniCssExtractPlugin({ filename: "[name].dev.[chunkhash].css" }),
         new EmbedPlugin({ name, basePath: "" })
     ]
 })

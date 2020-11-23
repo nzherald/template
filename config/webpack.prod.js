@@ -1,12 +1,14 @@
-const { merge } = require("webpack-merge")
-const { DefinePlugin } = require("webpack")
-const base = require("./webpack.common.js")
-const path = require("path")
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const autoprefixer = require("autoprefixer")
-const { homepage, name } = require("./package.json")
-
 // Post-processing and minification of bundle
+// Configs
+const { merge } = require("webpack-merge")
+const base = require("./webpack.common.js")
+const { homepage, name } = require("../package.json")
+// Tools
+const path = require("path")
+// Plugins
+const { DefinePlugin } = require("webpack")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+
 module.exports = merge(base, {
     mode: "production",
     output: {

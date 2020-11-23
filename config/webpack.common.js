@@ -1,7 +1,7 @@
-const CopyWebpackPlugin = require("copy-webpack-plugin")
-const path = require("path")
-
 // Interprets and bundles all necessary resources to run, with an index.html
+const path = require("path")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+
 module.exports = {
     entry: {
         root: "./src/root.js"
@@ -9,12 +9,12 @@ module.exports = {
     module: {
         rules: [
             {
-                include: [ path.resolve(__dirname, "src/assets") ],
+                include: path.resolve(__dirname, "../src/assets"),
                 loader: "file-loader",
                 type: "javascript/auto"
             },
             {
-                exclude: [ path.resolve(__dirname, "src/assets") ],
+                exclude: path.resolve(__dirname, "../src/assets"),
                 rules: [
                     {
                         test: /\.html$/,
@@ -37,6 +37,6 @@ module.exports = {
         ]
     },
     plugins: [
-        new CopyWebpackPlugin({ patterns: [ { from: 'static'} ] })
+        new CopyWebpackPlugin({ patterns: [ { from: "static"} ] })
     ]
 }

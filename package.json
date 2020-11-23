@@ -18,10 +18,10 @@
     "url": "https://github.com/nzherald/template/issues"
   },
   "scripts": {
-    "start": "util/rip-test.sh && webpack serve --config webpack.dev.js",
-    "analyse": "rm -rf dist/* && webpack --config webpack.analyse.js",
-    "livetest": "rm -rf dist/* && webpack --config webpack.livetest.js",
-    "release": "rm -rf dist/* && webpack --config webpack.release.js && util/upload.sh"
+    "start": "util/rip-test.sh && webpack serve --config config/webpack.dev.js",
+    "analyse": "rm -rf dist/* && webpack --config config/webpack.analyse.js",
+    "livetest": "rm -rf dist/* && webpack --config config/webpack.livetest.js",
+    "release": "rm -rf dist/* && webpack --config config/webpack.release.js && util/upload.sh"
   },
   "browserslist": [
     "last 5 version",
