@@ -21,7 +21,7 @@
     "start": "util/rip-test.sh && webpack serve --config config/webpack.dev.js",
     "analyse": "rm -rf dist/* && webpack --config config/webpack.analyse.js",
     "livetest": "rm -rf dist/* && webpack --config config/webpack.livetest.js",
-    "release": "rm -rf dist/* && webpack --config config/webpack.release.js && util/upload.sh"
+    "release": "rm -rf dist/* && webpack --config config/webpack.release.js"
   },
   "browserslist": [
     "last 5 version",
@@ -56,6 +56,7 @@
     "webpack-bundle-analyzer": "^4.1.0",
     "webpack-cli": "^4.2.0",
     "webpack-dev-server": "^3.11.0",
-    "webpack-merge": "^5.3.0"
+    "webpack-merge": "^5.3.0",
+    "webpack-s3-uploader": "^1.3.3"
   }
 }
