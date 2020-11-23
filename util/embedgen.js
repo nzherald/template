@@ -76,8 +76,7 @@ class EmbedPlugin {
             if (root) jsContent += makeJS(root, "r") // Always load root first
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
             jsContent += `console.log('embed.js loaded root.js and ${js.length} other scripts.');`
-            jsContent = `(function () {${jsContent}})()`
-            compilation.assets["embed.js"] = dump(jsContent)
+            compilation.assets["embed.js"] = dump(`(function () {${jsContent}})()`)
 
             // Create embed.css
             let cssContent = ""
