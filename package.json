@@ -18,7 +18,7 @@
     "url": "https://github.com/nzherald/template/issues"
   },
   "scripts": {
-    "start": "util/rip-test.sh && webpack serve --config webpack.dev.js",
+    "start": "rm -rf .nzh-rip && mkdir .nzh-rip && webpack serve --config webpack.dev.js",
     "analyse": "rm -rf dist/* && webpack --config webpack.analyse.js",
     "livetest": "rm -rf dist/* && webpack --config webpack.livetest.js",
     "release": "rm -rf dist/* && webpack --config webpack.release.js"
@@ -36,6 +36,7 @@
     "@babel/runtime": "^7.12.5",
     "autoprefixer": "^10.0.1",
     "aws-sdk": "^2.788.0",
+    "axios": "^0.21.0",
     "babel-loader": "^8.1.0",
     "cheerio": "^1.0.0-rc.3",
     "copy-webpack-plugin": "^6.3.0",
