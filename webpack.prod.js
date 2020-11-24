@@ -1,17 +1,15 @@
+// Post-processing and minification of bundle
+// Configs
 const { merge } = require("webpack-merge")
 const base = require("./webpack.common.js")
+const { homepage, name } = require("./package.json")
+// Tools
 const path = require("path")
+// Plugins
+const { DefinePlugin } = require("webpack")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const autoprefixer = require("autoprefixer")
-const { homepage } = require("./package.json")
 
-// Post-processing and minification of bundle
 module.exports = merge(base, {
-    resolve: {
-        alias: {
-            Environment$: path.resolve(__dirname, "util/production.js")
-        }
-    },
     mode: "production",
     output: {
         filename: "[name].prod.[chunkhash].js",
@@ -25,7 +23,10 @@ module.exports = merge(base, {
                     MiniCssExtractPlugin.loader,
                     "css-loader",
                     "postcss-loader",
-                    "less-loader"
+                    {
+                        loader: "less-loader",
+                        options: { lessOptions: { globalVars: { projectName: name } } }
+                    }
                 ]
             },
             {
@@ -39,14 +40,20 @@ module.exports = merge(base, {
             {
                 test: /\.(js|es6)$/,
                 loader: "babel-loader",
-                include: path.resolve(__dirname, "src"),
+                include: path.resolve(__dirname, "./src"),
                 exclude: /(node_modules|bower_components)/,
             }
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: "[name].prod.[chunkhash].css"
-        })
+        new DefinePlugin({
+            ENV: JSON.stringify({
+                name: name,
+                path: homepage,
+                isProduction: true,
+                isDevelopment: false
+            })
+        }),
+        new MiniCssExtractPlugin({ filename: "[name].prod.[chunkhash].css" })
     ]
 })

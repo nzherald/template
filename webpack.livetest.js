@@ -1,13 +1,14 @@
-const { merge } = require("webpack-merge")
-const base = require("./webpack.prod.js")
-const EmbedPlugin = require("./util/embedgen.js")
-const { uncachedUploader, cachedUploader } = require("./util/uploader")
-
 // Generates embed.js and deploys to https://insights.nzherald.co.nz/app/livetest[arg]
 // e.g. npm run livetest -> deploys to https://insights.nzherald.co.nz/app/livetest
 //      npm run livetest -- --env=bob -> deploys to https://insights.nzherald.co.nz/app/livetest-bob
-const args = process.argv
-const i = args.indexOf("webpack.livetest.js")
+// Configs
+const { merge } = require("webpack-merge")
+const base = require("./webpack.prod.js")
+// Tools
+const AWS = require("aws-sdk")
+// Plugins
+const EmbedPlugin = require("./util/embedgen.js")
+const S3Plugin = require("webpack-s3-uploader")
 
 let subpath = ""
 process.argv.forEach(v => {
@@ -18,14 +19,31 @@ process.argv.forEach(v => {
 
 const host = "https://insights.nzherald.co.nz"
 const path = "/apps/livetest" + subpath + "/"
+const s3Options = {
+    credentials: new AWS.SharedIniFileCredentials({ profile: "nzherald" }),
+    region: "ap-southeast-2"
+}
 
 module.exports = merge(base, {
     plugins: [
-        new EmbedPlugin({
-            basePath: host + path
+        new EmbedPlugin({ basePath: host + path }),
+        new S3Plugin({
+            exclude: /^(embed.js|embed.css|.*\.html)$/i,
+            basePath: path,
+            s3Options : s3Options,
+            s3UploadOptions : {
+                Bucket : "s3.newsapps.nz",
+                CacheControl: "max-age=60,public"
+            }
         }),
-        uncachedUploader({
-            basePath: path
+        new S3Plugin({
+            include: /^(embed.js|embed.css|.*\.html)$/i,
+            basePath: path,
+            s3Options : s3Options,
+            s3UploadOptions : {
+                Bucket : "s3.newsapps.nz",
+                CacheControl: "max-age=60,public"
+            }
         })
     ]
 })

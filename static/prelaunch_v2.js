@@ -7,9 +7,6 @@
         };
         return;
     };
-    for (var i = 0; i < el.length; i++) {
-        el[i].innerHTML = '<div class="loading"><div class="message"><div class="text">Loading...</div><div class="spinner"><div class="double-bounce1"></div><div class="double-bounce2"></div></div></div></div>';
-    };
     if (document.getElementById("rnahw-wrapper")) {
         console.log("Removing custom app styles..");
         const styles = document.head.getElementsByTagName("style");

@@ -1,4 +1,3 @@
-import ENV from "Environment"
 import _ from "lodash"
 import $ from "jquery"
 import * as d3 from "d3"
@@ -39,4 +38,4 @@ class Main extends Base {
     }
 }
 
-window.Main = window.UniqClassName = Main
+window.DataVisDevMain = window[ENV.name] = Main

@@ -1,18 +1,19 @@
+// Spins up dev server with bundles using minimal template
+// Configs
 const { merge } = require("webpack-merge")
 const base = require("./webpack.common.js")
+const { homepage, name } = require("./package.json")
+// Tools
 const path = require("path")
+const { getPort } = require("portfinder-sync")
+// Plugins
+const { DefinePlugin } = require("webpack")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const EmbedPlugin = require("./util/embedgen.js")
-const { getPort } = require('portfinder-sync')
 
 const port = getPort(8080)
-// Spins up dev server with bundles using minimal template
+
 module.exports = merge(base, {
-    resolve: {
-        alias: {
-            Environment$: path.resolve(__dirname, "util/development.js")
-        }
-    },
     mode: "development",
     output: {
         filename: "[name].dev.[contenthash].js",
@@ -27,20 +28,34 @@ module.exports = merge(base, {
         rules: [
             {
                 test: /\.less$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader", "less-loader"]
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader",
+                    {
+                        loader: "less-loader",
+                        options: { lessOptions: { globalVars: { projectName: name } } }
+                    }
+                ]
             },
             {
                 test: /\.css$/,
-                use: [MiniCssExtractPlugin.loader, "css-loader"]
+                use: [
+                    MiniCssExtractPlugin.loader,
+                    "css-loader"
+                ]
             }
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin({
-            filename: "[name].dev.[chunkhash].css"
+        new DefinePlugin({
+            ENV: JSON.stringify({
+                name: name,
+                path: "./",
+                isProduction: false,
+                isDevelopment: true
+            })
         }),
-        new EmbedPlugin({
-            basePath: ""
-        })
+        new MiniCssExtractPlugin({ filename: "[name].dev.[chunkhash].css" }),
+        new EmbedPlugin({ name, basePath: "" })
     ]
 })

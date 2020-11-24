@@ -17,14 +17,15 @@
     </head>
 
     <body>
-        <div id="article-content">
-            <div class="element-rawhtml">
-                <div id="nzh-datavis-root" class="nzh-datavis"></div>
-            </div>
-        </div>
+        <div id="nzh-datavis-root" class="nzh-datavis"></div>
         <link href="embed.css" rel="stylesheet">
         <script defer src="prelaunch_v2.js"></script>
         <script defer src="embed.js"></script>
-        <script defer>window.onload = function () { new window.Main("#nzh-datavis-root", { appWarn: 12234834 }) }</script>
+        <script>
+            window.addEventListener('load', function () {
+                console.log("bare.html footer running.");
+                new window.DataVisDevMain('#nzh-datavis-root', { appWarn: 12234834 });
+            })
+        </script>
     </body>
 </html>
