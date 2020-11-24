@@ -12,8 +12,6 @@ class Main extends Base {
         this.premiumWait(() => {
             console.log("Rendering...")
             null
-            console.log("Done.")
-            //this.fadeOut()
             if (params.appWarn) {
                 appWarn(this.root.selector, params.appWarn, params.category)
             }
