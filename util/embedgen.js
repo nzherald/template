@@ -16,8 +16,8 @@ function makeCSS (url) {
     return `@import url('${url}');\n`
 }
 
-function dump (content, fn) {
-    if (content.length) return {
+function dump (content) {
+    return {
         source: function () { return content },
         size: function () { return content.length }
     }
@@ -63,12 +63,12 @@ class EmbedPlugin {
             if (root) jsContent += makeJS(root, "r") // Always load root first
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
             jsContent += `console.log('embed.js loaded root.js and ${js.length} other scripts.');`
-            compilation.assets["embed.js"] = dump(`(function () {${jsContent}})()`)
+            if (jsContent.length) compilation.assets["embed.js"] = dump(`(function () {${jsContent}})()`)
 
             // Create embed.css
             let cssContent = ""
             css.forEach((url) => cssContent += makeCSS(url))
-            compilation.assets["embed.css"] = dump(cssContent)
+            if (cssContent.length) compilation.assets["embed.css"] = dump(cssContent)
 
             // Create Zen code
             const targ = "#nzh-datavis-root"
