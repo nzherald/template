@@ -16,6 +16,9 @@ const TARGS = [{
 }, {
     name: "style.css",
     regex: new RegExp("[^\"]*/style\.css\\?[^\"]*")
+}, {
+    name: "spritemap_d_59.svg",
+    regex: new RegExp("[^\"]*/spritemap\.svg\\?d=59")
 }]
 
 
@@ -65,7 +68,9 @@ class RipNZHPlugin {
                     return
                 }
                 t.url = match[0]
-                html = html.replace(t.url, t.name) // Make index.html run local modified version
+                while (html.indexOf(t.url) != -1) {
+                    html = html.replace(t.url, t.name) // Make index.html run local modified version
+                }
             }
 
             // Both the pre-rendered footer and source data used to generate it have to be updated
