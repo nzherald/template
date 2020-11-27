@@ -15,6 +15,7 @@ class Main extends Base {
             if (params.appWarn) {
                 appWarn(this.root.selector, params.appWarn, params.category)
             }
+            if (window.styleCheck) window.styleCheck(this.root.node, "embed.css")
         })
     }
 }

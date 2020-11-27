@@ -70,7 +70,8 @@ class RipNZHPlugin {
 
             // Both the pre-rendered footer and source data used to generate it have to be updated
             console.log("Replacing data for footer generation in index.html...")
-            const footer = makeFooter("#nzh-datavis-root", "./", "DataVisDevMain", "Placeholder load event is instantiating new DataVisDevMain.")
+            let footer = `<script src="./stylecheck.min.js"></script>\n`
+            footer += makeFooter("#nzh-datavis-root", "./", "DataVisDevMain", "Placeholder load event is instantiating new DataVisDevMain.")
 
             // The Fusion data element has to be updated, or it'll overwrite the pre-rendered footer after load
             const footerStr = JSON.stringify(footer).replace(/<\//g, "<\\/") // An escape character is expected for forward slashes in closing tags
