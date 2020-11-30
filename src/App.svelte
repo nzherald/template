@@ -1,11 +1,10 @@
-<script lang="ts">
+<script>
   import { interactiveWidth } from "./stores";
   export let inapp = false
-  let width: number;
-  let height: number;
+  let width;
+  let height;
   $: $interactiveWidth = width;
-  $: if (window.hasOwnProperty("ReactNativeWebView")) {
-    // @ts-ignore
+  $: if (window?.hasOwnProperty("ReactNativeWebView")) {
     window.ReactNativeWebView.postMessage(
       JSON.stringify({
         width,

@@ -1,4 +1,5 @@
 const path = require('path')
+const { preprocess } = require("./svelte.config")
 const nodeExternals = require('webpack-node-externals')
 const { homepage } = require('./package.json')
 
@@ -8,7 +9,6 @@ module.exports = {
   externals: [nodeExternals()],
   resolve: {
     alias: {
-      Environment$: path.resolve(__dirname, 'util/production.js'),
       svelte: path.resolve('node_modules', 'svelte'),
     },
     extensions: ['.mjs', '.js', '.svelte', ".ts"],
@@ -54,11 +54,6 @@ module.exports = {
         ],
       },
       {
-        test: /\.tsx?$/,
-        use: 'ts-loader',
-        exclude: /node_modules/,
-      },
-      {
         test: /\.svelte$/,
         use: {
           loader: 'svelte-loader',
@@ -66,24 +61,7 @@ module.exports = {
             emitCss: false,
             hydratable: true,
             generate: 'ssr',
-            preprocess: require('svelte-preprocess')({
-              babel: {
-                presets: [
-                  [
-                    '@babel/preset-env',
-                    {
-                      loose: true,
-                      // No need for babel to resolve modules
-                      modules: false,
-                      targets: {
-                        // ! Very important. Target es6+
-                        esmodules: true,
-                      },
-                    },
-                  ],
-                ],
-              }
-            }),
+            preprocess
           },
         },
       },

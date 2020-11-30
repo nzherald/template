@@ -1,4 +1,3 @@
-import ENV from "Environment"
 import './base.less'
 
 class Base {
@@ -46,4 +45,4 @@ class Base {
   }
 }
 
-export default Base;
+export default Base
