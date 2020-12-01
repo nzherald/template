@@ -17,8 +17,8 @@ const TARGS = [{
     name: "style.css",
     regex: new RegExp("[^\"]*/style\.css\\?[^\"]*")
 }, {
-    name: "spritemap_d_59.svg",
-    regex: new RegExp("[^\"]*/spritemap\.svg\\?d=59")
+    name: "spritemap.svg",
+    regex: new RegExp("[^\"]*/spritemap\.svg\\?[^\"]*")
 }]
 
 
