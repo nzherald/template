@@ -10,18 +10,16 @@ const TARGS = [{
     parser: html => {
         console.log("Removing paywall anti-tampering protection...")
         const targ = 'document.write(""),window.location=c.a.OFFERS_URL'
-        if (html.indexOf(targ) != -1) return html.replace(targ, "")
-        else console.error("Could not remove paywall anti-tampering protection!")
+        if (html.indexOf(targ) == -1) throw new Error("Could not remove paywall anti-tampering protection!")
+        return html.replace(targ, "")
     }
 }, {
     name: "style.css",
     regex: new RegExp("[^\"]*/style\.css\\?[^\"]*")
-}, 
-// {
-//     name: "spritemap_d_59.svg",
-//     regex: new RegExp("[^\"]*/spritemap\.svg\\?d=59")
-// }
-]
+}, {
+    name: "spritemap.svg",
+    regex: new RegExp("[^\"]*/spritemap\.svg\\?[^\"]*")
+}]
 
 
 class RipNZHPlugin {
@@ -36,7 +34,7 @@ class RipNZHPlugin {
             options.targURL = "/nz/dj-t3/OH4O2PVLHHNA2UY7MHWH55CUOQ/"
         }
         else {
-            console.error("Not a valid page type to rip. Choose \"normal\" or \"bigread\".")
+            throw new Error("Not a valid page type to rip. Layout should be \"normal\" or \"bigread\".")
         }
     }
 
@@ -46,6 +44,8 @@ class RipNZHPlugin {
             method: "get",
             url: url,
             transformResponse: transformResponse
+        }).catch(err => {
+            fs.writeFileSync(`${this.options.dstPath}/${fn}`, err, "utf8")
         }).then(res => {
             fs.writeFileSync(`${this.options.dstPath}/${fn}`, res.data, "utf8")
         })
@@ -65,10 +65,7 @@ class RipNZHPlugin {
             for (var match,t,i=0; i < TARGS.length; i++) {
                 t = TARGS[i]
                 match = html.match(t.regex)
-                if (!match) {
-                    console.error(`Cannot find ${t.name}! Maybe the page has changed and you need to update the targeting regex?`)
-                    return
-                }
+                if (!match) throw new Error(`Cannot find ${t.name}! Maybe the page has changed and you need to update the targeting regex?`)
                 t.url = match[0]
                 while (html.indexOf(t.url) != -1) {
                     html = html.replace(t.url, t.name) // Make index.html run local modified version
@@ -84,10 +81,7 @@ class RipNZHPlugin {
             const footerStr = JSON.stringify(footer).replace(/<\//g, "<\\/") // An escape character is expected for forward slashes in closing tags
             const footerContent = new RegExp('(?<="subtype":"raw_text_footer","content":)".*?"(?=})')
             match = html.match(footerContent)
-            if (!match) {
-                console.error(`Cannot find expected Fusion data element for footer! I'm expected an element of "subtype":"raw_text_footer".`)
-                return
-            }
+            if (!match) throw new Error(`Cannot find expected Fusion data element for footer! I'm expected an element of "subtype":"raw_text_footer".`)
             html = html.replace(footerContent, footerStr)
 
             // Load HTML into the parser - don't manipulate the raw HTML from this point onwards
@@ -96,8 +90,8 @@ class RipNZHPlugin {
             // The pre-rendered element has to be replaced, or it'll load the wrong thing when the page loads
             console.log("Replacing pre-rendered embed footer in index.html...")
             const targ = $(".article__raw-html__bottom")
-            if (targ) targ.html(footer)
-            else console.error("Cannot find embed footer chunk (hint: search for \"article__raw-html__bottom\" in index.html)!")
+            if (!targ) throw new Error("Cannot find embed footer chunk (hint: search for \"article__raw-html__bottom\" in index.html)!")
+            targ.html(footer)
 
             // Small script to manually take down paywall - will trigger anti-tampering protection unless it's been removed
             console.log("Adding paywall removal rubber stamper...")
