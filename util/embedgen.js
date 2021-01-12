@@ -8,16 +8,23 @@
  * The webpack entry points root is special.
  */
 
-function makeJS (src, id) {
-    return `var ${id}=document.createElement('script');${id}.src='${src}';document.body.appendChild(${id});\n`
+function makeLoader (targElement, visName, params, msg) {
+    return `function(){console.log("${msg}");new window["${visName}"]("${targElement}",${JSON.stringify(params || {})});}`
 }
+
+function makeJS (src, id, onLoad) {
+    return `var ${id}=document.createElement('script');` +
+           `${id}.src='${src}';` +
+           ((onLoad) ? `${id}.onload=${onLoad};` : "") +
+           `document.body.appendChild(${id});\n`
+ }
 
 function makeCSS (url) {
     return `@import url('${url}');\n`
 }
 
-function dump (content, fn) {
-    if (content.length) return {
+function dump (content) {
+    return {
         source: function () { return content },
         size: function () { return content.length }
     }
@@ -32,19 +39,21 @@ class EmbedPlugin {
     // The bit that you paste into the footer
     // Prelaunch must be deferred to destroy the global style that the app tries to apply (which is created via a script we don't control)
     // Everything else must also be deferred, so that they run after prelaunch
-    static makeFooter (targ, path, name, msg, params) {
+    static makeFooter (path, onLoad) {
         if (path[path.length - 1] != "/") path += "/"
-        return [
-            `<link href="${path}embed.css" rel="stylesheet">`,
-            `<script defer src="${path}prelaunch_v2.js"></script>`,
-            `<script defer src="${path}embed.js"></script>`,
-            `<script>window.addEventListener("load", function () { console.log("${msg}"); new window["${name}"]("${targ}", ${JSON.stringify(params || {})}); })</script>`
-        ].join("\n")
+        return `<link href="${path}embed.css" rel="stylesheet">\n` +
+               `<script defer src="${path}prelaunch_v2.js"></script>\n` +
+               `<script defer src="${path}embed.js"></script>\n` +
+               ((onLoad) ? `<script>window.addEventListener("load", ${onLoad})</script>` : "")
     }
 
     apply (compiler) {
         const basePath = this.options.basePath || ""
-        const mainName = this.options.name || "DataVisDevMain"
+        const visName = this.options.visName || "DataVisDevMain"
+        const targElement = this.options.divName || "#nzh-datavis-root"
+        const params = this.options.params
+        const isHomepage = (basePath == "https://insights.nzherald.co.nz/apps/homepagebanner/")
+        const onLoad = makeLoader(targElement, visName, params, `Default load event is instantiating new ${visName}.`)
         compiler.hooks.emit.tap("EmbedPlugin", function (compilation, callback) {
             // Sort assets
             let root
@@ -58,22 +67,21 @@ class EmbedPlugin {
                 else if (/.*\.css$/.test(fn)) css.push(basePath + fn)
             }
 
-            // Create embed.js
+            // Create embed.js (always load root first)
             let jsContent = ""
-            if (root) jsContent += makeJS(root, "r") // Always load root first
+            if (root) jsContent += makeJS(root, "r", (isHomepage) ? onLoad : "") // Homepages cannot rely on window.load event because something something React, so stick the loader as a script.load inside embed.js
             js.forEach((src, i) => jsContent += makeJS(src, "_" + i))
             jsContent += `console.log('embed.js loaded root.js and ${js.length} other scripts.');`
-            compilation.assets["embed.js"] = dump(`(function () {${jsContent}})()`)
+            if (jsContent.length) compilation.assets["embed.js"] = dump(`(function () {${jsContent}})()`)
 
             // Create embed.css
             let cssContent = ""
             css.forEach((url) => cssContent += makeCSS(url))
-            compilation.assets["embed.css"] = dump(cssContent)
+            if (cssContent.length) compilation.assets["embed.css"] = dump(cssContent)
 
             // Create Zen code
-            const targ = "#nzh-datavis-root"
-            const embed = `<div id="${ targ.substr(1) }" class="nzh-datavis"></div>`
-            const footer = EmbedPlugin.makeFooter(targ, basePath, mainName, `Default load event is instantiating new ${mainName}.`)
+            const embed = `<div id="${ targElement.substr(1) }" class="nzh-datavis"></div>`
+            const footer = EmbedPlugin.makeFooter(basePath, (!isHomepage) ? onLoad : "") // Normally (for non-homepage things) the loader script goes outside of embed.js
             compilation.assets["zen.txt"] = dump(`${embed}\n\n${footer}`)
         })
     }
