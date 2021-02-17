@@ -9,12 +9,9 @@ class Main extends Base {
         super(selector, HTML)
         console.log("Loading data...")
         null
-        this.premiumWait(() => {
+        this.premiumWait(params, () => {
             console.log("Rendering...")
             null
-            if (params.appWarn) {
-                appWarn(this.root.selector, params.appWarn, params.category)
-            }
             if (window.styleCheck) window.styleCheck(this.root.node, "embed.css")
         })
     }
