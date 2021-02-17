@@ -23,13 +23,10 @@ class Main extends Base {
 
         // Initialise visualisation (assume elements NOT rendered)
 
-        this.premiumWait(() => {
+        this.premiumWait(params, () => {
             // Populate visualisation (assume elements are rendered)
 
             this.fadeOut()
-            if (params.appWarn) {
-                appWarn(this.root.selector, params.appWarn, params.category)
-            }
         })
     }
 
