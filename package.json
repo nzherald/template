@@ -21,7 +21,8 @@
     "start": "rm -rf .nzh-rip && mkdir .nzh-rip && webpack serve --config webpack.dev.js",
     "analyse": "rm -rf dist/* && webpack --config webpack.analyse.js",
     "livetest": "rm -rf dist/* && webpack --config webpack.livetest.js",
-    "release": "rm -rf dist/* && webpack --config webpack.release.js"
+    "release": "rm -rf dist/* && webpack --config webpack.release.js",
+    "homepagebanner": "rm -rf dist/* && webpack --config webpack.REPLACE_TO_CONFIRM.js"
   },
   "browserslist": [
     "last 5 version",
