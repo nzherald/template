@@ -18,15 +18,13 @@ class Main extends Base {
 
         // Clean data
         console.log("Raw data:", rawData)
-        data = this.data = this.cleanData(rawData)
-        console.log("Cleaned data:", data)
+        this.data = this.cleanData(rawData)
+        console.log("Cleaned data:", this.data)
 
         // Initialise visualisation (assume elements NOT rendered)
 
         this.premiumWait(params, () => {
             // Populate visualisation (assume elements are rendered)
-
-            this.fadeOut()
         })
     }
 
