@@ -8,6 +8,7 @@ const path = require("path")
 // Plugins
 const { DefinePlugin } = require("webpack")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
 
 module.exports = merge(base, {
     mode: "production",
@@ -46,6 +47,7 @@ module.exports = merge(base, {
         ]
     },
     plugins: [
+        new CopyWebpackPlugin({ patterns: [{ from: "static" }] }),
         new DefinePlugin({
             ENV: JSON.stringify({
                 name: name,

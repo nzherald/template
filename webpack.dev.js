@@ -21,7 +21,7 @@ module.exports = merge(base, {
         publicPath: "/"
     },
     devServer: {
-        contentBase: ["./static", "./static-dev", "./.nzh-rip"],
+        contentBase: ["./static-dev", "./static", "./.nzh-rip"],
         open: true,
         port
     },
