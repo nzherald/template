@@ -1,5 +1,4 @@
 import Base from "./lib/base.js"
-import { appWarn } from "./lib/util.js"
 import HTML from "./root.html"
 import "./root.less"
 
