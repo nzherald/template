@@ -57,7 +57,7 @@ module.exports = merge(base, {
         new DefinePlugin({
             ENV: JSON.stringify({
                 name: name,
-                path: "./",
+                path: `http://localhost:${port}`,
                 isProduction: false,
                 isDevelopment: true
             })
