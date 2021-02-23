@@ -4,7 +4,6 @@ import * as d3 from "d3"
 import * as d3jetpack from "d3-jetpack"
 
 import Base from "./lib/base.js"
-import { appWarn } from "./lib/util.js"
 import HTML from "./root.html"
 import "./root.less"
 
