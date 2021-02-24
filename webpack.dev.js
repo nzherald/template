@@ -63,6 +63,6 @@ module.exports = merge(base, {
             })
         }),
         new MiniCssExtractPlugin({ filename: "[name].dev.[chunkhash].css" }),
-        new EmbedPlugin({ name, basePath: "" })
+        new EmbedPlugin({ name, basePath: `http://localhost:${port}/` })
     ]
 })
