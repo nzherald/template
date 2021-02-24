@@ -8,10 +8,6 @@
  * The webpack entry points root is special.
  */
 
-function makeLoader (targElement, visName, params, msg) {
-    return `function(){console.log("${msg}");new window["${visName}"]("${targElement}",${JSON.stringify(params || {})});}`
-}
-
 function makeJS (src, id, onLoad) {
     return `var ${id}=document.createElement('script');` +
            `${id}.src='${src}';` +
@@ -47,13 +43,17 @@ class EmbedPlugin {
                ((onLoad) ? `<script>window.addEventListener("load", ${onLoad})</script>` : "")
     }
 
+    static makeLoader (targElement, visName, params, msg) {
+        return `function(){console.log("${msg}");new window["${visName}"]("${targElement}",${JSON.stringify(params || {})});}`
+    }
+
     apply (compiler) {
         const basePath = this.options.basePath || ""
         const visName = this.options.visName || "DataVisDevMain"
         const targElement = this.options.divName || "#nzh-datavis-root"
         const params = this.options.params
         const isHomepage = (basePath == "https://insights.nzherald.co.nz/apps/homepagebanner/")
-        const onLoad = makeLoader(targElement, visName, params, `Default load event is instantiating new ${visName}.`)
+        const onLoad = EmbedPlugin.makeLoader(targElement, visName, params, `Default load event is instantiating new ${visName}.`)
         compiler.hooks.emit.tap("EmbedPlugin", function (compilation, callback) {
             // Sort assets
             let root

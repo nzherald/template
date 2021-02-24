@@ -21,7 +21,7 @@ module.exports = merge(base, {
         publicPath: "/"
     },
     devServer: {
-        contentBase: ["./static", "./static-dev", "./.nzh-rip"],
+        contentBase: ["./static-dev", "./static", "./.nzh-rip"],
         open: true,
         port
     },
@@ -63,6 +63,6 @@ module.exports = merge(base, {
             })
         }),
         new MiniCssExtractPlugin({ filename: "[name].dev.[chunkhash].css" }),
-        new EmbedPlugin({ name, basePath: "" })
+        new EmbedPlugin({ name, basePath: `http://localhost:${port}/` })
     ]
 })
