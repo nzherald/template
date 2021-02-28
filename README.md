@@ -107,32 +107,15 @@ in window. (Is there a better way to expose the project?)
 ```
 
 
-### Fallback in the app
+## Fallback in the app
 In the NZH mobile app interactives run within their own ReactNativeWebView - this means that some of
-the features we like to use - primarily stick positioning - are unavailable.
+the features we like to use - primarily stick positioning - are unavailable. To include a prompt to
+redirect to an actual browser window use the `appRedirect` argument:
 
-To include a prompt to redirect to an actual browser window use the `zenId` argument:
+`new window["projectname"]("#nzh-datavis-root", { appRedirect: "https://www.nzherald.co.nz/nz/dj-t2/DEYOM6DGQCKKAQ4WBYJB5UJAHU/" })`
 
-`new window["projectname"]("#nzh-datavis-root", { zenId: 12234834 })`
-
-where the argument is the Zen ID of the article - this will generate a url within the "New Zealand"
-section of the Herald, include a `category` argument if you want another vertical e.g.
-
-`new window["projectname"]("#nzh-datavis-root", { zenId: 12234834, category: "business" })`
-
-
-### Defunct features
-
-These have been put into the `batteries-included` branch.
-
-#### `nzhconsole`
-Within the Herald site `console.log` is redirected to an array of strings that can be viewed at
-`console.messages` - this is generally fine for checking an interactive has rendered. But because
-the messages are strings it is sometime insufficient for resolving problems - especially if those
-problems require viewing an object. The function `nzhconsole` logs its arguments to the console
-regardless of where the code is running.
-
-
+...where the argument is the final URL of the article. You will need to publish the article to
+generate the URL, then put the URL in and republish.
 #### `setupScrolly`
 _Scrolly-telling_ is a common way of making visualisations more accessible to readers. This
 function provides easy integration of a basic scrolly-telling approach with an article. A full-blown

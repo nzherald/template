@@ -6,12 +6,5 @@
         }
         return;
     };
-    if (document.getElementById("rnahw-wrapper")) {
-        console.log("Removing custom app styles..");
-        const styles = document.head.getElementsByTagName("style");
-        for (let i = 0; i < styles.length; i++) {
-            styles[i].innerHTML = styles[i].innerHTML.replace(/\* \{[\s\S]*?\}/, "");
-        };
-    };
     console.log('prelaunch.js finished.');
 })();
