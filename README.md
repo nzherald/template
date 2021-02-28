@@ -48,14 +48,14 @@ To embed an interactive within an article it is necessary to insert:
 
 The id can be varied - the class needs to always be `nzh-datavis`.
 
-The `dist/zen.txt` will contain embed links for `embed.css`, `prelaunch_v2.js`, and `embed.js`.
+The `dist/zen.txt` will contain embed links for `embed.css`, `prelaunch_v3.js`, and `embed.js`.
 These should be placed in the article's _raw footer_ and they only need to be included once.
 
 The actual interactive is initiated with:
 
 ```
 <link href="https://insights.nzherald.co.nz/apps/projectname/embed.css" rel="stylesheet">
-<script defer src="https://insights.nzherald.co.nz/apps/projectname/prelaunch_v2.js"></script>
+<script defer src="https://insights.nzherald.co.nz/apps/projectname/prelaunch_v3.js"></script>
 <script defer src="https://insights.nzherald.co.nz/apps/projectname/embed.js"></script>
 <script>
     window.addEventListener("load", function () {
@@ -80,7 +80,7 @@ the parameters specific to that instance.
 
 ```
 <link href="https://insights.nzherald.co.nz/apps/projectname/embed.css" rel="stylesheet">
-<script defer src="https://insights.nzherald.co.nz/apps/projectname/prelaunch_v2.js"></script>
+<script defer src="https://insights.nzherald.co.nz/apps/projectname/prelaunch_v3.js"></script>
 <script defer src="https://insights.nzherald.co.nz/apps/projectname/embed.js"></script>
 <script>
     window.addEventListener("load", function () {
@@ -91,13 +91,13 @@ the parameters specific to that instance.
 ```
 
 The same method can be used to run instances of different visualisations. Note that
-prelaunch_v2.js only needs to be run once. Each project is expected to store its constructor
+prelaunch_v3.js only needs to be run once. Each project is expected to store its constructor
 in window. (Is there a better way to expose the project?)
 
 ```
 <link href="https://insights.nzherald.co.nz/apps/projectname/embed.css" rel="stylesheet">
 <link href="https://insights.nzherald.co.nz/apps/otherproject/embed.css" rel="stylesheet">
-<script defer src="https://insights.nzherald.co.nz/apps/projectname/prelaunch_v2.js"></script>
+<script defer src="https://insights.nzherald.co.nz/apps/projectname/prelaunch_v3.js"></script>
 <script defer src="https://insights.nzherald.co.nz/apps/projectname/embed.js"></script>
 <script defer src="https://insights.nzherald.co.nz/apps/otherproject/embed.js"></script>
 <script>
