@@ -38,7 +38,7 @@ class EmbedPlugin {
     static makeFooter (path, onLoad) {
         if (path[path.length - 1] != "/") path += "/"
         return `<link href="${path}embed.css" rel="stylesheet">\n` +
-               `<script defer src="${path}prelaunch_v2.js"></script>\n` +
+               `<script defer src="${path}prelaunch_v3.js"></script>\n` +
                `<script defer src="${path}embed.js"></script>\n` +
                ((onLoad) ? `<script>window.addEventListener("load", ${onLoad})</script>` : "")
     }
@@ -59,7 +59,7 @@ class EmbedPlugin {
             let root
             const js = []
             const css = []
-            const ignore = ["prelaunch_v2.js"]
+            const ignore = ["prelaunch_v3.js"]
             for (var fn in compilation.assets) {
                 if (ignore.indexOf(fn) > -1) continue
                 else if (/^root.*js$/.test(fn)) root = basePath + fn

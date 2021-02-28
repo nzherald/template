@@ -19,12 +19,12 @@
     <body>
         <div id="nzh-datavis-root" class="nzh-datavis"></div>
         <link href="embed.css" rel="stylesheet">
-        <script defer src="prelaunch_v2.js"></script>
+        <script defer src="prelaunch_v3.js"></script>
         <script defer src="embed.js"></script>
         <script>
-            window.addEventListener('load', function () {
+            window.addEventListener("load", function () {
                 console.log("bare.html footer running.");
-                new window.DataVisDevMain('#nzh-datavis-root', { zenId: 12234834 });
+                new window.DataVisDevMain("#nzh-datavis-root", { appRedirect: "" });
             })
         </script>
     </body>
