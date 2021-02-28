@@ -9,124 +9,129 @@
 // a class on an element then remove the brackets.
 
 .titlefont() {
-  font-family: 'Stag', Georgia, serif;
-  font-weight: 400;
-  font-weight: normal;
+    font-family: 'Stag', Georgia, serif;
+    font-weight: 400;
+    font-weight: normal;
 }
 .basefont() {
-  font-family: 'Source Sans Pro', 'Helvetica', sans-serif;
-  font-weight: 300;
+    font-family: 'Source Sans Pro', 'Helvetica', sans-serif;
+    font-weight: 300;
 }
 
 // CJHK 20201011 - removed css for to support stick on old site
-
 // CJHK 20201011 - removed added CSS to make use of full-width in big read in fusion
-
 .article-bigread {
-  .article__body {
-    max-width: 100%;
-    div.article__raw-html {
-      max-width: none;
-      * {
-        max-width: none;
-      }
+    .article__body {
+        max-width: 100%;
+        div.article__raw-html {
+            max-width: none;
+            * {
+                max-width: none;
+            }
+        }
+        & > div, aside, figure, h1, h2, h3, h4, div.article__action-bar {
+            max-width: 630px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        p {
+            max-width: 630px;
+            margin: 0 auto 10px;
+        }
     }
-    & > div,
-    aside,
-    figure,
-    h1,
-    h2,
-    h3,
-    div.article__action-bar,
-    h4 {
-      max-width: 630px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    p {
-      max-width: 630px;
-      margin: 0 auto 10px;
-    }
-  }
 }
 
 .article {
-  .nzh-datavis {
-    max-width: 630px;
-  }
+    .nzh-datavis {
+        max-width: 630px;
+    }
 }
 
 .nzh-datavis.@{projectName} {
-  .basefont;
-  position: relative;
-  width: 100%;
-  max-width: 940px;
-  min-height: 320px;
-  @media (max-width: 500px) {
-    min-height: 160px;
-  }
-  margin: auto;
-  font-size: 18px;
-
-  // Mobile/Desktop
-  .mobile {
-    display: none;
-  }
-  @media (max-width: 800px) {
-    font-size: 16px;
-    .desktop {
-      display: none;
-    }
-    .mobile {
-      display: unset;
-    }
-  }
-
-  // Overwrite base styles
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  label {
-    .titlefont;
-    margin: 0.8em auto 0.2em auto;
-    color: @dark;
-  }
-  select {
     .basefont;
-    padding: 0.25em 0.5em;
-    background-color: #fff;
-    border: @lightdark 1px solid;
-    color: @dark;
-    font-weight: bold;
-    &.disabled {
-      appearance: none;
-      -webkit-appearance: none;
-      border-style: hidden !important;
-      padding: 0 !important;
+    position: relative;
+    width: 100%;
+    max-width: 940px;
+    min-height: 320px;
+    @media (max-width: 500px) {
+        min-height: 160px;
     }
-  }
-  button {
-    padding: 0.4em 8em;
-    border: @lightdark 1px solid;
-    background-color: #fff;
-  }
-  .row {
-    margin-left: unset;
-    margin-right: unset;
-  }
+    margin: auto;
+    font-size: 18px;
 
-  svg {
-    overflow: visible;
-    text {
-      .basefont;
+    // Mobile/Desktop
+    .mobile {
+        display: none;
     }
-    path {
-      fill: none;
+    @media (max-width: 800px) {
+        font-size: 16px;
+        .desktop {
+            display: none;
+        }
+        .mobile {
+            display: inherit;
+        }
     }
-    .axis {
-      user-select: none;
+
+    // Overwrite base styles
+    h1, h2, h3, h4, h5, label {
+        .titlefont;
+        margin: 0.8em auto 0.2em auto;
+        color: @dark;
     }
-  }
+    select {
+        .basefont;
+        padding: 0.25em 0.5em;
+        background-color: #fff;
+        border: @lightdark 1px solid;
+        color: @dark;
+        font-weight: bold;
+        &.disabled {
+            appearance: none;
+            -webkit-appearance: none;
+            border-style: hidden !important;
+            padding: 0 !important;
+        }
+    }
+    button {
+        padding: 0.4em 8em;
+        border: @lightdark 1px solid;
+        background-color: #fff;
+    }
+    .row {
+        margin-left: unset;
+        margin-right: unset;
+    }
+
+    svg {
+        overflow: visible;
+        text {
+            .basefont;
+        }
+        path {
+            fill: none;
+        }
+        .axis {
+            user-select: none;
+        }
+    }
+}
+
+.app-redirect {
+    margin: 0.6em auto 1.2em auto;
+    a div {
+        box-sizing: border-box;
+        width: 20em;
+        max-width: 100%;
+        padding: 1.2em 0.8em;
+        margin: auto;
+        font-family: 'Stag', Georgia, serif;
+        font-size: 1.5em;
+        font-weight: 400;
+        text-align: center;
+        background-color: #38a3d7;
+        color: white;
+        border-radius: 1em;
+        border: #2893c7 2px solid;
+    }
 }

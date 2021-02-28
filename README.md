@@ -7,15 +7,15 @@ Basic template for setting up a new story
 There are several branches in this project that contain similar versions of the
 template with for different frameworks.
 
-### Minimal template
+#### Minimal template
 `degit nzherald/template`
 
-### Batteries included template
+#### Batteries included template
 This template pulls in d3, d3-jetpack, jquery & lodash. It contains a big bag of components which you can pick and choose from.
 
 `degit nzherald/template#batteries-included`
 
-### ObservableHQ template
+#### ObservableHQ template
 `degit nzherald/template#observable`
 
 
@@ -28,7 +28,8 @@ npm start
 
 
 ## Run modes
-`npm run [option]`
+Usage: `npm run [option]`
+
 `start`: Runs dev server with barebone template
 
 `analyse`: Builds and runs bundle-analysis tools
@@ -38,6 +39,7 @@ npm start
 `livetest`: Builds and pushes bundle files to https://insights.nzherald.co.nz/app/livetest, which can be viewed at https://www.nzherald.co.nz/business/news/article.cfm?c_id=3&objectid=12234834
 
 `homepagebanner`: Pushes straight to https://insights.nzherald.co.nz/apps/homepagebanner/ and overwrites existing banner. Obviously dangerous and disabled by default.
+
 
 ## Embedding in an article
 To embed an interactive within an article it is necessary to insert:
@@ -57,7 +59,7 @@ The actual interactive is initiated with:
 <script defer src="https://insights.nzherald.co.nz/apps/projectname/embed.js"></script>
 <script>
     window.addEventListener("load", function () {
-        new window["projectname"]("#nzh-datavis-root");
+        new window["projectname"]("#nzh-datavis-root", {});
     })
 </script>
 ```
@@ -107,50 +109,12 @@ in window. (Is there a better way to expose the project?)
 ```
 
 
-### Fallback in the app
+## Fallback in the app
 In the NZH mobile app interactives run within their own ReactNativeWebView - this means that some of
-the features we like to use - primarily stick positioning - are unavailable.
+the features we like to use - primarily stick positioning - are unavailable. To include a prompt to
+redirect to an actual browser window use the `appRedirect` argument:
 
-To include a prompt to redirect to an actual browser window use the `zenId` argument:
+`new window["projectname"]("#nzh-datavis-root", { appRedirect: "https://www.nzherald.co.nz/nz/dj-t2/DEYOM6DGQCKKAQ4WBYJB5UJAHU/" })`
 
-`new window["projectname"]("#nzh-datavis-root", { zenId: 12234834 })`
-
-where the argument is the Zen ID of the article - this will generate a url within the "New Zealand"
-section of the Herald, include a `category` argument if you want another vertical e.g.
-
-`new window["projectname"]("#nzh-datavis-root", { zenId: 12234834, category: "business" })`
-
-
-### Defunct features
-
-These have been put into the `batteries-included` branch.
-
-#### `nzhconsole`
-Within the Herald site `console.log` is redirected to an array of strings that can be viewed at
-`console.messages` - this is generally fine for checking an interactive has rendered. But because
-the messages are strings it is sometime insufficient for resolving problems - especially if those
-problems require viewing an object. The function `nzhconsole` logs its arguments to the console
-regardless of where the code is running.
-
-
-#### `setupScrolly`
-_Scrolly-telling_ is a common way of making visualisations more accessible to readers. This
-function provides easy integration of a basic scrolly-telling approach with an article. A full-blown
-scrolly-telling article would require further customisation or a different approach.
-
-This scrolly telling approach just grabs each embedded interactive element and makes it sticky for
-the specified number of paragraphs. There is also the option to pass a callback which will be called
-whenever a given paragraph is focussed. The `elm` branch includes a working example of using this
-callback in `root.js` - the callback code is all JS not Elm.
-
-```
-<script>
-    window.addEventListener("load", function () {
-        new window["projectname"]("#nzh-datavis-a", { chart: "māori", setupScrolly: [4, 2] });
-    })
-</script>
-```
-
-To use this pass the `setupScrolly` argument to the last embed - the additional parameters are just
-a list of the number of paragraphs that the graphic should be sticky for - so in this case
-4 paragraphs after the first graphic and 2 after the second.
+...where the argument is the final URL of the article. You will need to publish the article to
+generate the URL, then put the URL in and republish.
