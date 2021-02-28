@@ -1,4 +1,28 @@
-// Chris' code, I'm not sure how this is supposed to work
+/*
+** Chris Knox's code, I'm not sure how this is supposed to work **
+
+Scrolly-telling is a common way of making visualisations more accessible to readers. This
+function provides easy integration of a basic scrolly-telling approach with an article. A full-blown
+scrolly-telling article would require further customisation or a different approach.
+
+This scrolly telling approach just grabs each embedded interactive element and makes it sticky for
+the specified number of paragraphs. There is also the option to pass a callback which will be called
+whenever a given paragraph is focussed. The `elm` branch includes a working example of using this
+callback in `root.js` - the callback code is all JS not Elm.
+
+```
+<script>
+    window.addEventListener("load", function () {
+        new window["projectname"]("#nzh-datavis-a", { chart: "māori", setupScrolly: [4, 2] });
+    })
+</script>
+```
+
+To use this pass the `setupScrolly` argument to the last embed - the additional parameters are just
+a list of the number of paragraphs that the graphic should be sticky for - so in this case
+4 paragraphs after the first graphic and 2 after the second.
+*/
+
 export const setupScrolly = (params) => {
     const articleNodes = Array.from(document.getElementById("article-content").children) // Not on App or IE
     const build = (scrollyState, current) => {
@@ -55,6 +79,3 @@ export const setupScrolly = (params) => {
     }
     articleState.map((d,i) => observe(d, i, nzhconsole))
 }
-
-
-export const nzhconsole = console.originalConsole ? console.originalConsole.log : console.log
