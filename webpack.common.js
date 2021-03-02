@@ -9,8 +9,7 @@ module.exports = {
         rules: [
             {
                 include: path.resolve(__dirname, "./src/assets"),
-                loader: "file-loader",
-                type: "javascript/auto"
+                type: "asset/resource"
             },
             {
                 exclude: path.resolve(__dirname, "./src/assets"),
@@ -21,11 +20,11 @@ module.exports = {
                     },
                     {
                         test: /\.(png|svg|jpg|gif)$/,
-                        loader: "file-loader"
+                        type: "asset/resource"
                     },
                     {
                         test: /\.(woff|woff2|eot|ttf|otf)$/,
-                        loader: "file-loader"
+                        type: "asset/resource"
                     },
                     {
                         test: /\.(csv|dsv|tsv)$/,
