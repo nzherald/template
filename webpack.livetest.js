@@ -8,7 +8,7 @@ const base = require("./webpack.prod.js")
 const AWS = require("aws-sdk")
 // Plugins
 const EmbedPlugin = require("./util/embedgen.js")
-const S3Plugin = require("webpack-s3-uploader")
+const S3Plugin = require("webpack-s3-plugin")
 
 let subpath = ""
 process.argv.forEach(v => {

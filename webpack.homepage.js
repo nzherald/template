@@ -8,7 +8,7 @@ const url = require("url")
 const AWS = require("aws-sdk")
 // Plugins
 const EmbedPlugin = require("./util/embedgen.js")
-const S3Plugin = require("webpack-s3-uploader")
+const S3Plugin = require("webpack-s3-plugin")
 
 const homepage = "https://insights.nzherald.co.nz/apps/homepagebanner/"
 const host = "https://insights.nzherald.co.nz"
