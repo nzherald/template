@@ -13,12 +13,6 @@ const TARGS = [{
         if (html.indexOf(targ) == -1) throw new Error("Could not remove paywall anti-tampering protection!")
         return html.replace(targ, "")
     }
-}, {
-    name: "style.css",
-    regex: new RegExp("[^\"]*/style\.css\\?[^\"]*")
-}, {
-    name: "spritemap.svg",
-    regex: new RegExp("[^\"]*/spritemap\.svg\\?[^\"]*")
 }]
 
 
@@ -75,7 +69,7 @@ class RipNZHPlugin {
             // Both the pre-rendered footer and source data used to generate it have to be updated
             console.log("Replacing data for footer generation in index.html...")
             const onLoad = makeLoader("#nzh-datavis-root", "DataVisDevMain", {}, "Placeholder load event is instantiating new DataVisDevMain.")
-            const footer = `<script src="./stylecheck.min.js"></script>\n` + makeFooter("./", onLoad)
+            const footer = makeFooter("./", onLoad)
 
             // The Fusion data element has to be updated, or it'll overwrite the pre-rendered footer after load
             const footerStr = JSON.stringify(footer).replace(/<\//g, "<\\/") // An escape character is expected for forward slashes in closing tags

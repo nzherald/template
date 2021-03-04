@@ -63,6 +63,10 @@ module.exports = merge(base, {
             })
         }),
         new MiniCssExtractPlugin({ filename: "[name].dev.[chunkhash].css" }),
-        new EmbedPlugin({ name, basePath: `http://localhost:${port}/` })
+        new EmbedPlugin({
+            funcName: "DataVisDevMain",
+            targName: "#nzh-datavis-root",
+            basePath: `http://localhost:${port}/`
+        })
     ]
 })
