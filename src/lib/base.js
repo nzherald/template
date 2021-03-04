@@ -10,9 +10,12 @@ class Base {
     }
 
     premiumWait(params, render) {
+        const el = document.querySelector(".article__content")
+        if (!el) {
+            console.error("Cannot find top element for article (\".article__content\")!")
+        }
         // Inside premium container - wait for premium container to come down
-        const el = document.querySelector("#article-content")
-        if (el && el.classList.contains("premium-content")) {
+        else if (!el.classList.contains("full-content")) {
             console.log("Waiting for paywall to come down.")
             const observer = new MutationObserver(() => {
                 if (el.classList.contains("full-content")) {
