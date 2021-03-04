@@ -33,13 +33,10 @@ class EmbedPlugin {
     }
 
     // The bit that you paste into the footer
-    // Prelaunch must be deferred to destroy the global style that the app tries to apply (which is created via a script we don't control)
-    // Everything else must also be deferred, so that they run after prelaunch
     static makeFooter (path, onLoad) {
         if (path[path.length - 1] != "/") path += "/"
         return `<link href="${path}embed.css" rel="stylesheet">\n` +
-               `<script defer src="${path}prelaunch_v3.js"></script>\n` +
-               `<script defer src="${path}embed.js"></script>\n` +
+               `<script src="${path}embed.js"></script>\n` +
                ((onLoad) ? `<script>window.addEventListener("load", ${onLoad})</script>` : "")
     }
 
@@ -56,7 +53,7 @@ class EmbedPlugin {
             let root
             const js = []
             const css = []
-            const ignore = ["prelaunch_v3.js"]
+            const ignore = []
             for (var fn in compilation.assets) {
                 if (ignore.indexOf(fn) > -1) continue
                 else if (/^root.*js$/.test(fn)) root = o.basePath + fn
