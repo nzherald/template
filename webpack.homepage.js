@@ -20,7 +20,11 @@ const s3Options = {
 
 module.exports = merge(base, {
     plugins: [
-        new EmbedPlugin({ visName: name, basePath: host + path }),
+        new EmbedPlugin({
+            funcName: "DataVisDevMain",
+            targName: "#nzh-datavis-root",
+            basePath: host + path
+        }),
         new S3Plugin({
             exclude: /^(embed.js|embed.css|.*\.html)$/i,
             basePath: path,
