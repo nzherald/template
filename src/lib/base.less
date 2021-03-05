@@ -60,16 +60,15 @@
     font-size: 18px;
 
     // Mobile/Desktop
-    .mobile {
-        display: none;
+    @media (min-width: 800px) {
+        .mobile {
+            display: none;
+        }
     }
     @media (max-width: 800px) {
         font-size: 16px;
         .desktop {
             display: none;
-        }
-        .mobile {
-            display: inherit;
         }
     }
 
