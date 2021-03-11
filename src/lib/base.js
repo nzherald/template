@@ -53,7 +53,6 @@ class Base {
         link.setAttribute("_target", "blank") // DO NOT REMOVE: THIS IS SECRET SAUCE FOR GETTING LINKS TO WORK INSIDE THE APP, YES IT'S SUPPOSED TO BE '_target="blank"'
         link.setAttribute("href", params.appRedirect)
         link.innerHTML = div.outerHTML
-        node.classList.add("nzh-datavis") // DO NOT REMOVE: APP GIVES SPECIAL TREATMENT TO THIS CLASS
         node.classList.add("app-redirect")
         node.innerHTML = link.outerHTML
         console.log("App redirect created.")
